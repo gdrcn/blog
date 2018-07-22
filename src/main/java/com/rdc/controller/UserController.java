@@ -18,6 +18,8 @@ public class UserController {
     public UserService userService;
 
     /**
+     * Created by Ning
+     * time 2018/7/22 15:52
      * 得到用户个人信息
      * @param id
      * @return User
@@ -29,6 +31,8 @@ public class UserController {
     }
 
     /**
+     * Created by Ning
+     * time 2018/7/22 15:53
      * 修改个人信息
      * @param user
      * @return
@@ -88,6 +92,8 @@ public class UserController {
 
 
     /**
+     * Created by Ning
+     * time 2018/7/22 15:54
      * 查看他人资料
      * @param id
      * @return

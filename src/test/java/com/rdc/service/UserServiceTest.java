@@ -12,10 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations={"classpath*:config/spring-mybatis.xml"})
@@ -42,16 +39,16 @@ public class UserServiceTest {
         System.out.println(list1.size());
     }
 
-    @Test
-    public void test1(){
-        User user = new User();
-        user.setUsername("admin");
-        user.setId(1);
-        System.out.println(userDao.findUserByUsername(user));
-        user.setPhone("<>!");
-        String phoneRegularExpression = "^[0-9]{0,12}$";
-        System.out.println(user.getPhone().matches(phoneRegularExpression));
-    }
+//    @Test
+//    public void test1(){
+//        User user = new User();
+//        user.setUsername("admin");
+//        user.setId(1);
+//        System.out.println(userDao.findUserByUsername(user));
+//        user.setPhone("<>!");
+//        String phoneRegularExpression = "^[0-9]{0,12}$";
+//        System.out.println(user.getPhone().matches(phoneRegularExpression));
+//    }
 
 
 }

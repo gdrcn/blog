@@ -33,6 +33,7 @@ public class UserService {
 
     /**
      * Cread by Ning
+     * time 2018/7/22 16:02
      * 获得用户详细信息
      * @param id
      * @return User
@@ -48,7 +49,7 @@ public class UserService {
 
     /**
      * Cread by Ning
-     *
+     * time 2018/7/22 16:02
      * @param user
      * @return MsG
      * @function 在个人主页修改信息
@@ -125,6 +126,8 @@ public class UserService {
     }
 
     /**
+     * Created by Ning
+     * time 2018/7/22 16:03
      * 保留返回的数据
      * 返显给页面
      * @return User
@@ -223,6 +226,8 @@ public class UserService {
 
 
     /**
+     * Created by Ning
+     * time 2018/7/22 16:04
      * 返回查看的用户资料
      * @param userId
      * @return
