@@ -27,9 +27,6 @@ public class UserServiceTest {
     @Autowired
     public CommentDao commentDao;
 
-    @Autowired
-    public UserDao userDao;
-
     @Test
     public void getUserInfo() {
         userService.getUserInfo(3);
@@ -45,6 +42,16 @@ public class UserServiceTest {
         System.out.println(list1.size());
     }
 
+    @Test
+    public void test1(){
+        User user = new User();
+        user.setUsername("admin");
+        user.setId(1);
+        System.out.println(userDao.findUserByUsername(user));
+        user.setPhone("<>!");
+        String phoneRegularExpression = "^[0-9]{0,12}$";
+        System.out.println(user.getPhone().matches(phoneRegularExpression));
+    }
 
 
 }
