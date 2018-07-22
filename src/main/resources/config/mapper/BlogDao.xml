@@ -24,15 +24,20 @@
         update blog set title=#{title},article=#{article},cover_img=#{coverImg},finish_time=#{finishTime} where id=#{id}
     </update>
 
-    <select id="fingBlogById" parameterType="int" resultMap="blogMap">
-        select *,t1.id as blog_id from blog as t1,user where t1.id=#{blogId}
+    <select id="findBlogById" parameterType="int" resultMap="blogMap">
+        select *,t1.id as blog_id from blog as t1,user,blog_category as t2,category as t3 where t1.id=#{blogId} and t2.blog_id=#{blogId} and t3.id=t2.category_id
     </select>
 
     <resultMap type="com.rdc.entity.Blog" id="blogMap" autoMapping="true">
         <id column="blog_id" property="id"/>
-        <association property="user" javaType="com.rdc.entity.User">
+        <result column="finish_time" property="finishTime"/>
+        <association property="user" javaType="com.rdc.entity.User" autoMapping="true">
             <id column="user_id" property="id"/>
             <result column="face_img" property="faceImg"/>
         </association>
+        <collection property="category" ofType="com.rdc.entity.Category">
+            <id column="category_id" property="id"/>
+            <result column="category_name" property="categoryName"/>
+        </collection>
     </resultMap>
 </mapper>

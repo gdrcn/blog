@@ -1,7 +1,10 @@
 package com.rdc.service;
 
+import com.rdc.dao.BlogDao;
 import com.rdc.dao.CommentDao;
+import com.rdc.dao.UpDao;
 import com.rdc.dao.UserDao;
+import com.rdc.entity.Blog;
 import com.rdc.entity.Comment;
 import com.rdc.entity.User;
 import org.junit.Test;
@@ -25,36 +28,18 @@ public class UserServiceTest {
     public UserService userService;
 
     @Autowired
-    public CommentDao commentDao;
-
+    private BlogService blogService;
     @Autowired
-    public UserDao userDao;
+    private CommentDao commentDao;
+
 
     @Test
     public void getUserInfo() {
-        userService.getUserInfo(3);
+
+        System.out.println(commentDao.getBlogFirstCommentCount(12)+commentDao.getBlogSecondCommentCount(12));
     }
 
-    @Test
-    public void test(){
-        List<Comment> arrayList= commentDao.getblogFirstComment(1);
-        System.out.println(arrayList.size());
-        List<Comment> list = commentDao.getBlogSecondComment(1);
-        System.out.println(list.size());
-        List<Comment> list1 = commentDao.getAlbumComment(1);
-        System.out.println(list1.size());
-    }
 
-    @Test
-    public void test1(){
-        User user = new User();
-        user.setUsername("admin");
-        user.setId(1);
-        System.out.println(userDao.findUserByUsername(user));
-        user.setPhone("<>!");
-        String phoneRegularExpression = "^[0-9]{0,12}$";
-        System.out.println(user.getPhone().matches(phoneRegularExpression));
-    }
 
 
 }

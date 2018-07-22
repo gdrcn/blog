@@ -29,6 +29,9 @@ public interface CommentDao {
      */
     List<Comment> getBlogSecondComment(int userId);
 
+    int getBlogFirstCommentCount(int blogId);
+
+    int getBlogSecondCommentCount(int blogId);
 }
 
 
