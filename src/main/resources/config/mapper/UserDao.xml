@@ -40,9 +40,26 @@
         select * from relation where user_id = #{id} and status = 0
     </select>
 
-    <select id="findUserByUsername" parameterType="java.lang.String" resultMap="java.lang.Integer">
+    <select id="findUserByUsername" parameterType="java.lang.String" resultType="com.rdc.entity.User">
         select * from user where username = #{username}
     </select>
+
+    <insert id="registe"  parameterType="com.rdc.entity.User">
+		insert into user(username,password,email)value(#{username},#{password},#{email})
+	</insert>
+
+    <select id="checkUsername" parameterType="com.rdc.entity.User" resultType="com.rdc.entity.User">
+		select * from user where username=#{username}
+	</select>
+
+    <select id="checkEmail" parameterType="com.rdc.entity.User" resultType="com.rdc.entity.User">
+		select * from user where email = #{email}
+	</select>
+
+
+    <select id="login" parameterType="com.rdc.entity.User" resultType="com.rdc.entity.User">
+		select *from user where username=#{username} and password=#{password}
+	</select>
 
     <update id="updateUserInfo" parameterType="com.rdc.entity.User">
         update user u

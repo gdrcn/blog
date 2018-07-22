@@ -1,7 +1,9 @@
 package com.rdc.service;
 
 import com.rdc.dao.CommentDao;
+import com.rdc.dao.UserDao;
 import com.rdc.entity.Comment;
+import com.rdc.entity.User;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.omg.CORBA.PUBLIC_MEMBER;
@@ -25,6 +27,9 @@ public class UserServiceTest {
     @Autowired
     public CommentDao commentDao;
 
+    @Autowired
+    public UserDao userDao;
+
     @Test
     public void getUserInfo() {
         userService.getUserInfo(3);
@@ -39,4 +44,7 @@ public class UserServiceTest {
         List<Comment> list1 = commentDao.getAlbumComment(1);
         System.out.println(list1.size());
     }
+
+
+
 }
