@@ -1,18 +1,14 @@
 package com.rdc.service;
 
+import com.rdc.dao.AlbumDao;
 import com.rdc.dao.CommentDao;
 import com.rdc.dao.UserDao;
-import com.rdc.entity.Comment;
-import com.rdc.entity.User;
+import com.rdc.entity.Photo;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.omg.CORBA.PUBLIC_MEMBER;
-import org.omg.Messaging.SYNC_WITH_TRANSPORT;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
-import java.util.List;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations={"classpath*:config/spring-mybatis.xml"})
@@ -24,6 +20,12 @@ public class UserServiceTest {
     @Autowired
     public CommentDao commentDao;
 
+    @Autowired
+    public UserDao userDao;
+
+    @Autowired
+    public AlbumDao albumDao;
+
     @Test
     public void getUserInfo() {
         userService.getUserInfo(3);
@@ -31,12 +33,7 @@ public class UserServiceTest {
 
     @Test
     public void test(){
-        List<Comment> arrayList= commentDao.getblogFirstComment(1);
-        System.out.println(arrayList.size());
-        List<Comment> list = commentDao.getBlogSecondComment(1);
-        System.out.println(list.size());
-        List<Comment> list1 = commentDao.getAlbumComment(1);
-        System.out.println(list1.size());
+       albumDao.deletePhotoByPhotoId(7);
     }
 
 //    @Test

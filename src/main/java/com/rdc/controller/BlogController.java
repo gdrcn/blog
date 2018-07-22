@@ -82,7 +82,6 @@ public class BlogController {
 	@ResponseBody
 	@RequestMapping(value="/imgUpload",method = RequestMethod.POST,produces = "text/html;charset=UTF-8")
 	public String imgUpload(@RequestParam("file")MultipartFile file){
-
 		if(!UploadUtil.suffixMatch(file.getOriginalFilename())){
 			msg = new Msg("error","不支持此文件类型");
 		}else{

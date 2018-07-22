@@ -11,11 +11,11 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpSession;
 
 @Controller
-@RequestMapping("blog")
+@RequestMapping("/blog")
 public class UserController {
 
     @Autowired
-    public UserService userService;
+    private UserService userService;
 
     /**
      * Created by Ning
@@ -28,6 +28,20 @@ public class UserController {
     @RequestMapping(value="myhomepage/{id}",method = RequestMethod.GET,produces = "text/html;charset=UTF-8")
     public String getUserInfo(@PathVariable Integer id){
         return GsonUtil.getSuccessJson(userService.getUserInfo(id));
+    }
+
+    /**
+     * Created by Ning
+     * time 2018/7/22 15:54
+     * 查看他人资料
+     * @param id
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "otherHomepage/{id}" ,method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
+    public String  scanOtherHomepage(@PathVariable Integer id){
+        Msg message = userService.scanOtherHomepage(id);
+        return GsonUtil.getMsgJson((User)message.getMessage(), message.getResult());
     }
 
     /**
@@ -90,18 +104,4 @@ public class UserController {
         return userService.validate(checkcode,code,user);
     }
 
-
-    /**
-     * Created by Ning
-     * time 2018/7/22 15:54
-     * 查看他人资料
-     * @param id
-     * @return
-     */
-    @ResponseBody
-    @RequestMapping(value = "otherHomepage/{id}" ,method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
-    public String  scanOtherHomepage(@PathVariable Integer id){
-        Msg message = userService.scanOtherHomepage(id);
-        return GsonUtil.getMsgJson((User)message.getMessage(), message.getResult());
-    }
 }
