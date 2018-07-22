@@ -44,6 +44,23 @@
         select * from user where username = #{username} and id != #{id}
     </select>
 
+    <insert id="registe"  parameterType="com.rdc.entity.User">
+		insert into user(username,password,email)value(#{username},#{password},#{email})
+	</insert>
+
+    <select id="checkUsername" parameterType="com.rdc.entity.User" resultType="com.rdc.entity.User">
+		select * from user where username=#{username}
+	</select>
+
+    <select id="checkEmail" parameterType="com.rdc.entity.User" resultType="com.rdc.entity.User">
+		select * from user where email = #{email}
+	</select>
+
+
+    <select id="login" parameterType="com.rdc.entity.User" resultType="com.rdc.entity.User">
+		select *from user where username=#{username} and password=#{password}
+	</select>
+
     <update id="updateUserInfo" parameterType="com.rdc.entity.User">
         update user u
         <set>

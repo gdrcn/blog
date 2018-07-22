@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
+
 @Controller
 @RequestMapping("blog")
 public class UserController {
@@ -40,6 +42,48 @@ public class UserController {
         }else {
             return GsonUtil.getSuccessJson((User)message.getMessage());
         }
+    }
+
+    /**
+     * 用户登录
+     * @param user
+     * @param session
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "login",method = RequestMethod.POST,produces = "text/html;charset=UTF-8")
+    public String login(User user,HttpSession session){
+
+        return userService.login(user,session);
+    }
+
+    /**
+     * 用户注册
+     * @param user
+     * @param confirmPassword
+     * @param session
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "registe",method = RequestMethod.POST,produces = "text/html;charset=UTF-8")
+    public String registe(User user,@RequestParam(value = "confirmPassword")  String confirmPassword,HttpSession session){
+
+        return userService.registe(user,confirmPassword,session);
+    }
+
+    /**
+     * 邮箱验证
+     * @param checkcode
+     * @param code
+     * @param session
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "validate",method = RequestMethod.POST,produces = "text/html;charset=UTF-8")
+    public String validate(@RequestParam(value = "checkcode") String checkcode,@RequestParam(value = "code") String code, HttpSession session){
+
+        User user = (User)session.getAttribute("user");
+        return userService.validate(checkcode,code,user);
     }
 
 

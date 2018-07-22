@@ -27,9 +27,6 @@ public class UserServiceTest {
     @Autowired
     public CommentDao commentDao;
 
-    @Autowired
-    public UserDao userDao;
-
     @Test
     public void getUserInfo() {
         userService.getUserInfo(3);
