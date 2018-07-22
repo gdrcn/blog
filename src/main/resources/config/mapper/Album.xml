@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rdc.dao.AlbumDao">
+    <resultMap id="album" type="com.rdc.entity.Album">
+        <id property="id" column="id" />
+        <result property="userId" column="user_id"/>
+        <result property="albumName" column="album_name" />
+        <result property="coverHash" column="cover_hash"/>
+        <collection property="commentList" ofType="com.rdc.entity.Comment">
+            <id property="id" column="a_id" />
+            <result property="fromUserId" column="from_user_id"/>
+            <result property="comments" column="comments"/>
+            <result property="time" column="time"/>
+            <result property="status" column="status"/>
+        </collection>
+    </resultMap>
+
+    <select id="getUserAlbum" parameterType="java.lang.Integer" resultMap="album">
+       select album.*, album_comments.* from album, album_comments where album.user_id = #{id} and album.id = album_comments.album_id
+    </select>
+</mapper>

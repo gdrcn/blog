@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.rdc.dao.CommentDao">
+
+    <resultMap id="blogFirstComment" type="com.rdc.entity.Comment">
+        <id property="id" column="id"></id>
+        <result property="fromUserId" column="commentser_id"/>
+        <result property="comments" column="comments"/>
+        <result property="time" column="time"/>
+        <result property="status" column="status"/>
+    </resultMap>
+
+    <resultMap id="blogsecondComment" type="com.rdc.entity.Comment">
+        <id property="id" column="id"></id>
+        <result property="fromBlogId" column="first_comments_id"/>
+        <result property="comments" column="comments"/>
+        <result property="time" column="time"/>
+        <result property="status" column="status"/>
+    </resultMap>
+
+    <resultMap id="albumComment" type="com.rdc.entity.Comment">
+        <id property="id" column="id"></id>
+        <result property="fromBlogId" column="from_user_id"/>
+        <result property="albumId" column="album_id"/>
+        <result property="comments" column="comments"/>
+        <result property="time" column="time"/>
+        <result property="status" column="status"/>
+    </resultMap>
+
+    <select id="getblogFirstComment" parameterType="java.lang.Integer" resultMap="blogFirstComment">
+        SELECT first_comments.* FROM first_comments WHERE blog_id IN (SELECT id FROM blog WHERE user_id = #{userId}) and status = 1
+    </select>
+
+    <select id="getBlogSecondComment" parameterType="java.lang.Integer" resultMap="blogsecondComment">
+        SELECT second_comments.* FROM second_comments WHERE first_comments_id IN (SELECT id FROM first_comments WHERE commentser_id = #{userId}) AND STATUS = 1
+    </select>
+
+    <select id="getAlbumComment" parameterType="java.lang.Integer" resultMap="albumComment">
+      SELECT album_comments.* FROM album_comments WHERE album_id IN (SELECT id FROM album WHERE user_id = #{userId}) AND STATUS = 1
+    </select>
+</mapper>

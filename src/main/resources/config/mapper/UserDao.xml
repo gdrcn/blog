@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.rdc.dao.UserDao">
+    <resultMap id="user" type="com.rdc.entity.User">
+        <id property="id" column="id"/>
+        <result property="username" column="username"/>
+        <result property="password" column="password"/>
+        <result property="phone" column="phone"/>
+        <result property="email" column="email"/>
+        <result property="realname" column="realname"/>
+        <result property="faceImg" column="face_img"/>
+        <result property="address" column="address"/>
+        <result property="visible" column="visible"/>
+        <association property="permission" javaType="com.rdc.entity.Permission">
+            <id property="id" column="id"/>
+            <result property="permissionType" column="permission_name"/>
+            <result property="pushStatus" column="p_status"/>
+            <result property="loginStatus" column="l_status"/>
+            <result property="pushTime" column="finish_p_time"/>
+            <result property="loginTime" column="finish_l_time"/>
+        </association>
+    </resultMap>
+
+    <select id="getUserInfo" parameterType="java.lang.Integer" resultMap="user">
+        select user.*, permission.* from user, permission where user.id = #{id}
+    </select>
+
+
+    <select id="getFansNum" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        select status from relation where beliked_id = #{id} and status = 0
+    </select>
+
+    <select id="getIdolsNum" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        select * from relation where user_id = #{id} and status = 0
+    </select>
+
+    <update id="updateUserInfo" parameterType="com.rdc.entity.User">
+        update user u
+        <set>
+            <if test="username != null and username != ''">
+                u.username = #{username},
+            </if>
+            <if test="sex != null and sex != ''">
+                u.sex = #{sex}
+            </if>
+        </set>
+
+        where id=#{id}
+    </update>
+    </update>
+</mapper>
