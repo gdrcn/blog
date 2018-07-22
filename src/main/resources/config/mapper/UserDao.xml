@@ -40,8 +40,8 @@
         select * from relation where user_id = #{id} and status = 0
     </select>
 
-    <select id="findUserByUsername" parameterType="java.lang.String" resultMap="java.lang.Integer">
-        select * from user where username = #{username}
+    <select id="findUserByUsername" parameterType="com.rdc.entity.User" resultMap="user">
+        select * from user where username = #{username} and id != #{id}
     </select>
 
     <update id="updateUserInfo" parameterType="com.rdc.entity.User">
@@ -66,7 +66,7 @@
                 u.visible = #{visible},
             </if>
             <if test="email != null and email != ''">
-                u.email = #{email},
+                u.email = #{email}
             </if>
         </set>
         where id=#{id}

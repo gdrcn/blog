@@ -50,6 +50,14 @@ public class User {
         this.password = password;
     }
 
+    public Integer getAge() {
+        return age;
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
+    }
+
     public String getPhone() {
         return phone;
     }
@@ -72,6 +80,14 @@ public class User {
 
     public void setRealname(String realname) {
         this.realname = realname;
+    }
+
+    public String getSignature() {
+        return signature;
+    }
+
+    public void setSignature(String signature) {
+        this.signature = signature;
     }
 
     public String getFaceImg() {
@@ -98,28 +114,44 @@ public class User {
         this.visible = visible;
     }
 
+    public Integer getFans() {
+        return fans;
+    }
+
+    public void setFans(Integer fans) {
+        this.fans = fans;
+    }
+
+    public Integer getNewFans() {
+        return newFans;
+    }
+
+    public void setNewFans(Integer newFans) {
+        this.newFans = newFans;
+    }
+
+    public Integer getIdols() {
+        return idols;
+    }
+
+    public void setIdols(Integer idols) {
+        this.idols = idols;
+    }
+
+    public Integer getNotReadComment() {
+        return notReadComment;
+    }
+
+    public void setNotReadComment(Integer notReadComment) {
+        this.notReadComment = notReadComment;
+    }
+
     public Permission getPermission() {
         return permission;
     }
 
     public void setPermission(Permission permission) {
         this.permission = permission;
-    }
-
-    public Integer getAge() {
-        return age;
-    }
-
-    public void setAge(Integer age) {
-        this.age = age;
-    }
-
-    public String getSignature() {
-        return signature;
-    }
-
-    public void setSignature(String signature) {
-        this.signature = signature;
     }
 
     public ArrayList<Album> getAlbumList() {
@@ -138,38 +170,6 @@ public class User {
         this.blogList = blogList;
     }
 
-    public int getFans() {
-        return fans;
-    }
-
-    public void setFans(int fans) {
-        this.fans = fans;
-    }
-
-    public int getNewFans() {
-        return newFans;
-    }
-
-    public void setNewFans(int newFans) {
-        this.newFans = newFans;
-    }
-
-    public int getIdols() {
-        return idols;
-    }
-
-    public void setIdols(int idols) {
-        this.idols = idols;
-    }
-
-    public int getNotReadComment() {
-        return notReadComment;
-    }
-
-    public void setNotReadComment(int notReadComment) {
-        this.notReadComment = notReadComment;
-    }
-
     @Override
     public String toString() {
         return "User{" +
@@ -184,13 +184,13 @@ public class User {
                 ", faceImg='" + faceImg + '\'' +
                 ", address='" + address + '\'' +
                 ", visible=" + visible +
-                ", permission=" + permission +
-                ", albumList=" + albumList +
-                ", blogList=" + blogList +
                 ", fans=" + fans +
                 ", newFans=" + newFans +
                 ", idols=" + idols +
                 ", notReadComment=" + notReadComment +
+                ", permission=" + permission +
+                ", albumList=" + albumList +
+                ", blogList=" + blogList +
                 '}';
     }
 }

@@ -9,7 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping("userInfo")
+@RequestMapping("blog")
 public class UserController {
 
     @Autowired
@@ -29,7 +29,6 @@ public class UserController {
     @ResponseBody
     @RequestMapping(value="updateUserInfo",method = RequestMethod.POST,produces = "text/html;charset=UTF-8")
     public String updateUserInfo(User user){
-        System.out.println("11111");
         Msg message = userService.updateUserInfo(user);
         if(message.getResult() != null){
             return GsonUtil.getErrorJson((User)message.getMessage(), message.getResult());
