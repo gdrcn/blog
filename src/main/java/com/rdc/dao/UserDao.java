@@ -3,6 +3,8 @@ package com.rdc.dao;
 import com.rdc.entity.User;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.ArrayList;
+
 @Mapper
 public interface UserDao {
 
@@ -76,4 +78,15 @@ public interface UserDao {
      * @return
      */
     User scanOtherMsg(Integer userId);
+
+    /**
+     * 得到该用户的好友（即互相关照的用户）
+     */
+    ArrayList<User> getNiceFriends(Integer userId);
+
+    /**
+     * 得到用户的照片墙信息
+     * @return
+     */
+    User getUserPWInfo(Integer userId);
 }

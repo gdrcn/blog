@@ -146,9 +146,7 @@ public class UserService {
 
     /**
      * 用户登录
-     *
      * @param user
-     * @return
      */
     public String login(User user,HttpSession session) {
 
@@ -243,5 +241,19 @@ public class UserService {
         msg.setMessage(user);
         msg.setResult("fail");
         return msg;
+    }
+
+
+    /**
+     * Created bu Ning
+     * time 2018/7/22 22:58
+     * 处理照片墙的逻辑
+     * @param userId
+     * @return
+     */
+    public User getUserPWInfo(Integer userId) {
+        User user = userDao.getUserPWInfo(1);
+        user.setNiceFriendsList(userDao.getNiceFriends(userId));
+        return user;
     }
 }

@@ -104,4 +104,17 @@ public class UserController {
         return userService.validate(checkcode,code,user);
     }
 
+
+    /**
+     * Created by Ning
+     * time 2018/7/22 21:25
+     * 照片墙登陆
+     *
+     */
+    @ResponseBody
+    @RequestMapping(value = "photoWall/{userId}" ,method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
+    public String myPhotoWall(@PathVariable Integer userId){
+        userService.getUserPWInfo(userId);
+        return null;
+    }
 }

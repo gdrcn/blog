@@ -22,6 +22,7 @@ public class User {
     private Permission permission;
     private ArrayList<Album> albumList;
     private ArrayList<Blog> blogList;
+    private ArrayList<User> niceFriendsList;
 
     public User() {
     }
@@ -170,6 +171,14 @@ public class User {
         this.blogList = blogList;
     }
 
+    public ArrayList<User> getNiceFriendsList() {
+        return niceFriendsList;
+    }
+
+    public void setNiceFriendsList(ArrayList<User> niceFriendsList) {
+        this.niceFriendsList = niceFriendsList;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -191,6 +200,7 @@ public class User {
                 ", permission=" + permission +
                 ", albumList=" + albumList +
                 ", blogList=" + blogList +
+                ", niceFriendsList=" + niceFriendsList +
                 '}';
     }
 }

@@ -27,6 +27,19 @@
         </association>
     </resultMap>
 
+    <resultMap id="friends" type="com.rdc.entity.User">
+        <id property="id" column="id"/>
+        <result property="username" column="username"/>
+        <result property="faceImg" column="face_img"/>
+    </resultMap>
+
+    <resultMap id="userPWInfo" type="com.rdc.entity.User">
+        <id  property="id" column="id"/>
+        <result property="username" column="username"/>
+        <result property="faceImg" column="face_img"/>
+        <result property="signature" column="signature"/>
+    </resultMap>
+
     <select id="getUserInfo" parameterType="java.lang.Integer" resultMap="user">
         SELECT user.*, permission.* FROM USER, permission WHERE user.id = permission.`user_id` AND user.id = #{id}
     </select>
@@ -47,7 +60,7 @@
         select * from user where username = #{username} and id != #{id}
     </select>
 
-    <insert id="registe"  parameterType="com.rdc.entity.User">
+    <insert id="registe" parameterType="com.rdc.entity.User">
 		insert into user(username,password,email)value(#{username},#{password},#{email})
 	</insert>
 
@@ -95,4 +108,12 @@
         </set>
         where id=#{id}
     </update>
+
+    <select id="getNiceFriends" resultType="java.lang.Integer" resultMap="friends">
+      SELECT user.`id` , user.`face_img`, user.`username` FROM USER WHERE id IN (SELECT relation.`user_id` FROM relation WHERE user_id IN  (SELECT relation.`beliked_id` FROM relation WHERE user_id = #{userId} AND STATUS = 0) AND STATUS = 0 AND beliked_id = #{userId});
+    </select>
+
+    <select id="getUserPWInfo" parameterType="java.lang.Integer" resultMap="userPWInfo">
+      select * from user where id = #{userId};
+    </select>
 </mapper>
