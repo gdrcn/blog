@@ -15,10 +15,10 @@ public class User {
     private String faceImg;
     private String address;
     private int visible;
-    private int fans;
-    private int newFans;
-    private int idols;
-    private int notReadComment;
+    private Integer fans;
+    private Integer newFans;
+    private Integer idols;
+    private Integer notReadComment;
     private Permission permission;
     private ArrayList<Album> albumList;
     private ArrayList<Blog> blogList;

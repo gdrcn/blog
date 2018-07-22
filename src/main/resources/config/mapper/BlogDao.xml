@@ -6,7 +6,33 @@
 <mapper namespace="com.rdc.dao.BlogDao">
 
     <insert id="add" parameterType="com.rdc.entity.Blog">
-        insert into blog(user_id,title,cover_img,article,finish_time) values(#{user.id},#{title},#{cover_img},#{article},#{finish_time})
+        <selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">
+            SELECT LAST_INSERT_ID() AS ID
+        </selectKey>
+        insert into blog(user_id,title,cover_img,article,finish_time) values(#{user.id},#{title},#{coverImg},#{article},#{finishTime})
     </insert>
 
+    <select id="findUserId" parameterType="int" resultType="int">
+        select user_id from blog where id=#{blogId}
+    </select>
+
+    <delete id="delete" parameterType="int">
+        delete from blog where id=#{blogId}
+    </delete>
+
+    <update id="modify" parameterType="com.rdc.entity.Blog">
+        update blog set title=#{title},article=#{article},cover_img=#{coverImg},finish_time=#{finishTime} where id=#{id}
+    </update>
+
+    <select id="fingBlogById" parameterType="int" resultMap="blogMap">
+        select *,t1.id as blog_id from blog as t1,user where t1.id=#{blogId}
+    </select>
+
+    <resultMap type="com.rdc.entity.Blog" id="blogMap" autoMapping="true">
+        <id column="blog_id" property="id"/>
+        <association property="user" javaType="com.rdc.entity.User">
+            <id column="user_id" property="id"/>
+            <result column="face_img" property="faceImg"/>
+        </association>
+    </resultMap>
 </mapper>
