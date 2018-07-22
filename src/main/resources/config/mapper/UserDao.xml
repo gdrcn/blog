@@ -50,5 +50,4 @@
 
         where id=#{id}
     </update>
-    </update>
 </mapper>
