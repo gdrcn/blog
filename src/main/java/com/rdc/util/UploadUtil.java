@@ -38,7 +38,7 @@ public class UploadUtil {
 				public String getPath() {
 					String path=this.getClass().getResource("/").getPath();
 					path=path.replace('/', '\\'); // 将/换成\
-					path=path.replace("classes\\", ""); //去掉class\
+					path=path.replace("classes\\", ""); //去掉classes
 					path=path.substring(1);
 					System.out.print(path);
 					return path;

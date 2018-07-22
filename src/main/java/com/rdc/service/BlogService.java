@@ -2,6 +2,7 @@ package com.rdc.service;
 
 import com.rdc.dao.BlogDao;
 import com.rdc.dao.CategoryDao;
+import com.rdc.dao.UpDao;
 import com.rdc.entity.Blog;
 import org.apache.ibatis.binding.BindingException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,14 +24,32 @@ public class BlogService {
 	private BlogDao blogDao;
 	@Autowired
 	private CategoryDao categoryDao;
-
+	/**
+	 *Asce 2018-07-22
+	 * @param blogId
+	 * @return
+	 */
 	public Blog showBlogById(int blogId){
 
+		Blog blog = blogDao.findBlogById(blogId);
+		if (blog==null){
+			return null;
+		}
+		//时间格式化
+		Calendar cal=Calendar.getInstance();
+		SimpleDateFormat date=new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		blog.setFinishTime(date.format(cal.getTime()));
 
-		return blogDao.findBlogById(blogId);
+		return blog;
 	}
 
-	//删除博客
+	/**
+	 * Asce 2018-07-21
+	 * @param userId
+	 * @param blogId
+	 * @return
+	 * @throws BindingException
+	 */
 	public Boolean delete(int userId,int blogId)throws BindingException {
 
 		if(userId==blogDao.findUserId(blogId)){
@@ -42,7 +61,12 @@ public class BlogService {
 		return false;
 	}
 
-	//修改博客
+	/**
+	 * Asce 2018-07-21
+	 * @param blog
+	 * @param categoryId
+	 * @return
+	 */
 	@Transactional
 	public Boolean modify(Blog blog, String[] categoryId){
 		//本人判断
@@ -64,7 +88,13 @@ public class BlogService {
 		return true;
 	}
 
-	//发表博客
+	/**
+	 * Asce 2018-07-21
+	 * @param blog
+	 * @param categoryId
+	 * @return
+	 * @throws DataIntegrityViolationException
+	 */
 	@Transactional
 	public int add(Blog blog, String[] categoryId) throws DataIntegrityViolationException {
 
@@ -81,7 +111,13 @@ public class BlogService {
 
 		return blog.getId();
 	}
-	//博客判断
+
+	/**
+	 * Asce 2018-07-21
+	 * @param blog
+	 * @param category
+	 * @return
+	 */
 	public Blog blogConvert(Blog blog, String[] category){
 
 		if(blog.getTitle().length()>50||blog.getTitle().length()<5){
@@ -100,7 +136,13 @@ public class BlogService {
 
 		return blog;
 	}
-	//制作博客类别map
+
+	/**
+	 * Asce 2018-07-21
+	 * @param categoryId
+	 * @param blogId
+	 * @return
+	 */
 	public Map<String,Map<String,String>> getCategoryMap(String[] categoryId,int blogId){
 
 		Map<String,String> map=new HashMap<>();
