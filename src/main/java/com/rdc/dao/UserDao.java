@@ -14,4 +14,6 @@ public interface UserDao {
     Integer[] getIdolsNum(Integer id);
 
     Integer updateUserInfo(User user);
+
+    User scanOtherMsg(Integer userId);
 }

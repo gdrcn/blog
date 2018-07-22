@@ -26,6 +26,11 @@ public class UserController {
         return GsonUtil.getSuccessJson(userService.getUserInfo(id));
     }
 
+    /**
+     * 修改个人信息
+     * @param user
+     * @return
+     */
     @ResponseBody
     @RequestMapping(value="updateUserInfo",method = RequestMethod.POST,produces = "text/html;charset=UTF-8")
     public String updateUserInfo(User user){
@@ -35,5 +40,18 @@ public class UserController {
         }else {
             return GsonUtil.getSuccessJson((User)message.getMessage());
         }
+    }
+
+
+    /**
+     * 查看他人资料
+     * @param id
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "otherHomepage/{id}" ,method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
+    public String  scanOtherHomepage(@PathVariable Integer id){
+        Msg message = userService.scanOtherHomepage(id);
+        return GsonUtil.getMsgJson((User)message.getMessage(), message.getResult());
     }
 }

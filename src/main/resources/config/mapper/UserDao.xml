@@ -31,7 +31,7 @@
         SELECT user.*, permission.* FROM USER, permission WHERE user.id = permission.`user_id` AND user.id = #{id};
     </select>
 
-
+    <!--<select id="scanOtherMsg" parameterType="java."-->
     <select id="getFansNum" parameterType="java.lang.Integer" resultType="java.lang.Integer">
         select status from relation where beliked_id = #{id} and status = 0
     </select>

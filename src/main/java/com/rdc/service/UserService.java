@@ -25,6 +25,12 @@ public class UserService {
     @Autowired
     private UserService userService;
 
+    /**
+     * Cread by Ning
+     * 获得用户详细信息
+     * @param id
+     * @return User
+     */
     public User getUserInfo(int id) {
         User user = userDao.getUserInfo(id);
         user.setAlbumList(albumDao.getUserAlbum(id));
@@ -114,6 +120,8 @@ public class UserService {
 
     /**
      * 保留返回的数据
+     * 返显给页面
+     * @return User
      */
     public User reservedUser(User user) {
         User newUser = user;
@@ -126,5 +134,25 @@ public class UserService {
         user.setVisible(newUser.getVisible());
         user.setEmail(newUser.getEmail());
         return user;
+    }
+
+
+    /**
+     * 返回查看的用户资料
+     * @param userId
+     * @return
+     */
+    public Msg scanOtherHomepage(Integer userId) {
+        Msg msg = new Msg();
+        User user = userDao.scanOtherMsg(userId);
+        if(user.getVisible() == 0){
+            user = null;
+            msg.setMessage(user);
+            msg.setResult("不可见");
+            return msg;
+        }
+        msg.setMessage(user);
+        msg.setResult("可见");
+        return msg;
     }
 }
