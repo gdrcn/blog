@@ -5,7 +5,12 @@ import org.apache.ibatis.annotations.Mapper;
 
 import java.util.ArrayList;
 
-@Mapper
+
 public interface AlbumDao {
+    /**
+     * 得到用户相册
+     * @param userId
+     * @return
+     */
     ArrayList<Album> getUserAlbum(int userId);
 }

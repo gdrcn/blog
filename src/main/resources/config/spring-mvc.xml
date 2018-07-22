@@ -38,8 +38,8 @@
     </bean>
 
 
-    <mvc:resources mapping="/img/**" location="/WEB-INF/img/" />
-    <mvc:resources mapping="/html/**" location="/WEB-INF/html/" />
+    <!--<mvc:resources mapping="/img/**" location="/WEB-INF/img/" />-->
+    <!--<mvc:resources mapping="/html/**" location="/WEB-INF/html/" />-->
     <!--<mvc:resources mapping="/js/**" location="/WEB-INF/js/" />-->
     <!--<mvc:resources mapping="/fonts/**" location="/WEB-INF/fonts/" />-->
     <!--<mvc:resources mapping="/css/**" location="/WEB-INF/css/" />-->

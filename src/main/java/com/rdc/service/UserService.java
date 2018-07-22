@@ -1,14 +1,20 @@
 package com.rdc.service;
 
+import com.google.gson.Gson;
 import com.rdc.bean.Msg;
 import com.rdc.dao.AlbumDao;
 import com.rdc.dao.CommentDao;
 import com.rdc.dao.UserDao;
 import com.rdc.entity.Album;
 import com.rdc.entity.User;
+import com.rdc.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.HtmlUtils;
+
+import javax.servlet.http.HttpSession;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 public class UserService {
@@ -25,6 +31,13 @@ public class UserService {
     @Autowired
     private UserService userService;
 
+    /**
+     * Cread by Ning
+     * time 2018/7/22 16:02
+     * 获得用户详细信息
+     * @param id
+     * @return User
+     */
     public User getUserInfo(int id) {
         User user = userDao.getUserInfo(id);
         user.setAlbumList(albumDao.getUserAlbum(id));
@@ -36,7 +49,7 @@ public class UserService {
 
     /**
      * Cread by Ning
-     *
+     * time 2018/7/22 16:02
      * @param user
      * @return MsG
      * @function 在个人主页修改信息
@@ -113,7 +126,11 @@ public class UserService {
     }
 
     /**
+     * Created by Ning
+     * time 2018/7/22 16:03
      * 保留返回的数据
+     * 返显给页面
+     * @return User
      */
     public User reservedUser(User user) {
         User newUser = user;
@@ -126,5 +143,106 @@ public class UserService {
         user.setVisible(newUser.getVisible());
         user.setEmail(newUser.getEmail());
         return user;
+    }
+
+    /**
+     * 用户登录
+     *
+     * @param user
+     * @return
+     */
+    public String login(User user,HttpSession session) {
+
+        //判断输入是否为空
+        if (ValidateUtil.isInvalidString(user.getUsername()) || ValidateUtil.isInvalidString(user.getPassword())) {
+            return GsonUtil.getErrorJson("输入不能为空");
+        } else {
+            user.setPassword(ConvertUtil.encryptMd5(user.getPassword()));
+            if (userDao.login(user) == null) {
+                return GsonUtil.getErrorJson("用户名或密码错误");
+            }else{
+                session.setAttribute("user",user);
+                return GsonUtil.getSuccessJson(user);
+            }
+        }
+    }
+
+    /**
+     * 用户注册
+     *
+     * @param user
+     * @param confirmPassword
+     * @return
+     */
+    public String registe(User user, String confirmPassword,HttpSession session) {
+        if (ValidateUtil.isInvalidString(user.getUsername()) || ValidateUtil.isInvalidString(user.getPassword()) || ValidateUtil.isInvalidString(user.getEmail())) {
+            return GsonUtil.getErrorJson("输入不能为空");
+        }
+        if (!(user.getPassword()).equals(confirmPassword) ) {
+            return GsonUtil.getErrorJson("两次输入密码不一致");
+        }
+        if (!ValidateUtil.isMatchEmail(user.getEmail())) {
+            return GsonUtil.getErrorJson("邮箱格式不正确");
+        }
+        if (userDao.checkUsername(user) != null) {
+            return GsonUtil.getErrorJson("用户名已存在");
+        }
+        if (userDao.checkEmail(user) != null) {
+            return GsonUtil.getErrorJson("邮箱已经注册过");
+        } else {
+            session.setAttribute("user",user);
+            String code = CharacterUtil.getRandomString(5);
+            Map<String,String> map = new HashMap<>();
+            map.put("result","success");
+            map.put("message","已经发送验证码到你的邮箱");
+            map.put("code",code);
+
+            SendemailUtil.sendEmail(user.getEmail(),code);
+            return new Gson().toJson(map);
+        }
+    }
+
+    /**
+     * 邮箱验证码验证
+     * @param checkcode
+     * @param code
+     * @param user
+     * @return
+     */
+    public String validate(String checkcode, String code,User user) {
+
+        if(ValidateUtil.isInvalidString(checkcode)) {
+            return GsonUtil.getErrorJson("输入不能为空");
+        }else {
+            if (code != checkcode || !code.equals(checkcode)) {
+                return GsonUtil.getErrorJson("验证码错误");
+            } else{
+                user.setPassword(ConvertUtil.encryptMd5(user.getPassword()));
+                userDao.registe(user);
+                return GsonUtil.getSuccessJson();
+            }
+        }
+    }
+
+
+    /**
+     * Created by Ning
+     * time 2018/7/22 16:04
+     * 返回查看的用户资料
+     * @param userId
+     * @return
+     */
+    public Msg scanOtherHomepage(Integer userId) {
+        Msg msg = new Msg();
+        User user = userDao.scanOtherMsg(userId);
+        if(user.getVisible() == 0){
+            user = null;
+            msg.setMessage(user);
+            msg.setResult("不可见");
+            return msg;
+        }
+        msg.setMessage(user);
+        msg.setResult("可见");
+        return msg;
     }
 }
