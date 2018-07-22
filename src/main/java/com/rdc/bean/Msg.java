@@ -6,6 +6,9 @@ public class Msg {
 
 	private Object message;
 
+	public Msg() {
+	}
+
 	public Msg(String result, Object message) {
 		this.result = result;
 		this.message = message;

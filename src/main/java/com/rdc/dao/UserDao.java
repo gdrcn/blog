@@ -3,11 +3,11 @@ package com.rdc.dao;
 import com.rdc.entity.User;
 import org.apache.ibatis.annotations.Mapper;
 
-import java.util.List;
-
 @Mapper
 public interface UserDao {
     User getUserInfo(int id);
+
+    int findUserByUsername(String username);
 
     Integer[] getFansNum(Integer id);
 

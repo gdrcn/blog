@@ -12,6 +12,9 @@
         <result property="email" column="email"/>
         <result property="realname" column="realname"/>
         <result property="faceImg" column="face_img"/>
+        <result property="phone" column="phone"/>
+        <result property="age" column="age"/>
+        <result property="signature" column="signature"/>
         <result property="address" column="address"/>
         <result property="visible" column="visible"/>
         <association property="permission" javaType="com.rdc.entity.Permission">
@@ -25,7 +28,7 @@
     </resultMap>
 
     <select id="getUserInfo" parameterType="java.lang.Integer" resultMap="user">
-        select user.*, permission.* from user, permission where user.id = #{id}
+        SELECT user.*, permission.* FROM USER, permission WHERE user.id = permission.`user_id` AND user.id = #{id};
     </select>
 
 
@@ -37,17 +40,35 @@
         select * from relation where user_id = #{id} and status = 0
     </select>
 
+    <select id="findUserByUsername" parameterType="java.lang.String" resultMap="java.lang.Integer">
+        select * from user where username = #{username}
+    </select>
+
     <update id="updateUserInfo" parameterType="com.rdc.entity.User">
         update user u
         <set>
             <if test="username != null and username != ''">
                 u.username = #{username},
             </if>
-            <if test="sex != null and sex != ''">
-                u.sex = #{sex}
+            <if test="age != null and age != ''">
+                u.age = #{age},
+            </if>
+            <if test="phone != null and phone != ''">
+                u.phone = #{phone},
+            </if>
+            <if test="address != null and address != ''">
+                u.address = #{address},
+            </if>
+            <if test="signature != null and signature != ''">
+                u.signature = #{signature},
+            </if>
+            <if test="visible != null and visible != ''">
+                u.visible = #{visible},
+            </if>
+            <if test="email != null and email != ''">
+                u.email = #{email},
             </if>
         </set>
-
         where id=#{id}
     </update>
 </mapper>

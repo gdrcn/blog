@@ -1,14 +1,12 @@
 package com.rdc.controller;
 
+import com.rdc.bean.Msg;
 import com.rdc.entity.User;
 import com.rdc.service.UserService;
 import com.rdc.util.GsonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("userInfo")
@@ -23,18 +21,20 @@ public class UserController {
      * @return User
      */
     @ResponseBody
-    @RequestMapping(value="myhomepage",method = RequestMethod.GET,produces = "text/html;charset=UTF-8")
-    public String getUserInfo(@RequestParam("id")Integer id){
+    @RequestMapping(value="myhomepage/{id}",method = RequestMethod.GET,produces = "text/html;charset=UTF-8")
+    public String getUserInfo(@PathVariable Integer id){
         return GsonUtil.getSuccessJson(userService.getUserInfo(id));
     }
 
     @ResponseBody
     @RequestMapping(value="updateUserInfo",method = RequestMethod.POST,produces = "text/html;charset=UTF-8")
     public String updateUserInfo(User user){
-        if(userService.updateUserInfo(user) != null){
-            return GsonUtil.getErrorJson(user, userService.updateUserInfo(user));
+        System.out.println("11111");
+        Msg message = userService.updateUserInfo(user);
+        if(message.getResult() != null){
+            return GsonUtil.getErrorJson((User)message.getMessage(), message.getResult());
         }else {
-            return GsonUtil.getSuccessJson(user);
+            return GsonUtil.getSuccessJson((User)message.getMessage());
         }
     }
 }
