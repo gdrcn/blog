@@ -7,6 +7,7 @@ import com.rdc.service.UserService;
 import com.rdc.util.GsonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
@@ -65,6 +66,7 @@ public class UserController {
 
     /**
      * 用户登录
+     * @author chen
      * @param user
      * @param session
      * @return
@@ -78,6 +80,7 @@ public class UserController {
 
     /**
      * 用户注册
+     * @author chen
      * @param user
      * @param confirmPassword
      * @param session
@@ -91,7 +94,8 @@ public class UserController {
     }
 
     /**
-     * 邮箱验证
+     * 注册时邮箱验证
+     * @author chen
      * @param checkcode
      * @param code
      * @param session
@@ -129,5 +133,51 @@ public class UserController {
     public String pickPhotoSign(@PathVariable Integer albumId){
         return GsonUtil.getSuccessJson(userService.pickPhotoSign(albumId));
     }
+
+
+    /**
+     * 忘记密码
+     * @author chen
+     * @param email
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value="forgetPassword",method = RequestMethod.POST,produces = "text/html;charset=UTF-8")
+    public String forgetPassword(String email,Model model){
+
+        model.addAttribute("email",email);
+        return userService.forgetPassword(email,model);
+    }
+
+    /**
+     * 重置密码时邮箱验证
+     * @author chen
+     * @param checkcode
+     * @param code
+     * @param email
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "validateEmail/{email}/{code}/{checkcode}",method = RequestMethod.GET,produces = "text/html;charset=UTF-8")
+    public String validateEmail(@PathVariable String email,@PathVariable String code,@PathVariable String checkcode,Model model){
+
+        model.addAttribute("email",email);
+        return userService.validateEmail(checkcode,code,email);
+    }
+
+    /**
+     * 重置密码
+     * @author chen
+     * @param email
+     * @param password
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "resetPassword",method = RequestMethod.POST,produces = "text/html;charset=UTF-8")
+    public String resetPassword(String email,String password,String confirmPassword){
+
+        return userService.resetPassword(password,email,confirmPassword);
+    }
+
 
 }

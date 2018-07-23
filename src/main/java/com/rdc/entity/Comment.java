@@ -1,12 +1,16 @@
 package com.rdc.entity;
 
+import com.rdc.bean.UserBean;
+
+import java.util.ArrayList;
+
 public class Comment {
     private int id;
-    private int fromUserId;
     private String comments;
     private String time;
-    private User user;
-    private int status;
+    private UserBean fromUserBean;
+    private int fromId;
+    private ArrayList<Reply> replies;
 
     public Comment() {
     }
@@ -17,14 +21,6 @@ public class Comment {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public int getFromUserId() {
-        return fromUserId;
-    }
-
-    public void setFromUserId(int fromUserId) {
-        this.fromUserId = fromUserId;
     }
 
     public String getComments() {
@@ -43,31 +39,27 @@ public class Comment {
         this.time = time;
     }
 
-    public User getUser() {
-        return user;
+    public int getFromId() {
+        return fromId;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setFromId(int fromId) {
+        this.fromId = fromId;
     }
 
-    public int getStatus() {
-        return status;
+    public UserBean getFromUserBean() {
+        return fromUserBean;
     }
 
-    public void setStatus(int status) {
-        this.status = status;
+    public void setFromUserBean(UserBean fromUserBean) {
+        this.fromUserBean = fromUserBean;
     }
 
-    @Override
-    public String toString() {
-        return "Comment{" +
-                "id=" + id +
-                ", fromUserId=" + fromUserId +
-                ", comments='" + comments + '\'' +
-                ", time='" + time + '\'' +
-                ", user=" + user +
-                ", status=" + status +
-                '}';
+    public ArrayList<Reply> getReplies() {
+        return replies;
+    }
+
+    public void setReplies(ArrayList<Reply> replies) {
+        this.replies = replies;
     }
 }

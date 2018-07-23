@@ -3,6 +3,9 @@ package com.rdc.dao;
 import com.rdc.entity.Album;
 import com.rdc.entity.User;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 import java.util.ArrayList;
 
@@ -72,6 +75,16 @@ public interface UserDao {
      * @return
      */
     User login(User user);
+    //查询是否已关注
+    int findUserWatch(int user_id,int beliked_id);
+    //关注用户
+    void watch(int user_id,int beliked_id);
+    //搜索好友
+    List<User> findUser(String username);
+    //查找邮箱
+    String findEmail(String email);
+    //修改密码
+    int resetPassword(@Param("password") String password,@Param("email") String email);
 
     /**
      * 查看播客

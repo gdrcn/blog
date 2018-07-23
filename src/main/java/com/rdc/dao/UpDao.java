@@ -8,7 +8,9 @@ public interface UpDao {
 
 	int blogDown(Map<String,Integer> map);
 
-	Integer isUp(Map<String,Integer> map);
+	Integer isBlogUp(Map<String,Integer> map);
 
 	int blogUpCount(int blogId);
+
+
 }

@@ -40,12 +40,41 @@
     <select id="getAlbumComment" parameterType="java.lang.Integer" resultMap="albumComment">
       SELECT album_comments.* FROM album_comments WHERE album_id IN (SELECT id FROM album WHERE user_id = #{userId}) AND STATUS = 1
     </select>
-
+    <!--分割线-->
     <select id="getBlogFirstCommentCount" parameterType="int" resultType="int">
         select count(id) from first_comments where blog_id=#{blogId}
     </select>
 
     <select id="getBlogSecondCommentCount" parameterType="int" resultType="int">
         select count(first_comments_id) from first_comments as t1,second_comments as t2 where blog_id=#{blogId} and t2.first_comments_id=t1.id
+    </select>
+
+    <insert id="addBlogComment" parameterType="com.rdc.entity.Comment">
+        <selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">
+            SELECT LAST_INSERT_ID() AS ID
+        </selectKey>
+        insert into first_comments(commentser_id,comments,blog_id,time) values(#{fromUserId},#{comments},#{fromId},#{time})
+    </insert>
+
+    <insert id="addCommentReply" parameterType="com.rdc.entity.Reply">
+        <selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">
+            SELECT LAST_INSERT_ID() AS ID
+        </selectKey>
+        <choose>
+            <when test="fromReplyId==0">
+                insert into second_comments(first_comments_id,comments,commentser_id,time) values(#{fromCommentId},#{comments},#{fromUserBean.id},#{time})
+            </when>
+            <otherwise>
+                insert into second_comments(first_comments_id,second_comments_id,comments,commentser_id,time) values(#{fromCommentId},#{fromReplyId},#{comments},#{fromUserBean.id},#{time})
+            </otherwise>
+        </choose>
+    </insert>
+
+    <select id="getFirstReplyUserId" parameterType="int" resultType="int">
+        select commentser_id from first_comments where id=#{commentId}
+    </select>
+
+    <select id="getOtherReplyUserId" parameterType="int" resultType="int">
+        select commentser_id from second_comments where id=#{replyId}
     </select>
 </mapper>
