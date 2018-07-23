@@ -180,4 +180,30 @@ public class UserController {
     }
 
 
+    /**
+     * 关注用户
+     * @param user_id
+     * @param beliked_id
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "userWatch/{user_id}/{beliked_id}",method = RequestMethod.GET,produces = "text/html;charset=UTF-8")
+    public String userWatch(@PathVariable int user_id,@PathVariable int beliked_id){
+
+        return userService.userWatch(user_id,beliked_id);
+    }
+
+    /**
+     * 搜索好友
+     * @author chen
+     * @param name
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "findUser",method = RequestMethod.POST,produces = "text/html;charset=UTF-8")
+    public String findUser(String name){
+
+        return GsonUtil.getSuccessJson(userService.findUser(name));
+    }
+
 }

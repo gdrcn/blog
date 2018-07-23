@@ -19,6 +19,7 @@ import org.springframework.web.util.HtmlUtils;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -293,7 +294,7 @@ public class UserService {
 
     /**
      * @author chen
-     * @function 用户关注
+     * @function 关注用户
      * @param user_id
      * @param beliked_id
      * @return
@@ -302,9 +303,13 @@ public class UserService {
     public String userWatch(int user_id,int beliked_id){
         if(userDao.findUserWatch(user_id,beliked_id)>0){
             return GsonUtil.getErrorJson();
-        }else
-            userDao.watch(user_id,beliked_id);
+        }
+         if(user_id ==beliked_id)
+             return GsonUtil.getErrorJson();
+         if(userDao.watch(user_id,beliked_id)>0)
             return GsonUtil.getSuccessJson();
+        else
+            return GsonUtil.getErrorJson();
     }
 
 
@@ -355,5 +360,18 @@ public class UserService {
      */
     public ArrayList<Photo> pickPhotoSign(Integer albumId) {
        return albumDao.getSpecificPhoto(albumId);
+    }
+
+    /**
+     * 搜索好友
+     * @author chen
+     * @param name
+     * @return
+     */
+    public List<User> findUser(String name){
+        String username = CharacterUtil.StringFilter(name);
+        List<User> users = new ArrayList<>();
+        users = userDao.findUser(username);
+        return users;
     }
 }

@@ -4,11 +4,19 @@ import com.rdc.dao.AlbumDao;
 import com.rdc.dao.CommentDao;
 import com.rdc.dao.UserDao;
 import com.rdc.entity.Photo;
+import com.rdc.entity.User;
+import com.rdc.util.CharacterUtil;
+import com.rdc.util.ConvertUtil;
+import com.rdc.util.GsonUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import java.text.SimpleDateFormat;
+import java.util.*;
+
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations={"classpath*:config/spring-mybatis.xml"})
