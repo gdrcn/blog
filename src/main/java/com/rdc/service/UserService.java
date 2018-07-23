@@ -10,6 +10,9 @@ import com.rdc.entity.User;
 import com.rdc.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.util.HtmlUtils;
 
 import javax.servlet.http.HttpSession;
@@ -135,8 +138,8 @@ public class UserService {
     }
 
     /**
-     * 用户登录
-     *
+     * @author chen
+     * @function用户登录
      * @param user
      * @return
      */
@@ -157,8 +160,8 @@ public class UserService {
     }
 
     /**
-     * 用户注册
-     *
+     * @author chen
+     * @function用户注册
      * @param user
      * @param confirmPassword
      * @return
@@ -179,11 +182,11 @@ public class UserService {
         if (userDao.checkEmail(user) != null) {
             return GsonUtil.getErrorJson("邮箱已经注册过");
         } else {
-            session.setAttribute("user",user);
+           // session.setAttribute("user",user);
             String code = CharacterUtil.getRandomString(5);
             Map<String,String> map = new HashMap<>();
             map.put("result","success");
-            map.put("message","已经发送验证码到你的邮箱");
+            map.put("message","已经发送验证码到你的邮箱,请验证");
             map.put("code",code);
 
             SendemailUtil.sendEmail(user.getEmail(),code);
@@ -192,12 +195,14 @@ public class UserService {
     }
 
     /**
-     * 邮箱验证码验证
+     * @author chen
+     * @function注册时邮箱验证码验证
      * @param checkcode
      * @param code
      * @param user
      * @return
      */
+    @Transactional
     public String validate(String checkcode, String code,User user) {
 
         if(ValidateUtil.isInvalidString(checkcode)) {
@@ -212,4 +217,82 @@ public class UserService {
             }
         }
     }
+
+    /**
+     * 忘记密码
+     * @author chen
+     * @param email
+     * @return
+     */
+    public String forgetPassword(String email,Model model){
+
+        if(userDao.findEmail(email)==null){
+            return GsonUtil.getErrorJson("该邮箱未注册");
+        }else{
+            String code = CharacterUtil.getRandomString(5);
+            model.addAttribute("code",code);
+
+            SendemailUtil.sendEmail(email,code);
+            return GsonUtil.getSuccessJson("已发送验证码到你的邮箱，请验证");
+        }
+    }
+
+    /**
+     * 忘记密码时邮箱验证
+     * @author chen
+     * @param checkcode
+     * @param code
+     * @param email
+     * @return
+     */
+    public String validateEmail(String checkcode,String code,String email){
+        if(ValidateUtil.isInvalidString(checkcode)) {
+            return GsonUtil.getErrorJson("输入不能为空");
+        }else {
+            if (! code.equals(checkcode)) {
+                return GsonUtil.getErrorJson("验证码错误");
+            } else{
+                return GsonUtil.getSuccessJson();
+            }
+        }
+    }
+
+    /**
+     * 重置密码
+     * @author chen
+     * @param password
+     * @param email
+     * @return
+     */
+    @Transactional
+    public String resetPassword(String password,String email,String confirmPassword){
+
+        if (!password.equals(confirmPassword) ) {
+            return GsonUtil.getErrorJson("两次输入密码不一致");
+        }
+        if(userDao.resetPassword(password,email)>0)
+            return GsonUtil.getSuccessJson();
+        else
+            return GsonUtil.getErrorJson("重置密码失败");
+    }
+
+
+
+    /**
+     * @author chen
+     * @function 用户关注
+     * @param user_id
+     * @param beliked_id
+     * @return
+     */
+    @Transactional
+    public String userWatch(int user_id,int beliked_id){
+        if(userDao.findUserWatch(user_id,beliked_id)>0){
+            return GsonUtil.getErrorJson();
+        }else
+            userDao.watch(user_id,beliked_id);
+            return GsonUtil.getSuccessJson();
+    }
+
+
 }

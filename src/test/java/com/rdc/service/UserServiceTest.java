@@ -27,6 +27,9 @@ public class UserServiceTest {
     @Autowired
     public CommentDao commentDao;
 
+    @Autowired
+    public UserDao userDao;
+
     @Test
     public void getUserInfo() {
         userService.getUserInfo(3);
@@ -54,4 +57,14 @@ public class UserServiceTest {
     }
 
 
+    @Test
+    public void tes(){
+        User user = new User();
+        user.setUsername("123");
+        user.setPassword("1234");
+        if(userDao.login(user)!=null){
+            System.out.println("登录成功");
+        }else
+            System.out.println("用户名或密码错误");
+    }
 }

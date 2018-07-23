@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.rdc.dao.UserDao">
-    <resultMap id="user" type="com.rdc.entity.User">
+    <resultMap id="user" type="com.rdc.entity.User" autoMapping="true">
         <id property="id" column="id"/>
         <result property="username" column="username"/>
         <result property="password" column="password"/>
@@ -44,6 +44,10 @@
         select * from user where username = #{username} and id != #{id}
     </select>
 
+    <select id="findUser" parameterType="String" resultMap="user">
+        select *from user where username like "%"#{username}"%"
+    </select>
+
     <insert id="registe"  parameterType="com.rdc.entity.User">
 		insert into user(username,password,email)value(#{username},#{password},#{email})
 	</insert>
@@ -56,11 +60,26 @@
 		select * from user where email = #{email}
 	</select>
 
-
     <select id="login" parameterType="com.rdc.entity.User" resultType="com.rdc.entity.User">
 		select *from user where username=#{username} and password=#{password}
 	</select>
 
+    <select id="findEmail" parameterType="java.lang.String" resultType="java.lang.String">
+        select email from user where email=#{email}
+    </select>
+
+    <update id="resetPassword" parameterType="java.lang.String" >
+        update user set password=#{password} where email=#{email}
+    </update>
+
+    <select id="findUserWatch" parameterType="int" resultType="int">
+        select id from relation where user_id=#{user_id} and beliked_id=#{beliked_id}
+    </select>
+    
+    <insert id="watch" >
+        insert into relation(user_id,beliked_id) values(#{user_id},#{beliked_id})
+    </insert>
+    
     <update id="updateUserInfo" parameterType="com.rdc.entity.User">
         update user u
         <set>
