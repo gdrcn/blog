@@ -12,11 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.io.StringReader;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
+import java.util.*;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -80,6 +78,14 @@ public class UserServiceTest {
     public void test4() {
         System.out.println(albumDao.getSpecificPhoto(1));
 
+    }
+
+
+    @Test
+    public void test5(){
+        System.out.println(commentDao.getAlbumComment(1).size());
+        System.out.println(commentDao.getblogFirstComment(1));
+        System.out.println(commentDao.getBlogSecondComment(1));
     }
 
 //    @Test

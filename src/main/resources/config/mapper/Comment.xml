@@ -15,7 +15,7 @@
 
     <resultMap id="blogsecondComment" type="com.rdc.entity.Comment">
         <id property="id" column="id"></id>
-        <result property="fromBlogId" column="first_comments_id"/>
+        <result property="fromUserId" column="first_comments_id"/>
         <result property="comments" column="comments"/>
         <result property="time" column="time"/>
         <result property="status" column="status"/>
@@ -23,8 +23,7 @@
 
     <resultMap id="albumComment" type="com.rdc.entity.Comment">
         <id property="id" column="id"></id>
-        <result property="fromBlogId" column="from_user_id"/>
-        <result property="albumId" column="album_id"/>
+        <result property="fromUserId" column="from_user_id"/>
         <result property="comments" column="comments"/>
         <result property="time" column="time"/>
         <result property="status" column="status"/>

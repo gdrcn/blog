@@ -41,10 +41,27 @@ public class UserService {
      */
     public User getUserInfo(int id) {
         User user = userDao.getUserInfo(id);
-        user.setAlbumList(albumDao.getUserAlbum(id));
+        int albumComment;
+        int blogFirstComment;
+        int blogSecondComment;
+        user.setAlbumList(albumDao.getUserAlbumInfo(id));
         user.setFans((userDao.getFansNum(id)).length);
         user.setIdols((userDao.getIdolsNum(id)).length);
-        user.setNotReadComment((commentDao.getAlbumComment(id).size() + (commentDao.getblogFirstComment(id).size())) + (commentDao.getBlogSecondComment(id)).size());
+        System.out.println("???????????????????????????");
+        if(commentDao.getAlbumComment(id) == null){
+            albumComment = 0;
+        }else {
+            albumComment = commentDao.getAlbumComment(id).size();
+        }if(commentDao.getblogFirstComment(id) == null){
+            blogFirstComment = 0;
+        }else{
+            blogFirstComment = commentDao.getblogFirstComment(id).size();
+        }if(commentDao.getBlogSecondComment(id) == null){
+            blogSecondComment = 0;
+        }else{
+            blogSecondComment = commentDao.getBlogSecondComment(id).size();
+        }
+        user.setNotReadComment(albumComment+blogFirstComment+blogSecondComment);
         return user;
     }
 

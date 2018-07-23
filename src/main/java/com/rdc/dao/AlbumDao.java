@@ -13,7 +13,7 @@ public interface AlbumDao {
      * @param userId
      * @return
      */
-    ArrayList<Album> getUserAlbum(int userId);
+    ArrayList<Album> getUserAlbumInfo(int userId);
 
     /**
      * 插入初始相册
