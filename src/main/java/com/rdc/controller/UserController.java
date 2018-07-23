@@ -1,6 +1,7 @@
 package com.rdc.controller;
 
 import com.rdc.bean.Msg;
+import com.rdc.entity.Album;
 import com.rdc.entity.User;
 import com.rdc.service.UserService;
 import com.rdc.util.GsonUtil;
@@ -16,9 +17,11 @@ import javax.servlet.http.HttpSession;
 public class UserController {
 
     @Autowired
-    public UserService userService;
+    private UserService userService;
 
     /**
+     * Created by Ning
+     * time 2018/7/22 15:52
      * 得到用户个人信息
      * @param id
      * @return User
@@ -29,10 +32,30 @@ public class UserController {
         return GsonUtil.getSuccessJson(userService.getUserInfo(id));
     }
 
+    /**
+     * Created by Ning
+     * time 2018/7/22 15:54
+     * 查看他人资料
+     * @param id
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "otherHomepage/{id}" ,method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
+    public String  scanOtherHomepage(@PathVariable Integer id){
+        Msg message = userService.scanOtherHomepage(id);
+        return GsonUtil.getMsgJson((User)message.getMessage(), message.getResult());
+    }
+
+    /**
+     * Created by Ning
+     * time 2018/7/22 15:53
+     * 修改个人信息
+     * @param user
+     * @return
+     */
     @ResponseBody
     @RequestMapping(value="updateUserInfo",method = RequestMethod.POST,produces = "text/html;charset=UTF-8")
     public String updateUserInfo(User user){
-        System.out.println("11111");
         Msg message = userService.updateUserInfo(user);
         if(message.getResult() != null){
             return GsonUtil.getErrorJson((User)message.getMessage(), message.getResult());
@@ -85,6 +108,32 @@ public class UserController {
         User user = (User)session.getAttribute("user");
         return userService.validate(checkcode,code,user);
     }
+
+
+    /**
+     * Created by Ning
+     * time 2018/7/22 21:25
+     * 照片墙登陆基于前端
+     *
+     */
+    @ResponseBody
+    @RequestMapping(value = "photoWall/{userId}" ,method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
+    public String myPhotoWall(@PathVariable Integer userId){
+        User user = userService.getUserPWInfo(userId);
+        return GsonUtil.getSuccessJson(user);
+    }
+
+    /**
+     * 选择图片类别
+     * Created by Ning
+     * time 2018/7/23 11:53
+     */
+    @ResponseBody
+    @RequestMapping(value = "photoSign/{albumId}", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
+    public String pickPhotoSign(@PathVariable Integer albumId){
+        return GsonUtil.getSuccessJson(userService.pickPhotoSign(albumId));
+    }
+
 
     /**
      * 忘记密码

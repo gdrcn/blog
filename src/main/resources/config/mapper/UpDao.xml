@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.rdc.dao.UpDao">
+
+    <insert id="blogUp" parameterType="map">
+        insert into up(user_id,beuser_id,blog_id) values(#{userId},#{beUserId},#{blogId})
+    </insert>
+
+    <delete id="blogDown" parameterType="map">
+      delete from up where user_id=#{userId} and blog_id=#{blogId}
+    </delete>
+    
+    <select id="isUp" parameterType="map" resultType="int">
+        select id from up where user_id=#{userId} and blog_id=#{blogId};
+    </select>
+
+    <select id="blogUpCount" parameterType="int" resultType="int">
+        select count(id) from up where blog_id=#{blogId}
+    </select>
+</mapper>

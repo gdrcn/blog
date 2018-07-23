@@ -7,8 +7,8 @@ public class Comment {
     private String time;
     private User user;
     private int status;
-    private int from_id;
-
+    private int fromBlogId;
+    private int albumId;
 
     public Comment() {
     }
@@ -61,13 +61,22 @@ public class Comment {
         this.status = status;
     }
 
-    public int getFrom_id() {
-        return from_id;
+    public int getFromBlogId() {
+        return fromBlogId;
     }
 
-    public void setFrom_id(int from_id) {
-        this.from_id = from_id;
+    public void setFromBlogId(int fromBlogId) {
+        this.fromBlogId = fromBlogId;
     }
+
+    public int getAlbumId() {
+        return albumId;
+    }
+
+    public void setAlbumId(int albumId) {
+        this.albumId = albumId;
+    }
+
     @Override
     public String toString() {
         return "Comment{" +
@@ -77,7 +86,8 @@ public class Comment {
                 ", time='" + time + '\'' +
                 ", user=" + user +
                 ", status=" + status +
-                ", from_id=" + from_id +
+                ", fromBlogId=" + fromBlogId +
+                ", albumId=" + albumId +
                 '}';
     }
 }

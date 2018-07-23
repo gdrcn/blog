@@ -5,6 +5,7 @@ import com.google.gson.FieldAttributes;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.rdc.bean.Msg;
+import com.rdc.entity.User;
 
 import java.util.*;
 
@@ -57,6 +58,10 @@ public class GsonUtil {
 
     public static String getErrorJson(Object o, String errorMsg) {
         return GsonUtil.getGson().toJson(new Msg(errorMsg, o));
+    }
+
+    public static String getMsgJson(Object o, String result) {
+        return GsonUtil.getGson().toJson(new Msg(result, o));
     }
 
     /**
@@ -148,6 +153,7 @@ public class GsonUtil {
     public static GsonBuilder filter(Object... objects) {
         return delalProperty(true, objects);
     }
+
 
     /**
      * gson过滤器内部类

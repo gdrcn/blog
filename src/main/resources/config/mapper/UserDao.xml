@@ -27,10 +27,26 @@
         </association>
     </resultMap>
 
+    <resultMap id="friends" type="com.rdc.entity.User">
+        <id property="id" column="id"/>
+        <result property="username" column="username"/>
+        <result property="faceImg" column="face_img"/>
+    </resultMap>
+
+    <resultMap id="userPWInfo" type="com.rdc.entity.User">
+        <id  property="id" column="id"/>
+        <result property="username" column="username"/>
+        <result property="faceImg" column="face_img"/>
+        <result property="signature" column="signature"/>
+    </resultMap>
+
     <select id="getUserInfo" parameterType="java.lang.Integer" resultMap="user">
-        SELECT user.*, permission.* FROM USER, permission WHERE user.id = permission.`user_id` AND user.id = #{id};
+        SELECT user.*, permission.* FROM USER, permission WHERE user.id = permission.`user_id` AND user.id = #{id}
     </select>
 
+    <select id="scanOtherMsg" parameterType="java.lang.Integer" resultMap="user">
+        select user.username, user.age, user.phone, user.email, user.realname, user.face_img, user.signature, user.address, user.visible from user where id=#{id}
+    </select>
 
     <select id="getFansNum" parameterType="java.lang.Integer" resultType="java.lang.Integer">
         select status from relation where beliked_id = #{id} and status = 0
@@ -48,8 +64,8 @@
         select *from user where username like "%"#{username}"%"
     </select>
 
-    <insert id="registe"  parameterType="com.rdc.entity.User">
-		insert into user(username,password,email)value(#{username},#{password},#{email})
+    <insert id="registe" parameterType="com.rdc.entity.User">
+		insert into user(id,username,password,email)value(null,#{username},#{password},#{email})
 	</insert>
 
     <select id="checkUsername" parameterType="com.rdc.entity.User" resultType="com.rdc.entity.User">
@@ -64,6 +80,10 @@
 		select *from user where username=#{username} and password=#{password}
 	</select>
 
+    <select id="getUserIdByName" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select id from user where username=#{username}
+    </select>
+
     <select id="findEmail" parameterType="java.lang.String" resultType="java.lang.String">
         select email from user where email=#{email}
     </select>
@@ -75,11 +95,11 @@
     <select id="findUserWatch" parameterType="int" resultType="int">
         select id from relation where user_id=#{user_id} and beliked_id=#{beliked_id}
     </select>
-    
+
     <insert id="watch" >
         insert into relation(user_id,beliked_id) values(#{user_id},#{beliked_id})
     </insert>
-    
+
     <update id="updateUserInfo" parameterType="com.rdc.entity.User">
         update user u
         <set>
@@ -107,4 +127,12 @@
         </set>
         where id=#{id}
     </update>
+
+    <select id="getNiceFriends" resultType="java.lang.Integer" resultMap="friends">
+      SELECT user.`id` , user.`face_img`, user.`username` FROM USER WHERE id IN (SELECT relation.`user_id` FROM relation WHERE user_id IN  (SELECT relation.`beliked_id` FROM relation WHERE user_id = #{userId} AND STATUS = 0) AND STATUS = 0 AND beliked_id = #{userId});
+    </select>
+
+    <select id="getUserPWInfo" parameterType="java.lang.Integer" resultMap="userPWInfo">
+      select * from user where id = #{userId};
+    </select>
 </mapper>

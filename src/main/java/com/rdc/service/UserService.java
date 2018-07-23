@@ -6,6 +6,7 @@ import com.rdc.dao.AlbumDao;
 import com.rdc.dao.CommentDao;
 import com.rdc.dao.UserDao;
 import com.rdc.entity.Album;
+import com.rdc.entity.Photo;
 import com.rdc.entity.User;
 import com.rdc.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.util.HtmlUtils;
 
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -33,7 +35,13 @@ public class UserService {
 
     @Autowired
     private UserService userService;
-
+    /**
+     * Created by Ning
+     * time 2018/7/22 16:02
+     * 获得用户详细信息
+     * @param id
+     * @return User
+     */
     public User getUserInfo(int id) {
         User user = userDao.getUserInfo(id);
         user.setAlbumList(albumDao.getUserAlbum(id));
@@ -45,7 +53,7 @@ public class UserService {
 
     /**
      * Cread by Ning
-     *
+     * time 2018/7/22 16:02
      * @param user
      * @return MsG
      * @function 在个人主页修改信息
@@ -122,7 +130,11 @@ public class UserService {
     }
 
     /**
+     * Created by Ning
+     * time 2018/7/22 16:03
      * 保留返回的数据
+     * 返显给页面
+     * @return User
      */
     public User reservedUser(User user) {
         User newUser = user;
@@ -213,6 +225,7 @@ public class UserService {
             } else{
                 user.setPassword(ConvertUtil.encryptMd5(user.getPassword()));
                 userDao.registe(user);
+                albumDao.insertDefaultAlbum(userDao.getUserIdByName(user.getUsername()));
                 return GsonUtil.getSuccessJson();
             }
         }
@@ -295,4 +308,52 @@ public class UserService {
     }
 
 
+
+
+    /**
+     * Created by Ning
+     * time 2018/7/22 16:04
+     * 返回查看的用户资料
+     * @param userId
+     * @return
+     */
+    public Msg scanOtherHomepage(Integer userId) {
+        Msg msg = new Msg();
+        User user = userDao.scanOtherMsg(userId);
+        if(user.getVisible() == 0){
+            user = null;
+            msg.setMessage(user);
+            msg.setResult("success");
+            return msg;
+        }
+        msg.setMessage(user);
+        msg.setResult("fail");
+        return msg;
+    }
+
+
+    /**
+     * Created bu Ning
+     * time 2018/7/22 22:58
+     * 处理照片墙的逻辑
+     * @param userId
+     * @return
+     */
+    public User getUserPWInfo(Integer userId) {
+        User user = userDao.getUserPWInfo(userId);
+        user.setNiceFriendsList(userDao.getNiceFriends(userId));
+        user.setAlbumList(albumDao.getUserAlbumList(userId));
+        user.setPhotoWallList(albumDao.getUserAllPhoto(userId));
+        return user;
+    }
+
+    /**
+     * Created by Ning
+     * time 2018/7/23 12:01
+     * 得到相应类别照片
+     * @param albumId
+     */
+    public ArrayList<Photo> pickPhotoSign(Integer albumId) {
+       return albumDao.getSpecificPhoto(albumId);
+    }
 }

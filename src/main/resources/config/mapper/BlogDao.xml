@@ -24,7 +24,7 @@
         update blog set title=#{title},article=#{article},cover_img=#{coverImg},finish_time=#{finishTime} where id=#{id}
     </update>
 
-    <select id="findBlogById" parameterType="int" resultMap="blogMap">
+    <select id="fingBlogById" parameterType="int" resultMap="blogMap">
         select *,t1.id as blog_id from blog as t1,user where t1.id=#{blogId}
     </select>
 
