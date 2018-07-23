@@ -11,6 +11,7 @@ public class Comment {
     private UserBean fromUserBean;
     private int fromId;
     private ArrayList<Reply> replies;
+    private int upCount;
 
     public Comment() {
     }
@@ -61,5 +62,13 @@ public class Comment {
 
     public void setReplies(ArrayList<Reply> replies) {
         this.replies = replies;
+    }
+
+    public int getUpCount() {
+        return upCount;
+    }
+
+    public void setUpCount(int upCount) {
+        this.upCount = upCount;
     }
 }

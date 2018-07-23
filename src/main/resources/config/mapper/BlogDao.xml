@@ -9,7 +9,7 @@
         <selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">
             SELECT LAST_INSERT_ID() AS ID
         </selectKey>
-        insert into blog(user_id,title,cover_img,article,finish_time) values(#{user.id},#{title},#{coverImg},#{article},#{finishTime})
+        insert into blog(user_id,title,cover_img,article,finish_time) values(#{userBean.id},#{title},#{coverImg},#{article},#{finishTime})
     </insert>
 
     <select id="findUserId" parameterType="int" resultType="int">
@@ -30,9 +30,9 @@
 
     <resultMap type="com.rdc.entity.Blog" id="blogMap" autoMapping="true">
         <id column="blog_id" property="id"/>
-        <association property="user" javaType="com.rdc.entity.User">
+        <association property="userBean" javaType="com.rdc.bean.UserBean">
             <id column="user_id" property="id"/>
-            <result column="face_img" property="faceImg"/>
+            <result column="face_img" property="face"/>
         </association>
     </resultMap>
 </mapper>

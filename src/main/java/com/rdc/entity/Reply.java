@@ -11,6 +11,7 @@ public class Reply {
 	private UserBean fromUserBean;
 	private int fromCommentId;
 	private int fromReplyId;
+	private int upCount;
 
 	public int getId() {
 		return id;
@@ -66,5 +67,13 @@ public class Reply {
 
 	public void setFromReplyId(int fromReplyId) {
 		this.fromReplyId = fromReplyId;
+	}
+
+	public int getUpCount() {
+		return upCount;
+	}
+
+	public void setUpCount(int upCount) {
+		this.upCount = upCount;
 	}
 }

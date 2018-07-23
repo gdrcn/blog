@@ -70,7 +70,7 @@ public class BlogService {
 	@Transactional
 	public Boolean modify(Blog blog, String[] categoryId){
 		//本人判断
-		if(blog.getUser().getId()!=blogDao.findUserId(blog.getId())){
+		if(blog.getUserBean().getId()!=blogDao.findUserId(blog.getId())){
 			return false;
 		}
 

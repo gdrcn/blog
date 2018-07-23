@@ -41,6 +41,10 @@ public interface CommentDao {
     int getFirstReplyUserId(int CommentId);
 
     int getOtherReplyUserId(int replyId);
+
+    int findReplyUserId(int replyId);
+
+    int findCommentUserId(int commentId);
 }
 
 
