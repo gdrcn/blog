@@ -17,10 +17,17 @@
         </collection>
     </resultMap>
 
+    <resultMap id="basicAlbumInfo" type="com.rdc.entity.Album">
+        <id property="id" column="id"/>
+        <result property="albumName" column="album_name"/>
+        <result property="coverHash" column="cover_hash"/>
+    </resultMap>
+
     <resultMap id="photo" type="com.rdc.entity.Photo">
         <id property="id" column="id"/>
         <result property="albumId" column="album_id"/>
         <result property="photoHash" column="photo_hash"/>
+        <result property="pushTime" column="push_time"/>
     </resultMap>
 
     <select id="getUserAlbum" parameterType="java.lang.Integer" resultMap="album">
@@ -37,7 +44,7 @@
     </select>
     
     <insert id="insertPhotoToAlbum" parameterType="com.rdc.entity.Photo">
-      insert into  photo(id, album_id, photo_hash) values (null, #{albumId}, #{photoHash});
+      insert into photo(album_id, photo_hash,push_time) values (#{albumId}, #{photoHash}, #{pushTime});
     </insert>
 
     <delete id="deletePhotoByPhotoId" parameterType="java.lang.Integer">
@@ -46,5 +53,26 @@
 
     <select id="finePhotoByPhotoId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
         select photo.id from photo where id = #{photoId}
+    </select>
+
+    <select id="findTheSameAlbumByUserId" parameterType="com.rdc.entity.Album" resultType="java.lang.Integer">
+        select album.id from album where album_name = #{albumName} and user_id = #{userId}
+    </select>
+
+    <insert id="insertNewAlbum" parameterType="com.rdc.entity.Album">
+        insert into album(id, user_id, album_name) values (null, #{userId}, #{albumName})
+    </insert>
+
+    <select id="getUserAlbumList" parameterType="java.lang.Integer" resultMap="basicAlbumInfo">
+      select * from album where user_id = #{userId}
+    </select>
+
+    <select id="getUserAllPhoto" parameterType="java.lang.Integer" resultMap="photo">
+        SELECT * FROM photo WHERE album_id IN (SELECT album.`id` FROM album WHERE user_id = #{userId}) ORDER BY push_time DESC;
+    </select>
+
+
+    <select id="getSpecificPhoto" parameterType="java.lang.Integer" resultMap="photo">
+        select * from photo where album_id = #{albumId} order by push_time DESC;
     </select>
 </mapper>

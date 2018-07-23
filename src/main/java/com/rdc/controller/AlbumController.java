@@ -1,17 +1,13 @@
 package com.rdc.controller;
 
 import com.rdc.bean.Msg;
-import com.rdc.dao.AlbumDao;
 import com.rdc.entity.Album;
 import com.rdc.service.AlbumService;
 import com.rdc.util.GsonUtil;
 import com.rdc.util.UploadUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 
@@ -51,13 +47,29 @@ public class AlbumController {
      * 删除照片
      */
     @ResponseBody
-    @RequestMapping(value = "deletePhoto", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
-    public String deletePhoto(@RequestParam("photoId") Integer photoId){
+    @RequestMapping(value = "deletePhoto/{photoId}", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
+    public String deletePhoto(@PathVariable Integer photoId){
         String msg = albumService.deletePhoto(photoId);
         if(msg == null){
             return GsonUtil.getErrorJson();
         }
         return GsonUtil.getSuccessJson();
+    }
+
+
+    /**
+     * 新建相册
+     * Created by Ning
+     * time 2018/7/23 9:50
+     */
+    @ResponseBody
+    @RequestMapping(value = "newAlbum", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
+    public String newAlbum(@RequestParam("userId") Integer userId, @RequestParam("albumName") String albumName){
+        String msg = albumService.newAlbum(userId, albumName);
+            if(msg == null){
+                return GsonUtil.getSuccessJson();
+            }
+        return GsonUtil.getErrorJson("你已存在同名标签的照片库");
     }
 
 }

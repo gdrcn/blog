@@ -47,4 +47,39 @@ public interface AlbumDao {
      * @return
      */
     Integer finePhotoByPhotoId(Integer photoId);
+
+    /**
+     * 查找相册
+     * @param album
+     * @return
+     */
+    Integer findTheSameAlbumByUserId(Album album);
+
+    /**
+     * 新建相册
+     * @param album
+     * @return
+     */
+    Integer insertNewAlbum(Album album);
+
+    /**
+     * 得到用户的全部相册标签信息
+     * @param userId
+     * @return
+     */
+    ArrayList<Album> getUserAlbumList(Integer userId);
+
+    /**
+     * 得到用户的全部照片
+     * @param userId
+     * @return
+     */
+    ArrayList<Photo> getUserAllPhoto(Integer userId);
+
+    /**
+     * 得到特定类别标签的图片
+     * @param albumId
+     * @return
+     */
+    ArrayList<Photo> getSpecificPhoto(Integer albumId);
 }

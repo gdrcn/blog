@@ -1,10 +1,13 @@
 package com.rdc.entity;
 
+import java.util.Date;
+
 public class Photo {
 
     private int id;
     private Integer albumId;
     private String photoHash;
+    private String  pushTime;
 
     public Photo() {
     }
@@ -33,12 +36,21 @@ public class Photo {
         this.albumId = albumId;
     }
 
+    public String getPushTime() {
+        return pushTime;
+    }
+
+    public void setPushTime(String pushTime) {
+        this.pushTime = pushTime;
+    }
+
     @Override
     public String toString() {
         return "Photo{" +
                 "id=" + id +
                 ", albumId=" + albumId +
                 ", photoHash='" + photoHash + '\'' +
+                ", pushTime='" + pushTime + '\'' +
                 '}';
     }
 }

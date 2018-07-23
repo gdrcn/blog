@@ -22,6 +22,8 @@ public class User {
     private Permission permission;
     private ArrayList<Album> albumList;
     private ArrayList<Blog> blogList;
+    private ArrayList<User> niceFriendsList;
+    private ArrayList<Photo> photoWallList;
 
     public User() {
     }
@@ -170,6 +172,22 @@ public class User {
         this.blogList = blogList;
     }
 
+    public ArrayList<User> getNiceFriendsList() {
+        return niceFriendsList;
+    }
+
+    public void setNiceFriendsList(ArrayList<User> niceFriendsList) {
+        this.niceFriendsList = niceFriendsList;
+    }
+
+    public ArrayList<Photo> getPhotoWallList() {
+        return photoWallList;
+    }
+
+    public void setPhotoWallList(ArrayList<Photo> photoWallList) {
+        this.photoWallList = photoWallList;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -191,6 +209,8 @@ public class User {
                 ", permission=" + permission +
                 ", albumList=" + albumList +
                 ", blogList=" + blogList +
+                ", niceFriendsList=" + niceFriendsList +
+                ", photoWallList=" + photoWallList +
                 '}';
     }
 }
