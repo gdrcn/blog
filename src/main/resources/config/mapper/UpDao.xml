@@ -13,7 +13,7 @@
       delete from up where user_id=#{userId} and blog_id=#{blogId}
     </delete>
     
-    <select id="isUp" parameterType="map" resultType="int">
+    <select id="isReplyUp" parameterType="map" resultType="int">
         select id from up where user_id=#{userId} and blog_id=#{blogId};
     </select>
 
