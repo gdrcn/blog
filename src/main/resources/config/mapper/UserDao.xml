@@ -61,7 +61,7 @@
     </select>
 
     <insert id="registe" parameterType="com.rdc.entity.User">
-		insert into user(username,password,email)value(#{username},#{password},#{email})
+		insert into user(id,username,password,email)value(null,#{username},#{password},#{email})
 	</insert>
 
     <select id="checkUsername" parameterType="com.rdc.entity.User" resultType="com.rdc.entity.User">

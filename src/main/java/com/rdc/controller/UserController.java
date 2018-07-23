@@ -1,6 +1,7 @@
 package com.rdc.controller;
 
 import com.rdc.bean.Msg;
+import com.rdc.entity.Album;
 import com.rdc.entity.User;
 import com.rdc.service.UserService;
 import com.rdc.util.GsonUtil;
@@ -108,13 +109,25 @@ public class UserController {
     /**
      * Created by Ning
      * time 2018/7/22 21:25
-     * 照片墙登陆
+     * 照片墙登陆基于前端
      *
      */
     @ResponseBody
     @RequestMapping(value = "photoWall/{userId}" ,method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
     public String myPhotoWall(@PathVariable Integer userId){
-        userService.getUserPWInfo(userId);
-        return null;
+        User user = userService.getUserPWInfo(userId);
+        return GsonUtil.getSuccessJson(user);
     }
+
+    /**
+     * 选择图片类别
+     * Created by Ning
+     * time 2018/7/23 11:53
+     */
+    @ResponseBody
+    @RequestMapping(value = "photoSign/{albumId}", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
+    public String pickPhotoSign(@PathVariable Integer albumId){
+        return GsonUtil.getSuccessJson(userService.pickPhotoSign(albumId));
+    }
+
 }

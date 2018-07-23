@@ -1,5 +1,6 @@
 package com.rdc.dao;
 
+import com.rdc.entity.Album;
 import com.rdc.entity.User;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -89,4 +90,5 @@ public interface UserDao {
      * @return
      */
     User getUserPWInfo(Integer userId);
+
 }

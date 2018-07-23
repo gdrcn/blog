@@ -6,6 +6,7 @@ import com.rdc.dao.AlbumDao;
 import com.rdc.dao.CommentDao;
 import com.rdc.dao.UserDao;
 import com.rdc.entity.Album;
+import com.rdc.entity.Photo;
 import com.rdc.entity.User;
 import com.rdc.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.util.HtmlUtils;
 
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -252,8 +254,20 @@ public class UserService {
      * @return
      */
     public User getUserPWInfo(Integer userId) {
-        User user = userDao.getUserPWInfo(1);
+        User user = userDao.getUserPWInfo(userId);
         user.setNiceFriendsList(userDao.getNiceFriends(userId));
+        user.setAlbumList(albumDao.getUserAlbumList(userId));
+        user.setPhotoWallList(albumDao.getUserAllPhoto(userId));
         return user;
+    }
+
+    /**
+     * Created by Ning
+     * time 2018/7/23 12:01
+     * 得到相应类别照片
+     * @param albumId
+     */
+    public ArrayList<Photo> pickPhotoSign(Integer albumId) {
+       return albumDao.getSpecificPhoto(albumId);
     }
 }

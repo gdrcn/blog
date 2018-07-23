@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Album {
     private Integer id;
-    private int userId;
+    private Integer userId;
     private String albumName;
     private String coverHash;
     private ArrayList<Comment> commentList;
@@ -20,11 +20,11 @@ public class Album {
         this.id = id;
     }
 
-    public int getUserId() {
+    public Integer getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(Integer userId) {
         this.userId = userId;
     }
 
@@ -62,4 +62,5 @@ public class Album {
                 ", commentList=" + commentList +
                 '}';
     }
+
 }

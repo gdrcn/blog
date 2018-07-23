@@ -3,6 +3,7 @@ package com.rdc.service;
 import com.rdc.dao.AlbumDao;
 import com.rdc.dao.CommentDao;
 import com.rdc.dao.UserDao;
+import com.rdc.entity.Album;
 import com.rdc.entity.Photo;
 import com.rdc.entity.User;
 import org.junit.Test;
@@ -11,10 +12,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations={"classpath*:config/spring-mybatis.xml"})
+@ContextConfiguration(locations = {"classpath*:config/spring-mybatis.xml"})
 public class UserServiceTest {
 
     @Autowired
@@ -35,9 +41,45 @@ public class UserServiceTest {
     }
 
     @Test
-    public void test(){
-       User user = userDao.getUserPWInfo(1);
-       System.out.println(user);
+    public void test() {
+        User user = userDao.getUserPWInfo(1);
+        System.out.println(user);
+    }
+
+
+    @Test
+    public void test1() {
+        String temp_str = "";
+        Date dt = new Date();
+        //最后的aa表示“上午”或“下午”    HH表示24小时制    如果换成hh表示12小时制
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss ");
+        temp_str = sdf.format(dt);
+        System.out.println(temp_str);
+    }
+
+
+    @Test
+    public void test2() {
+        Photo photo = new Photo();
+        photo.setId(1);
+        photo.setAlbumId(1);
+        photo.setPhotoHash("111");
+        photo.setPushTime("1111");
+        albumDao.insertPhotoToAlbum(photo);
+    }
+
+    @Test
+    public void test3() {
+        Album album = new Album();
+        album.setAlbumName("d1ali");
+        album.setUserId(1);
+        albumDao.insertNewAlbum(album);
+    }
+
+    @Test
+    public void test4() {
+        System.out.println(albumDao.getSpecificPhoto(1));
+
     }
 
 //    @Test
