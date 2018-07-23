@@ -14,4 +14,6 @@ public interface BlogDao {
 	int modify(Blog blog);
 
 	Blog findBlogById(int blogId);
+
+
 }

@@ -3,7 +3,7 @@ package com.rdc.entity;
 import java.util.ArrayList;
 
 public class Album {
-    private int id;
+    private Integer id;
     private int userId;
     private String albumName;
     private String coverHash;
@@ -12,11 +12,11 @@ public class Album {
     public Album() {
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

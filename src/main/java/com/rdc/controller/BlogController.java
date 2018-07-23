@@ -3,6 +3,8 @@ package com.rdc.controller;
 import com.google.gson.Gson;
 import com.rdc.bean.Msg;
 import com.rdc.entity.Blog;
+import com.rdc.entity.Comment;
+import com.rdc.entity.Reply;
 import com.rdc.entity.User;
 import com.rdc.service.BlogService;
 import com.rdc.service.CollectionService;
@@ -28,19 +30,65 @@ public class BlogController {
 
 	@Autowired
 	private BlogService blogService;
-
 	@Autowired
 	private CommentService commentService;
-
 	@Autowired
 	private UpService upService;
-
 	@Autowired
 	private CollectionService collectionService;
 
 	private Gson gson=new Gson();
 	private Msg msg;
 
+
+	/**
+	 * 回复评论
+	 * Asce 2018-07-23
+	 * @param reply
+	 * @param session
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value="/commentReply",method = RequestMethod.POST)
+	public String commentReply(Reply reply,HttpSession session){
+		User user = (User)session.getAttribute("user");
+		int result = commentService.addCommentReply(2,reply);
+		if(result != 0){
+			return GsonUtil.getSuccessJson(result);
+		}
+		return GsonUtil.getErrorJson();
+	}
+	/**
+	 * 发表评论
+	 * Asce 2018-07-23
+	 * @param comment
+	 * @param session
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value="/blogComment",method = RequestMethod.POST)
+	public String blogComment(Comment comment,HttpSession session){
+
+		User user = (User)session.getAttribute("user");
+		int result = commentService.addBlogComment(user.getId(),comment);
+		if(result != 0){
+			return GsonUtil.getSuccessJson(result);
+		}
+		return GsonUtil.getErrorJson();
+	}
+
+	/**
+	 *
+	 * Asce 2018-07-23
+	 * @param userId
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value="/blogFromUser",method = RequestMethod.GET)
+	public String blogFromUser(@RequestParam("userId")int userId){
+
+		return "";
+	}
 	/**
 	 * Asce 2018-07-22
 	 * @param blogId
@@ -56,7 +104,6 @@ public class BlogController {
 		}
 		return GsonUtil.getErrorJson();
 	}
-
 	/**
 	 * Asce 2018-07-22
 	 * @param blogId
@@ -82,11 +129,6 @@ public class BlogController {
 	@ResponseBody
 	@RequestMapping(value="/blogDown",method = RequestMethod.POST,produces = "text/html;charset=UTF-8")
 	public String blogDown(@RequestParam("blogId")int blogId, HttpSession session){
-
-		User user1 = new User();
-		user1.setId(4);
-		session.setAttribute("user",user1);
-
 		User user = (User) session.getAttribute("user");
 		if(upService.blogDown(user.getId(),blogId)){
 			return GsonUtil.getSuccessJson();
@@ -103,11 +145,6 @@ public class BlogController {
 	@ResponseBody
 	@RequestMapping(value="/blogUp",method = RequestMethod.POST,produces = "text/html;charset=UTF-8")
 	public String blogUp(@RequestParam("blogId")int blogId,HttpSession session){
-
-		User user1 = new User();
-		user1.setId(4);
-		session.setAttribute("user",user1);
-
 		User user = (User)session.getAttribute("user");
 		if(upService.blogUp(user.getId(),blogId)){
 			return GsonUtil.getSuccessJson();
@@ -133,7 +170,7 @@ public class BlogController {
 		//收藏数
 		int collectionCount = collectionService.getCollectionCount(blogId);
 		//评论数
-		int commentCount = commentService.getCommentCount(blogId);
+		int commentCount = commentService.getBlogCommentCount(blogId);
 		//是否收藏
 		Boolean isCollect;
 		//是否点赞
@@ -141,7 +178,7 @@ public class BlogController {
 		User user = (User) session.getAttribute("user");
 		if(user!=null) {
 			isCollect = collectionService.isCollect(user.getId(),blogId);
-			isUp = upService.isUp(user.getId(),blogId);
+			isUp = upService.isBlogUp(user.getId(),blogId);
 		}else{
 			isCollect=false;
 			isUp=false;
@@ -227,7 +264,6 @@ public class BlogController {
 	@ResponseBody
 	@RequestMapping(value="/imgUpload",method = RequestMethod.POST,produces = "text/html;charset=UTF-8")
 	public String imgUpload(@RequestParam("file")MultipartFile file){
-
 		if(!UploadUtil.suffixMatch(file.getOriginalFilename())){
 			msg = new Msg("error","不支持此文件类型");
 		}else{

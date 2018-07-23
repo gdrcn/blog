@@ -28,10 +28,13 @@
     </resultMap>
 
     <select id="getUserInfo" parameterType="java.lang.Integer" resultMap="user">
-        SELECT user.*, permission.* FROM USER, permission WHERE user.id = permission.`user_id` AND user.id = #{id};
+        SELECT user.*, permission.* FROM USER, permission WHERE user.id = permission.`user_id` AND user.id = #{id}
     </select>
 
-    <!--<select id="scanOtherMsg" parameterType="java."-->
+    <select id="scanOtherMsg" parameterType="java.lang.Integer" resultMap="user">
+        select user.username, user.age, user.phone, user.email, user.realname, user.face_img, user.signature, user.address, user.visible from user where id=#{id}
+    </select>
+
     <select id="getFansNum" parameterType="java.lang.Integer" resultType="java.lang.Integer">
         select status from relation where beliked_id = #{id} and status = 0
     </select>
@@ -60,6 +63,10 @@
     <select id="login" parameterType="com.rdc.entity.User" resultType="com.rdc.entity.User">
 		select *from user where username=#{username} and password=#{password}
 	</select>
+
+    <select id="getUserIdByName" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select id from user where username=#{username}
+    </select>
 
     <update id="updateUserInfo" parameterType="com.rdc.entity.User">
         update user u

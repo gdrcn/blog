@@ -1,6 +1,7 @@
 package com.rdc.service;
 
 import com.rdc.dao.BlogDao;
+import com.rdc.dao.CommentDao;
 import com.rdc.dao.UpDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,9 @@ public class UpService {
 	private UpDao upDao;
 	@Autowired
 	private BlogDao blogDao;
+	@Autowired
+	private CommentDao commentDao;
+
 
 	/**
 	 * Asce 2018-07-22
@@ -22,17 +26,16 @@ public class UpService {
 	 * @param blogId
 	 * @return
 	 */
-	public Boolean isUp(int userId,int blogId){
+	public Boolean isBlogUp(int userId,int blogId){
 		Map<String,Integer> map=new HashMap<>();
 		map.put("userId",userId);
 		map.put("blogId",blogId);
 
-		if(upDao.isUp(map)!=null){
+		if(upDao.isBlogUp(map)!=null){
 			return true;
 		}
 		return false;
 	}
-
 	/**
 	 * Asce 2018-07-22
 	 * @param blogId
@@ -41,7 +44,6 @@ public class UpService {
 	public int blogUpCount(int blogId){
 		return upDao.blogUpCount(blogId);
 	}
-
 	/**
 	 * Asce 2018-07-22
 	 * @param userId
@@ -49,9 +51,6 @@ public class UpService {
 	 * @return
 	 */
 	public Boolean blogDown(int userId,int blogId){
-		if(userId==blogDao.findUserId(blogId)){
-			return false;
-		}
 		Map<String,Integer> map=new HashMap<>();
 		map.put("userId",userId);
 		map.put("blogId",blogId);
@@ -60,7 +59,6 @@ public class UpService {
 			return true;
 		return false;
 	}
-
 	/**
 	 * Asce 2018-07-22
 	 * @param userId
@@ -79,7 +77,7 @@ public class UpService {
 		map.put("beUserId",beUserId);
 		map.put("blogId",blogId);
 
-		if(null!=upDao.isUp(map)){	//是否已经点赞
+		if(null!=upDao.isBlogUp(map)){	//是否已经点赞
 			return false;
 		}
 		if(1==upDao.blogUp(map))

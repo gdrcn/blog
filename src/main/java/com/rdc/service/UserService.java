@@ -30,9 +30,8 @@ public class UserService {
 
     @Autowired
     private UserService userService;
-
     /**
-     * Cread by Ning
+     * Created by Ning
      * time 2018/7/22 16:02
      * 获得用户详细信息
      * @param id
@@ -169,7 +168,6 @@ public class UserService {
 
     /**
      * 用户注册
-     *
      * @param user
      * @param confirmPassword
      * @return
@@ -219,6 +217,7 @@ public class UserService {
             } else{
                 user.setPassword(ConvertUtil.encryptMd5(user.getPassword()));
                 userDao.registe(user);
+                albumDao.insertDefaultAlbum(userDao.getUserIdByName(user.getUsername()));
                 return GsonUtil.getSuccessJson();
             }
         }
@@ -238,11 +237,11 @@ public class UserService {
         if(user.getVisible() == 0){
             user = null;
             msg.setMessage(user);
-            msg.setResult("不可见");
+            msg.setResult("success");
             return msg;
         }
         msg.setMessage(user);
-        msg.setResult("可见");
+        msg.setResult("fail");
         return msg;
     }
 }

@@ -1,6 +1,7 @@
 package com.rdc.dao;
 
 import com.rdc.entity.Comment;
+import com.rdc.entity.Reply;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -32,6 +33,14 @@ public interface CommentDao {
     int getBlogFirstCommentCount(int blogId);
 
     int getBlogSecondCommentCount(int blogId);
+
+    int addBlogComment(Comment comment);
+
+    int addCommentReply(Reply reply);
+
+    int getFirstReplyUserId(int CommentId);
+
+    int getOtherReplyUserId(int replyId);
 }
 
 

@@ -21,6 +21,12 @@ public interface UserDao {
     User findUserByUsername(User user);
 
     /**
+     * 通过名字找到id
+     * @return
+     */
+    Integer getUserIdByName(String username);
+
+    /**
      * 得到粉丝数量
      * @param id
      * @return
