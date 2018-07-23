@@ -19,7 +19,70 @@ public class UpService {
 	@Autowired
 	private CommentDao commentDao;
 
+	public Boolean commentDown(int userId,int commentId){
+		Map<String,Integer> map=new HashMap<>();
+		map.put("userId",userId);
+		map.put("commentId",commentId);
 
+		if(1==upDao.commentDown(map))
+			return true;
+		return false;
+	}
+
+	public Boolean commentUp(int userId, int commentId){
+		//取得作者id
+		int beUserId = commentDao.findCommentUserId(commentId);
+		if(userId==beUserId){
+			return false;
+		}
+
+		Map<String,Integer> map=new HashMap<>();
+		map.put("userId",userId);
+		map.put("beUserId",beUserId);
+		map.put("commentId",commentId);
+
+		if(null!=upDao.isCommentUp(map)){	//是否已经点赞
+			return false;
+		}
+		if(1==upDao.commentUp(map))
+			return true;
+		return false;
+	}
+
+	public Boolean replyDown(int userId,int replyId){
+		Map<String,Integer> map=new HashMap<>();
+		map.put("userId",userId);
+		map.put("replyId",replyId);
+
+		if(1==upDao.replyDown(map))
+			return true;
+		return false;
+	}
+	/**
+	 * Asce 2018-07-23
+	 * @param userId
+	 * @param	replyId
+	 * @return
+	 */
+	public Boolean replyUp(int userId, int replyId){
+		//取得作者id
+		int beUserId = commentDao.findReplyUserId(replyId);
+		if(userId==beUserId){
+			return false;
+		}
+
+		Map<String,Integer> map=new HashMap<>();
+		map.put("userId",userId);
+		map.put("beUserId",beUserId);
+		map.put("replyId",replyId);
+
+		if(null!=upDao.isReplyUp(map)){	//是否已经点赞
+			return false;
+		}
+		if(1==upDao.replyUp(map))
+			return true;
+		return false;
+	}
 	/**
 	 * Asce 2018-07-22
 	 * @param userId

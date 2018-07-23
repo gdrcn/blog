@@ -12,7 +12,11 @@
     <delete id="blogDown" parameterType="map">
       delete from up where user_id=#{userId} and blog_id=#{blogId}
     </delete>
-    
+
+    <select id="isBlogUp" parameterType="map" resultType="int">
+        select id from up where user_id=#{userId} and blog_id=#{blogId};
+    </select>
+
     <select id="isReplyUp" parameterType="map" resultType="int">
         select id from up where user_id=#{userId} and blog_id=#{blogId};
     </select>
@@ -20,5 +24,30 @@
     <select id="blogUpCount" parameterType="int" resultType="int">
         select count(id) from up where blog_id=#{blogId}
     </select>
+
+    <insert id="commentUp" parameterType="map">
+        insert into up(user_id,beuser_id,blog_first_id) values(#{userId},#{beUserId},#{commentId})
+    </insert>
+
+    <delete id="commentDown" parameterType="map">
+      delete from up where user_id=#{userId} and blog_first_id=#{commentId}
+    </delete>
+
+    <select id="isCommentUp" parameterType="map" resultType="int">
+        select id from up where user_id=#{userId} and blog_first_id=#{commentId};
+    </select>
+
+    <insert id="replyUp" parameterType="map">
+        insert into up(user_id,beuser_id,blog_second_id) values(#{userId},#{beUserId},#{replyId})
+    </insert>
+
+    <delete id="replyDown" parameterType="map">
+      delete from up where user_id=#{userId} and blog_second_id=#{replyId}
+    </delete>
+
+    <select id="isReplyUp" parameterType="map" resultType="int">
+        select id from up where user_id=#{userId} and blog_second_id=#{replyId};
+    </select>
+
 
 </mapper>

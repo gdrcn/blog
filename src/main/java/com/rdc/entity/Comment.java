@@ -11,6 +11,7 @@ public class Comment {
     private UserBean fromUserBean;
     private int fromId;
     private ArrayList<Reply> replies;
+    private int upCount;
     private Integer upCount;
     Integer status;
 
