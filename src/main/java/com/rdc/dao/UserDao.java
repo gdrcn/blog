@@ -75,15 +75,42 @@ public interface UserDao {
      * @return
      */
     User login(User user);
-    //查询是否已关注
-    int findUserWatch(int user_id,int beliked_id);
-    //关注用户
-    void watch(int user_id,int beliked_id);
-    //搜索好友
+
+    /**
+     * 查询是否已关注
+     * @param user_id
+     * @param beliked_id
+     * @return
+     */
+    int findUserWatch(@Param("user_id") int user_id,@Param("beliked_id") int beliked_id);
+
+    /**
+     * 关注用户
+     * @param user_id
+     * @param beliked_id
+     */
+     int watch(@Param("user_id") int user_id,@Param("beliked_id") int beliked_id);
+
+    /**
+     * 搜索好友
+     * @param username
+     * @return
+     */
     List<User> findUser(String username);
-    //查找邮箱
+
+    /**
+     * 查找邮箱
+     * @param email
+     * @return
+     */
     String findEmail(String email);
-    //修改密码
+
+    /**
+     * 修改密码
+     * @param password
+     * @param email
+     * @return
+     */
     int resetPassword(@Param("password") String password,@Param("email") String email);
 
     /**

@@ -6,6 +6,9 @@ import com.rdc.dao.UserDao;
 import com.rdc.entity.Album;
 import com.rdc.entity.Photo;
 import com.rdc.entity.User;
+import com.rdc.util.CharacterUtil;
+import com.rdc.util.ConvertUtil;
+import com.rdc.util.GsonUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +16,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
+import java.util.*;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -98,10 +98,36 @@ public class UserServiceTest {
     public void tes(){
         User user = new User();
         user.setUsername("123");
-        user.setPassword("1234");
+        user.setPassword("123");
+        user.setPassword(ConvertUtil.encryptMd5(user.getPassword()));
         if(userDao.login(user)!=null){
             System.out.println("登录成功");
         }else
             System.out.println("用户名或密码错误");
     }
+
+    @Test
+    public void testRegiste(){
+        User user = new User();
+        user.setUsername("12345");
+        user.setPassword("12345");
+        user.setEmail("2298464893@qq.com");
+        user.setPassword(ConvertUtil.encryptMd5(user.getPassword()));
+        //albumDao.insertDefaultAlbum(userDao.getUserIdByName(user.getUsername()));
+        userDao.registe(user);
+    }
+
+    @Test
+    public void testWatch(){
+//        if(userDao.findUserWatch(1,2)>0)
+//            System.out.println("已关注");
+//        else
+//            System.out.println("未关注");
+        //userDao.watch(1,2);
+
+
+
+    }
+
+
 }

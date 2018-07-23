@@ -92,11 +92,11 @@
         update user set password=#{password} where email=#{email}
     </update>
 
-    <select id="findUserWatch" parameterType="int" resultType="int">
+    <select id="findUserWatch" parameterType="int" resultType="java.lang.Integer">
         select id from relation where user_id=#{user_id} and beliked_id=#{beliked_id}
     </select>
 
-    <insert id="watch" >
+    <insert id="watch" parameterType="int">
         insert into relation(user_id,beliked_id) values(#{user_id},#{beliked_id})
     </insert>
 
