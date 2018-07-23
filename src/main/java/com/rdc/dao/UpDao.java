@@ -12,5 +12,4 @@ public interface UpDao {
 
 	int blogUpCount(int blogId);
 
-
 }

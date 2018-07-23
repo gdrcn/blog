@@ -11,6 +11,8 @@ public class Comment {
     private UserBean fromUserBean;
     private int fromId;
     private ArrayList<Reply> replies;
+    private Integer upCount;
+    Integer status;
 
     public Comment() {
     }
@@ -61,5 +63,35 @@ public class Comment {
 
     public void setReplies(ArrayList<Reply> replies) {
         this.replies = replies;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    public Integer getUpCount() {
+        return upCount;
+    }
+
+    public void setUpCount(Integer upCount) {
+        this.upCount = upCount;
+    }
+
+    @Override
+    public String toString() {
+        return "Comment{" +
+                "id=" + id +
+                ", comments='" + comments + '\'' +
+                ", time='" + time + '\'' +
+                ", fromUserBean=" + fromUserBean +
+                ", fromId=" + fromId +
+                ", replies=" + replies +
+                ", upCount=" + upCount +
+                ", status=" + status +
+                '}';
     }
 }

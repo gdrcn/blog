@@ -1,6 +1,6 @@
 package com.rdc.entity;
 
-import java.util.Date;
+import java.util.ArrayList;
 
 public class Photo {
 
@@ -8,6 +8,7 @@ public class Photo {
     private Integer albumId;
     private String photoHash;
     private String  pushTime;
+    private ArrayList<Comment> commentArrayList;
 
     public Photo() {
     }
@@ -44,6 +45,14 @@ public class Photo {
         this.pushTime = pushTime;
     }
 
+    public ArrayList<Comment> getCommentArrayList() {
+        return commentArrayList;
+    }
+
+    public void setCommentArrayList(ArrayList<Comment> commentArrayList) {
+        this.commentArrayList = commentArrayList;
+    }
+
     @Override
     public String toString() {
         return "Photo{" +
@@ -51,6 +60,7 @@ public class Photo {
                 ", albumId=" + albumId +
                 ", photoHash='" + photoHash + '\'' +
                 ", pushTime='" + pushTime + '\'' +
+                ", commentArrayList=" + commentArrayList +
                 '}';
     }
 }

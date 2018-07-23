@@ -2,33 +2,30 @@ package com.rdc.dao;
 
 import com.rdc.entity.Comment;
 import com.rdc.entity.Reply;
-import org.apache.ibatis.annotations.Mapper;
-
-import java.util.List;
 
 
 public interface CommentDao {
 
     /**
-     * 得到相册评论
+     * 统计未读相册评论
      * @param userId
      * @return
      */
-    List<Comment> getAlbumComment(int userId);
+    int countNotReadAlbum(int userId);
 
     /**
-     * 得到博客评论
+     * 统计未读一级评论
      * @param userId
      * @return
      */
-    List<Comment> getblogFirstComment(int userId);
+    int countNotReadFirst(int userId);
 
     /**
-     * 得到二级评论
+     * 统计未读二级评论
      * @param userId
      * @return
      */
-    List<Comment> getBlogSecondComment(int userId);
+    int countNotReadSecond(int userId);
 
     int getBlogFirstCommentCount(int blogId);
 

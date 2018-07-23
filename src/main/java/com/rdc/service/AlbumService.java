@@ -1,15 +1,17 @@
 package com.rdc.service;
 
-import com.rdc.bean.Msg;
 import com.rdc.dao.AlbumDao;
 import com.rdc.dao.PhotoDao;
 import com.rdc.entity.Album;
 import com.rdc.entity.Photo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.util.HtmlUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 public class AlbumService {
@@ -79,4 +81,51 @@ public class AlbumService {
         albumDao.insertNewAlbum(album);
         return null;
     }
+
+    /**
+     * 点赞图片
+     *
+     * @param userId
+     * @param photoId
+     */
+    public String upPhoto(Integer userId, Integer photoId) {
+        Map<String, Integer> map = new HashMap();
+        map.put("userId", userId);
+        map.put("photoId", photoId);
+        Integer isUpPhoto = photoDao.isUpPhoto(map);
+        if (isUpPhoto != null) {
+            photoDao.cancelUp(map);
+            return "已取消";
+        } else {
+            Integer beUserId = photoDao.getUserIdByPhotoId(photoId);
+            map.put("beUserId", beUserId);
+            photoDao.upPhoto(map);
+            return "已点赞";
+        }
+    }
+
+    /**
+     * 添加相片的评论
+     * Created by Ning
+     *
+     * @param userId
+     * @param photoId
+     * @param comments
+     * @return
+     */
+    public String addPhotoComments(Integer userId, Integer photoId, String comments) {
+        if (comments.length() > 100) {
+            return "error";
+        }
+        Date date = new Date();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(dateFormat);
+        Map<String, Object> map = new HashMap();
+        map.put("userId", userId);
+        map.put("photoId", photoId);
+        map.put("comments", HtmlUtils.htmlEscape(comments));
+        map.put("time", simpleDateFormat.format(date));
+        photoDao.addPhotoComment(map);
+        return "success";
+    }
 }
+

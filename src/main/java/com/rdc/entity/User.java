@@ -1,13 +1,24 @@
 package com.rdc.entity;
 
-import java.util.ArrayList;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import org.springframework.format.annotation.DateTimeFormat;
 
-public class User {
+import javax.validation.constraints.Past;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Date;
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class User implements Serializable {
 
     private int id;
     private String username;
     private String password;
-    private Integer age;
+
+    @Past(message = "生日必须为一个过去的时间")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date birthday;
+
     private String phone;
     private String email;
     private String realname;
@@ -52,12 +63,12 @@ public class User {
         this.password = password;
     }
 
-    public Integer getAge() {
-        return age;
+    public Date getBirthday() {
+        return birthday;
     }
 
-    public void setAge(Integer age) {
-        this.age = age;
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
     }
 
     public String getPhone() {
@@ -194,7 +205,7 @@ public class User {
                 "id=" + id +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
-                ", age=" + age +
+                ", birthday=" + birthday +
                 ", phone='" + phone + '\'' +
                 ", email='" + email + '\'' +
                 ", realname='" + realname + '\'' +

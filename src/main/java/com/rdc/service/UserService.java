@@ -5,7 +5,6 @@ import com.rdc.bean.Msg;
 import com.rdc.dao.AlbumDao;
 import com.rdc.dao.CommentDao;
 import com.rdc.dao.UserDao;
-import com.rdc.entity.Album;
 import com.rdc.entity.Photo;
 import com.rdc.entity.User;
 import com.rdc.util.*;
@@ -13,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.util.HtmlUtils;
 
 import javax.servlet.http.HttpSession;
@@ -44,27 +42,9 @@ public class UserService {
      */
     public User getUserInfo(int id) {
         User user = userDao.getUserInfo(id);
-        int albumComment;
-        int blogFirstComment;
-        int blogSecondComment;
-        user.setAlbumList(albumDao.getUserAlbumInfo(id));
         user.setFans((userDao.getFansNum(id)).length);
         user.setIdols((userDao.getIdolsNum(id)).length);
-        System.out.println("???????????????????????????");
-        if(commentDao.getAlbumComment(id) == null){
-            albumComment = 0;
-        }else {
-            albumComment = commentDao.getAlbumComment(id).size();
-        }if(commentDao.getblogFirstComment(id) == null){
-            blogFirstComment = 0;
-        }else{
-            blogFirstComment = commentDao.getblogFirstComment(id).size();
-        }if(commentDao.getBlogSecondComment(id) == null){
-            blogSecondComment = 0;
-        }else{
-            blogSecondComment = commentDao.getBlogSecondComment(id).size();
-        }
-        user.setNotReadComment(albumComment+blogFirstComment+blogSecondComment);
+        user.setNotReadComment(commentDao.countNotReadAlbum(id) + commentDao.countNotReadFirst(id) + commentDao.countNotReadSecond(id));
         return user;
     }
 
@@ -98,20 +78,11 @@ public class UserService {
             msg.setMessage(user);
             return msg;
         }
-
         if ((user.getEmail() != null)) {
             if (!(user.getEmail().matches(emailRegularExpression))) {
                 user = userService.reservedUser(user);
                 msg.setMessage(user);
                 msg.setResult("emailError");
-                return msg;
-            }
-        }
-        if ((user.getAge() != null)) {
-            if ((user.getAge() > 150 || user.getAge() < 0)) {
-                user = userService.reservedUser(user);
-                msg.setMessage(user);
-                msg.setResult("ageError");
                 return msg;
             }
         }
@@ -157,7 +128,7 @@ public class UserService {
         User newUser = user;
         user = userDao.getUserInfo(newUser.getId());
         user.setUsername(newUser.getUsername());
-        user.setAge(newUser.getAge());
+        user.setBirthday(newUser.getBirthday());
         user.setPhone(newUser.getPhone());
         user.setAddress(newUser.getAddress());
         user.setSignature(HtmlUtils.htmlEscape(newUser.getSignature()));
@@ -340,11 +311,11 @@ public class UserService {
         if(user.getVisible() == 0){
             user = null;
             msg.setMessage(user);
-            msg.setResult("success");
+            msg.setResult("fail");
             return msg;
         }
         msg.setMessage(user);
-        msg.setResult("fail");
+        msg.setResult("success");
         return msg;
     }
 
@@ -373,4 +344,6 @@ public class UserService {
     public ArrayList<Photo> pickPhotoSign(Integer albumId) {
        return albumDao.getSpecificPhoto(albumId);
     }
+
+
 }

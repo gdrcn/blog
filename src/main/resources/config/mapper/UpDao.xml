@@ -20,4 +20,5 @@
     <select id="blogUpCount" parameterType="int" resultType="int">
         select count(id) from up where blog_id=#{blogId}
     </select>
+
 </mapper>

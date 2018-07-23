@@ -13,7 +13,7 @@
         <result property="realname" column="realname"/>
         <result property="faceImg" column="face_img"/>
         <result property="phone" column="phone"/>
-        <result property="age" column="age"/>
+        <result property="birthday" column="birthday"/>
         <result property="signature" column="signature"/>
         <result property="address" column="address"/>
         <result property="visible" column="visible"/>
@@ -106,8 +106,8 @@
             <if test="username != null and username != ''">
                 u.username = #{username},
             </if>
-            <if test="age != null and age != ''">
-                u.age = #{age},
+            <if test="birthday != null and birthday != ''">
+                u.birthday = #{birthday},
             </if>
             <if test="phone != null and phone != ''">
                 u.phone = #{phone},

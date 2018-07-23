@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rdc.dao.PhotoDao">
+    <resultMap id="photo" type="com.rdc.entity.Photo" autoMapping="true">
+        <id property="id" column="id"/>
+        <result property="albumId" column="album_id"/>
+        <result property="photoHash" column="photo_hash"/>
+        <result property="pushTime" column="push_time"/>
+    </resultMap>
+
+    <select id="isUpPhoto" parameterType="map" resultType="java.lang.Integer">
+                select * from up where user_id = #{userId} and photo_id =#{photoId};
+    </select>
+
+    <delete id="cancelUp" parameterType="map">
+        delete from up where user_id=#{userId} and photo_id = #{photoId};
+    </delete>
+
+    <select id="getUserIdByPhotoId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        SELECT user_id FROM album WHERE id = (SELECT album_id FROM photo WHERE id = #{photoId});
+    </select>
+
+    <insert id="upPhoto" parameterType="map">
+        insert into up(user_id, beuser_id, photo_id) values (#{userId}, #{beUserId}, #{photoId});
+    </insert>
+
+    <insert id="addPhotoComment" parameterType="map">
+        insert into photo_comments(from_user_id, photo_id, comments, time) values (#{userId}, #{photoId}, #{comments}, #{time});
+    </insert>
+</mapper>

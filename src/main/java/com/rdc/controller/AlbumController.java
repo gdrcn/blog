@@ -47,7 +47,7 @@ public class AlbumController {
      * 删除照片
      */
     @ResponseBody
-    @RequestMapping(value = "deletePhoto/{photoId}", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
+    @RequestMapping(value = "/deletePhoto/{photoId}", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
     public String deletePhoto(@PathVariable Integer photoId){
         String msg = albumService.deletePhoto(photoId);
         if(msg == null){
@@ -56,14 +56,13 @@ public class AlbumController {
         return GsonUtil.getSuccessJson();
     }
 
-
     /**
      * 新建相册
      * Created by Ning
      * time 2018/7/23 9:50
      */
     @ResponseBody
-    @RequestMapping(value = "newAlbum", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
+    @RequestMapping(value = "/newAlbum", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
     public String newAlbum(@RequestParam("userId") Integer userId, @RequestParam("albumName") String albumName){
         String msg = albumService.newAlbum(userId, albumName);
             if(msg == null){
@@ -72,4 +71,31 @@ public class AlbumController {
         return GsonUtil.getErrorJson("你已存在同名标签的照片库");
     }
 
+
+    /**
+     * 点赞照片
+     * Created by Ning
+     * time 2018/7/23 19:08
+     */
+    @ResponseBody
+    @RequestMapping(value = "/likeThisPhoto", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
+    public String upPhoto(@RequestParam("userId") Integer userId, @RequestParam("photoId") Integer photoId) {
+        return GsonUtil.getSuccessJson(albumService.upPhoto(userId, photoId));
+    }
+
+    /**
+     * 评论照片
+     * Created by Ning
+     * time 2018/7/23 21:25
+     */
+    @ResponseBody
+    @RequestMapping(value = "/discussPhoto", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
+    public String discussPhoto(@RequestParam("userId") Integer userId, @RequestParam("photoId") Integer photoId, @RequestParam("comments") String comments) {
+        String msg = albumService.addPhotoComments(userId, photoId, comments);
+        if ("success".equals(msg))
+            return GsonUtil.getSuccessJson();
+        else {
+            return GsonUtil.getErrorJson();
+        }
+    }
 }

@@ -82,4 +82,5 @@ public interface AlbumDao {
      * @return
      */
     ArrayList<Photo> getSpecificPhoto(Integer albumId);
+
 }

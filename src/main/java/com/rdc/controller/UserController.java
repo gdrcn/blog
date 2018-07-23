@@ -1,7 +1,7 @@
 package com.rdc.controller;
 
+import com.google.gson.GsonBuilder;
 import com.rdc.bean.Msg;
-import com.rdc.entity.Album;
 import com.rdc.entity.User;
 import com.rdc.service.UserService;
 import com.rdc.util.GsonUtil;
@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+
 
 @Controller
 @RequestMapping("/blog")
@@ -43,7 +44,11 @@ public class UserController {
     @RequestMapping(value = "otherHomepage/{id}" ,method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
     public String  scanOtherHomepage(@PathVariable Integer id){
         Msg message = userService.scanOtherHomepage(id);
-        return GsonUtil.getMsgJson((User)message.getMessage(), message.getResult());
+        if ("fail".equals(message.getResult())) {
+            return GsonUtil.getErrorJson(new GsonBuilder().create(), message.getMessage());
+        } else {
+            return GsonUtil.getSuccessJson(new GsonBuilder().create(), message.getMessage());
+        }
     }
 
     /**
@@ -56,11 +61,12 @@ public class UserController {
     @ResponseBody
     @RequestMapping(value="updateUserInfo",method = RequestMethod.POST,produces = "text/html;charset=UTF-8")
     public String updateUserInfo(User user){
+        System.out.println(user.getBirthday());
         Msg message = userService.updateUserInfo(user);
         if(message.getResult() != null){
-            return GsonUtil.getErrorJson((User)message.getMessage(), message.getResult());
+            return GsonUtil.getErrorJson(message.getMessage(), message.getResult());
         }else {
-            return GsonUtil.getSuccessJson((User)message.getMessage());
+            return GsonUtil.getSuccessJson(message.getMessage());
         }
     }
 
@@ -74,7 +80,6 @@ public class UserController {
     @ResponseBody
     @RequestMapping(value = "login",method = RequestMethod.POST,produces = "text/html;charset=UTF-8")
     public String login(User user,HttpSession session){
-
         return userService.login(user,session);
     }
 
@@ -120,7 +125,7 @@ public class UserController {
     @RequestMapping(value = "photoWall/{userId}" ,method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
     public String myPhotoWall(@PathVariable Integer userId){
         User user = userService.getUserPWInfo(userId);
-        return GsonUtil.getSuccessJson(user);
+        return GsonUtil.getSuccessJson(new GsonBuilder().create(), user);
     }
 
     /**
