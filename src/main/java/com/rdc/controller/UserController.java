@@ -3,6 +3,7 @@ package com.rdc.controller;
 import com.rdc.bean.Msg;
 import com.rdc.entity.Album;
 import com.rdc.entity.User;
+import com.rdc.service.NewsService;
 import com.rdc.service.UserService;
 import com.rdc.util.GsonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,9 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private NewsService newsService;
 
     /**
      * Created by Ning
@@ -98,14 +102,13 @@ public class UserController {
      * @author chen
      * @param checkcode
      * @param code
-     * @param session
+     * @param user
      * @return
      */
     @ResponseBody
     @RequestMapping(value = "validate",method = RequestMethod.POST,produces = "text/html;charset=UTF-8")
-    public String validate(@RequestParam(value = "checkcode") String checkcode,@RequestParam(value = "code") String code, HttpSession session){
+    public String validate(@RequestParam(value = "code") String code,@RequestParam(value = "checkcode",required = false) String checkcode, User user){
 
-        User user = (User)session.getAttribute("user");
         return userService.validate(checkcode,code,user);
     }
 
@@ -203,7 +206,19 @@ public class UserController {
     @RequestMapping(value = "findUser",method = RequestMethod.POST,produces = "text/html;charset=UTF-8")
     public String findUser(String name){
 
-        return GsonUtil.getSuccessJson(userService.findUser(name));
+        return userService.findUser(name);
     }
 
+    /**
+     * 消息提醒
+     * @author chen
+     * @param user_id
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "getNews",method = RequestMethod.GET,produces = "text/html;charset=UTF-8")
+    public String getNews(int user_id){
+
+        return newsService.getNews(user_id);
+    }
 }

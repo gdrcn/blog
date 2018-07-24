@@ -40,6 +40,11 @@
         <result property="signature" column="signature"/>
     </resultMap>
 
+    <resultMap id="userNewsBean" type="com.rdc.bean.NewsBean">
+        <id  property="id" column="id"/>
+        <result property="username" column="username"/>
+    </resultMap>
+
     <select id="getUserInfo" parameterType="java.lang.Integer" resultMap="user">
         SELECT user.*, permission.* FROM USER, permission WHERE user.id = permission.`user_id` AND user.id = #{id}
     </select>
@@ -65,7 +70,7 @@
     </select>
 
     <insert id="registe" parameterType="com.rdc.entity.User">
-		insert into user(id,username,password,email)value(null,#{username},#{password},#{email})
+		insert into user(username,password,email)value(#{username},#{password},#{email})
 	</insert>
 
     <select id="checkUsername" parameterType="com.rdc.entity.User" resultType="com.rdc.entity.User">
@@ -100,6 +105,9 @@
         insert into relation(user_id,beliked_id) values(#{user_id},#{beliked_id})
     </insert>
 
+    <delete id="offWatch" parameterType="int">
+        delete from relation where user_id=#{user_id} and beliked_id=#{beliked_id}
+    </delete>
     <update id="updateUserInfo" parameterType="com.rdc.entity.User">
         update user u
         <set>
@@ -135,4 +143,12 @@
     <select id="getUserPWInfo" parameterType="java.lang.Integer" resultMap="userPWInfo">
       select * from user where id = #{userId};
     </select>
+
+    <select id="userLikeNews" parameterType="int" resultMap="userNewsBean">
+        select relation.id,user.username from relation,user where relation.beliked_id = #{user_id} and+
+        user.id = relation.user_id and relation.status = 1
+    </select>
 </mapper>
+
+
+

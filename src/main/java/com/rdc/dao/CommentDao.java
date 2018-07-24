@@ -1,5 +1,6 @@
 package com.rdc.dao;
 
+import com.rdc.bean.NewsBean;
 import com.rdc.entity.Comment;
 import com.rdc.entity.Reply;
 import org.apache.ibatis.annotations.Mapper;
@@ -41,6 +42,14 @@ public interface CommentDao {
     int getFirstReplyUserId(int CommentId);
 
     int getOtherReplyUserId(int replyId);
+
+    List<NewsBean> blogCommentsNews(int user_id);
+
+    List<NewsBean> photoCommentsNews(int user_id);
+
+    List<NewsBean> albumCommentsNews(int user_id);
+
+    List<NewsBean> commentCommentsNews(int user_id);
 }
 
 

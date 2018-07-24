@@ -1,5 +1,6 @@
 package com.rdc.dao;
 
+import com.rdc.bean.NewsBean;
 import com.rdc.entity.Album;
 import com.rdc.entity.User;
 import org.apache.ibatis.annotations.Mapper;
@@ -131,4 +132,12 @@ public interface UserDao {
      */
     User getUserPWInfo(Integer userId);
 
+    /**
+     * 得到用户关注的新消息
+     * @param user_id
+     * @return
+     */
+    List<NewsBean> userLikeNews(int user_id);
+
+    int offWatch(@Param("user_id") int user_id,@Param("beliked_id") int beliked_id);
 }

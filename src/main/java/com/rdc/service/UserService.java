@@ -158,19 +158,14 @@ public class UserService {
      */
     public String login(User user,HttpSession session) {
 
-        //判断输入是否为空
-        if (ValidateUtil.isInvalidString(user.getUsername()) || ValidateUtil.isInvalidString(user.getPassword())) {
-            return GsonUtil.getErrorJson("输入不能为空");
-        } else {
             user.setPassword(ConvertUtil.encryptMd5(user.getPassword()));
             if (userDao.login(user) == null) {
-                return GsonUtil.getErrorJson("用户名或密码错误");
+                return GsonUtil.getErrorJson();
             }else{
                 session.setAttribute("user",user);
                 return GsonUtil.getSuccessJson(user);
             }
         }
-    }
 
     /**
      * @author chen
@@ -221,12 +216,12 @@ public class UserService {
         if(ValidateUtil.isInvalidString(checkcode)) {
             return GsonUtil.getErrorJson("输入不能为空");
         }else {
-            if (code != checkcode || !code.equals(checkcode)) {
+            if (!code.equals(checkcode)) {
                 return GsonUtil.getErrorJson("验证码错误");
             } else{
                 user.setPassword(ConvertUtil.encryptMd5(user.getPassword()));
                 userDao.registe(user);
-                albumDao.insertDefaultAlbum(userDao.getUserIdByName(user.getUsername()));
+               // albumDao.insertDefaultAlbum(userDao.getUserIdByName(user.getUsername()));
                 return GsonUtil.getSuccessJson();
             }
         }
@@ -302,14 +297,14 @@ public class UserService {
     @Transactional
     public String userWatch(int user_id,int beliked_id){
         if(userDao.findUserWatch(user_id,beliked_id)>0){
+
+            userDao.offWatch(user_id,beliked_id);
             return GsonUtil.getErrorJson();
         }
-         if(user_id ==beliked_id)
-             return GsonUtil.getErrorJson();
          if(userDao.watch(user_id,beliked_id)>0)
             return GsonUtil.getSuccessJson();
-        else
-            return GsonUtil.getErrorJson();
+       else
+           return GsonUtil.getErrorJson();
     }
 
 
@@ -368,10 +363,22 @@ public class UserService {
      * @param name
      * @return
      */
-    public List<User> findUser(String name){
+    public String findUser(String name) {
+
         String username = CharacterUtil.StringFilter(name);
         List<User> users = new ArrayList<>();
-        users = userDao.findUser(username);
-        return users;
+        if (userDao.findUser(username) != null) {
+            users = userDao.findUser(username);
+            List<User> users2 = new ArrayList<>();
+            for (User user : users) {
+                User user2 = new User();
+                user2.setId(user.getId());
+                user2.setUsername(user.getUsername());
+                user2.setFaceImg(user.getFaceImg());
+                users2.add(user2);
+            }
+            return new Gson().toJson(users2);
+        }
+        return GsonUtil.getErrorJson();
     }
 }
