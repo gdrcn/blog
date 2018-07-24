@@ -13,7 +13,7 @@
         <result property="realname" column="realname"/>
         <result property="faceImg" column="face_img"/>
         <result property="phone" column="phone"/>
-        <result property="birthday" column="birthday"/>
+        <result property="born" column="birthday"/>
         <result property="signature" column="signature"/>
         <result property="address" column="address"/>
         <result property="visible" column="visible"/>
@@ -135,4 +135,5 @@
     <select id="getUserPWInfo" parameterType="java.lang.Integer" resultMap="userPWInfo">
       select * from user where id = #{userId};
     </select>
+
 </mapper>

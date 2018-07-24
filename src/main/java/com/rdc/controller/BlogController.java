@@ -16,12 +16,9 @@ import com.rdc.util.UploadUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.filter.HttpPutFormContentFilter;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -242,11 +239,10 @@ public class BlogController {
 	 * @param category
 	 * @param session
 	 * @return
-	 * @throws IOException
-	 */
+     */
 	@ResponseBody
 	@RequestMapping(value="/modifyBlog")
-	public String modifyBlog(Blog blog, @RequestParam("categoryId")String[] category, HttpSession session) throws IOException {
+    public String modifyBlog(Blog blog, @RequestParam("categoryId") String[] category, HttpSession session) {
 
 		User user=(User)session.getAttribute("user");
 		UserBean userBean = new UserBean();
@@ -269,7 +265,6 @@ public class BlogController {
 	@ResponseBody
 	@RequestMapping(value="/deleteBlog",method = RequestMethod.POST )
 	public String deleteBlog(@RequestParam("blogId") int blogId,HttpSession session){
-
 		User user=(User) session.getAttribute("user");
 		if(!blogService.delete(user.getId(),blogId)){
 			return gson.toJson(new Msg("error","删除失败"));
@@ -283,11 +278,10 @@ public class BlogController {
 	 * @param categoryId
 	 * @param session
 	 * @return
-	 * @throws IOException
-	 */
+     */
 	@ResponseBody
 	@RequestMapping(value="/addBlog",method = RequestMethod.POST,produces = "text/html;charset=UTF-8")
-	public String addBlog(Blog blog, @RequestParam("categoryId")String[] categoryId , HttpSession session) throws IOException {
+    public String addBlog(Blog blog, @RequestParam("categoryId") String[] categoryId, HttpSession session) {
 
 		User user=(User)session.getAttribute("user");
 		UserBean userBean = new UserBean();

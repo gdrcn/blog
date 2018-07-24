@@ -3,6 +3,7 @@ package com.rdc.dao;
 import com.rdc.entity.Photo;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 @Mapper
@@ -51,4 +52,18 @@ public interface PhotoDao {
      * @param map
      */
     Integer addPhotoComment(Map<String, Object> map);
+
+    /**
+     * 得到照片点赞个数
+     *
+     * @param photoId
+     */
+    Integer getPhotoUp(int photoId);
+
+    /**
+     * 获得用户最新的照片（6条）
+     *
+     * @param usreId
+     */
+    ArrayList<Photo> getSomePhoto(int usreId);
 }

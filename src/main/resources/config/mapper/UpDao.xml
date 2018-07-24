@@ -17,10 +17,6 @@
         select id from up where user_id=#{userId} and blog_id=#{blogId};
     </select>
 
-    <select id="isReplyUp" parameterType="map" resultType="int">
-        select id from up where user_id=#{userId} and blog_id=#{blogId};
-    </select>
-
     <select id="blogUpCount" parameterType="int" resultType="int">
         select count(id) from up where blog_id=#{blogId}
     </select>

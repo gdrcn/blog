@@ -83,4 +83,11 @@ public interface AlbumDao {
      */
     ArrayList<Photo> getSpecificPhoto(Integer albumId);
 
+    /**
+     * 删除图片标签
+     *
+     * @param album
+     * @return
+     */
+    Integer deleteAlbum(Album album);
 }

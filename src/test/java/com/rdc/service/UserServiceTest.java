@@ -101,6 +101,17 @@ public class UserServiceTest {
         photoDao.addPhotoComment(map);
     }
 
+    @Test
+    public void test6() {
+        Album album = new Album();
+        album.setId(1);
+        albumDao.deleteAlbum(album);
+    }
+
+    @Test
+    public void test7() {
+        System.out.println(photoDao.getPhotoUp(1));
+    }
 //    @Test
 //    public void test1(){
 //        User user = new User();

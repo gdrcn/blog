@@ -29,4 +29,12 @@
     <insert id="addPhotoComment" parameterType="map">
         insert into photo_comments(from_user_id, photo_id, comments, time) values (#{userId}, #{photoId}, #{comments}, #{time});
     </insert>
+
+    <select id="getPhotoUp" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        select count(id) from up where photo_id=#{photoId};
+    </select>
+
+    <select id="getSomePhoto" parameterType="java.lang.Integer" resultMap="photo">
+        SELECT * FROM photo WHERE album_id IN ( SELECT album.`id` FROM album WHERE user_id = #{userId} ) ORDER BY push_time DESC LIMIT 0, 6;
+    </select>
 </mapper>

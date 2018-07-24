@@ -65,6 +65,17 @@ public class AlbumService {
     }
 
     /**
+     * 删除相册
+     *
+     * @param album
+     * @return
+     */
+    public String deleteAlbum(Album album) {
+        albumDao.deleteAlbum(album);
+        return "success";
+    }
+
+    /**
      * 新建相册
      *
      * @param userId

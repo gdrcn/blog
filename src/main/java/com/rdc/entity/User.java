@@ -17,8 +17,9 @@ public class User implements Serializable {
 
     @Past(message = "生日必须为一个过去的时间")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date birthday;
+    private Date born;
 
+    private String birthday;
     private String phone;
     private String email;
     private String realname;
@@ -63,12 +64,8 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    public Date getBirthday() {
-        return birthday;
-    }
-
-    public void setBirthday(Date birthday) {
-        this.birthday = birthday;
+    public void setBorn(Date born) {
+        this.born = born;
     }
 
     public String getPhone() {
@@ -199,13 +196,26 @@ public class User implements Serializable {
         this.photoWallList = photoWallList;
     }
 
+    public Date getBorn() {
+        return born;
+    }
+
+    public String getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(String birthday) {
+        this.birthday = birthday;
+    }
+
     @Override
     public String toString() {
         return "User{" +
                 "id=" + id +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
-                ", birthday=" + birthday +
+                ", born=" + born +
+                ", birthday='" + birthday + '\'' +
                 ", phone='" + phone + '\'' +
                 ", email='" + email + '\'' +
                 ", realname='" + realname + '\'' +
