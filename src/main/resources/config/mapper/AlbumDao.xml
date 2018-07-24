@@ -30,8 +30,8 @@
         <result property="pushTime" column="push_time"/>
     </resultMap>
 
-    <select id="getUserAlbum" parameterType="java.lang.Integer" resultMap="album">
-       select album.*, album_comments.* from album, album_comments where album.user_id = #{id} and album.id = album_comments.album_id
+    <select id="getUserAlbumInfo" parameterType="java.lang.Integer" resultMap="album">
+       SELECT album.*, album_comments.* FROM album LEFT JOIN album_comments ON album.`id`=album_comments.`album_id`;
     </select>
 
 
@@ -75,4 +75,8 @@
     <select id="getSpecificPhoto" parameterType="java.lang.Integer" resultMap="photo">
         select * from photo where album_id = #{albumId} order by push_time DESC;
     </select>
+
+    <delete id="deleteAlbum" parameterType="com.rdc.entity.Album">
+        delete from album where id = #{id};
+    </delete>
 </mapper>

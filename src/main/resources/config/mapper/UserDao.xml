@@ -13,7 +13,7 @@
         <result property="realname" column="realname"/>
         <result property="faceImg" column="face_img"/>
         <result property="phone" column="phone"/>
-        <result property="age" column="age"/>
+        <result property="born" column="birthday"/>
         <result property="signature" column="signature"/>
         <result property="address" column="address"/>
         <result property="visible" column="visible"/>
@@ -46,7 +46,7 @@
     </resultMap>
 
     <select id="getUserInfo" parameterType="java.lang.Integer" resultMap="user">
-        SELECT user.*, permission.* FROM USER, permission WHERE user.id = permission.`user_id` AND user.id = #{id}
+        SELECT * FROM (SELECT user.*, permission.* FROM USER LEFT JOIN permission ON user.id = permission.user_id) temp WHERE id = #{id};
     </select>
 
     <select id="scanOtherMsg" parameterType="java.lang.Integer" resultMap="user">
@@ -70,7 +70,7 @@
     </select>
 
     <insert id="registe" parameterType="com.rdc.entity.User">
-		insert into user(username,password,email)value(#{username},#{password},#{email})
+		insert into user(id,username,password,email)value(null,#{username},#{password},#{email})
 	</insert>
 
     <select id="checkUsername" parameterType="com.rdc.entity.User" resultType="com.rdc.entity.User">
@@ -108,14 +108,15 @@
     <delete id="offWatch" parameterType="int">
         delete from relation where user_id=#{user_id} and beliked_id=#{beliked_id}
     </delete>
+
     <update id="updateUserInfo" parameterType="com.rdc.entity.User">
         update user u
         <set>
             <if test="username != null and username != ''">
                 u.username = #{username},
             </if>
-            <if test="age != null and age != ''">
-                u.age = #{age},
+            <if test="birthday != null and birthday != ''">
+                u.birthday = #{birthday},
             </if>
             <if test="phone != null and phone != ''">
                 u.phone = #{phone},
@@ -144,11 +145,9 @@
       select * from user where id = #{userId};
     </select>
 
+
     <select id="userLikeNews" parameterType="int" resultMap="userNewsBean">
         select relation.id,user.username from relation,user where relation.beliked_id = #{user_id} and+
         user.id = relation.user_id and relation.status = 1
     </select>
 </mapper>
-
-
-

@@ -1,7 +1,7 @@
 package com.rdc.controller;
 
+import com.google.gson.GsonBuilder;
 import com.rdc.bean.Msg;
-import com.rdc.entity.Album;
 import com.rdc.entity.User;
 import com.rdc.service.NewsService;
 import com.rdc.service.UserService;
@@ -27,88 +27,99 @@ public class UserController {
      * Created by Ning
      * time 2018/7/22 15:52
      * 得到用户个人信息
-     * @param id
+     *
      * @return User
      */
     @ResponseBody
-    @RequestMapping(value="myhomepage/{id}",method = RequestMethod.GET,produces = "text/html;charset=UTF-8")
-    public String getUserInfo(@PathVariable Integer id){
-        return GsonUtil.getSuccessJson(userService.getUserInfo(id));
+    @RequestMapping(value = "/myhomepage", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
+    public String getUserInfo(HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        return GsonUtil.getSuccessJson(userService.getUserInfo(user.getId()));
     }
 
     /**
      * Created by Ning
      * time 2018/7/22 15:54
      * 查看他人资料
+     *
      * @param id
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "otherHomepage/{id}" ,method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
-    public String  scanOtherHomepage(@PathVariable Integer id){
+    @RequestMapping(value = "otherHomepage/{id}", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
+    public String scanOtherHomepage(@PathVariable Integer id) {
         Msg message = userService.scanOtherHomepage(id);
-        return GsonUtil.getMsgJson((User)message.getMessage(), message.getResult());
+        if ("fail".equals(message.getResult())) {
+            return GsonUtil.getErrorJson(new GsonBuilder().create(), message.getMessage());
+        } else {
+            return GsonUtil.getSuccessJson(new GsonBuilder().create(), message.getMessage());
+        }
     }
 
     /**
      * Created by Ning
      * time 2018/7/22 15:53
      * 修改个人信息
+     *
      * @param user
      * @return
      */
     @ResponseBody
-    @RequestMapping(value="updateUserInfo",method = RequestMethod.POST,produces = "text/html;charset=UTF-8")
-    public String updateUserInfo(User user){
+    @RequestMapping(value = "updateUserInfo", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
+    public String updateUserInfo(User user, HttpSession session) {
+        User realUser = (User) session.getAttribute("user");
+        if (user.getId() != realUser.getId()) {
+            return GsonUtil.getErrorJson();
+        }
         Msg message = userService.updateUserInfo(user);
-        if(message.getResult() != null){
-            return GsonUtil.getErrorJson((User)message.getMessage(), message.getResult());
-        }else {
-            return GsonUtil.getSuccessJson((User)message.getMessage());
+        if (message.getResult() != null) {
+            return GsonUtil.getErrorJson(message.getMessage(), message.getResult());
+        } else {
+            return GsonUtil.getSuccessJson(message.getMessage());
         }
     }
 
     /**
      * 用户登录
-     * @author chen
+     *
      * @param user
      * @param session
      * @return
+     * @author chen
      */
     @ResponseBody
-    @RequestMapping(value = "login",method = RequestMethod.POST,produces = "text/html;charset=UTF-8")
-    public String login(User user,HttpSession session){
-
-        return userService.login(user,session);
+    @RequestMapping(value = "login", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
+    public String login(User user, HttpSession session) {
+        return userService.login(user, session);
     }
 
     /**
      * 用户注册
-     * @author chen
+     *
      * @param user
      * @param confirmPassword
      * @param session
      * @return
+     * @author chen
      */
     @ResponseBody
-    @RequestMapping(value = "registe",method = RequestMethod.POST,produces = "text/html;charset=UTF-8")
-    public String registe(User user,@RequestParam(value = "confirmPassword")  String confirmPassword,HttpSession session){
-
-        return userService.registe(user,confirmPassword,session);
+    @RequestMapping(value = "registe", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
+    public String registe(User user, @RequestParam(value = "confirmPassword") String confirmPassword, HttpSession session) {
+        return userService.registe(user, confirmPassword, session);
     }
 
     /**
      * 注册时邮箱验证
-     * @author chen
+     *
      * @param checkcode
      * @param code
      * @param user
      * @return
+     * @author chen
      */
     @ResponseBody
     @RequestMapping(value = "validate",method = RequestMethod.POST,produces = "text/html;charset=UTF-8")
     public String validate(@RequestParam(value = "code") String code,@RequestParam(value = "checkcode",required = false) String checkcode, User user){
-
         return userService.validate(checkcode,code,user);
     }
 
@@ -117,13 +128,18 @@ public class UserController {
      * Created by Ning
      * time 2018/7/22 21:25
      * 照片墙登陆基于前端
-     *
      */
     @ResponseBody
-    @RequestMapping(value = "photoWall/{userId}" ,method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
-    public String myPhotoWall(@PathVariable Integer userId){
-        User user = userService.getUserPWInfo(userId);
-        return GsonUtil.getSuccessJson(user);
+    @RequestMapping(value = "photoWall/{userId}", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
+    public String myPhotoWall(@PathVariable Integer userId, HttpSession session) {
+        User realUser = (User) session.getAttribute("user");
+        if (realUser.getId() == userId) {
+            User user = userService.getUserPWInfo(userId);
+            return GsonUtil.getMsgJson(user, "me");
+        } else {
+            User otherUser = userService.getOtherPWInfo(userId);
+            return GsonUtil.getMsgJson(otherUser, "other");
+        }
     }
 
     /**
@@ -133,80 +149,80 @@ public class UserController {
      */
     @ResponseBody
     @RequestMapping(value = "photoSign/{albumId}", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
-    public String pickPhotoSign(@PathVariable Integer albumId){
+    public String pickPhotoSign(@PathVariable Integer albumId) {
         return GsonUtil.getSuccessJson(userService.pickPhotoSign(albumId));
     }
 
 
     /**
      * 忘记密码
-     * @author chen
+     *
      * @param email
      * @return
+     * @author chen
      */
     @ResponseBody
-    @RequestMapping(value="forgetPassword",method = RequestMethod.POST,produces = "text/html;charset=UTF-8")
-    public String forgetPassword(String email,Model model){
-
-        model.addAttribute("email",email);
-        return userService.forgetPassword(email,model);
+    @RequestMapping(value = "forgetPassword", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
+    public String forgetPassword(String email, Model model) {
+        model.addAttribute("email", email);
+        return userService.forgetPassword(email, model);
     }
 
     /**
      * 重置密码时邮箱验证
-     * @author chen
+     *
      * @param checkcode
      * @param code
      * @param email
      * @return
+     * @author chen
      */
     @ResponseBody
-    @RequestMapping(value = "validateEmail/{email}/{code}/{checkcode}",method = RequestMethod.GET,produces = "text/html;charset=UTF-8")
-    public String validateEmail(@PathVariable String email,@PathVariable String code,@PathVariable String checkcode,Model model){
-
-        model.addAttribute("email",email);
-        return userService.validateEmail(checkcode,code,email);
+    @RequestMapping(value = "validateEmail/{email}/{code}/{checkcode}", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
+    public String validateEmail(@PathVariable String email, @PathVariable String code, @PathVariable String checkcode, Model model) {
+        model.addAttribute("email", email);
+        return userService.validateEmail(checkcode, code, email);
     }
 
     /**
      * 重置密码
-     * @author chen
+     *
      * @param email
      * @param password
      * @return
+     * @author chen
      */
     @ResponseBody
-    @RequestMapping(value = "resetPassword",method = RequestMethod.POST,produces = "text/html;charset=UTF-8")
-    public String resetPassword(String email,String password,String confirmPassword){
-
-        return userService.resetPassword(password,email,confirmPassword);
+    @RequestMapping(value = "resetPassword", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
+    public String resetPassword(String email, String password, String confirmPassword) {
+        return userService.resetPassword(password, email, confirmPassword);
     }
 
 
     /**
      * 关注用户
+     *
      * @param user_id
      * @param beliked_id
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "userWatch/{user_id}/{beliked_id}",method = RequestMethod.GET,produces = "text/html;charset=UTF-8")
-    public String userWatch(@PathVariable int user_id,@PathVariable int beliked_id){
-
-        return userService.userWatch(user_id,beliked_id);
+    @RequestMapping(value = "userWatch/{user_id}/{beliked_id}", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
+    public String userWatch(@PathVariable int user_id, @PathVariable int beliked_id) {
+        return userService.userWatch(user_id, beliked_id);
     }
 
     /**
      * 搜索好友
-     * @author chen
+     *
      * @param name
      * @return
+     * @author chen
      */
     @ResponseBody
-    @RequestMapping(value = "findUser",method = RequestMethod.POST,produces = "text/html;charset=UTF-8")
-    public String findUser(String name){
-
-        return userService.findUser(name);
+    @RequestMapping(value = "findUser", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
+    public String findUser(String name) {
+        return GsonUtil.getSuccessJson(userService.findUser(name));
     }
 
     /**
@@ -218,7 +234,6 @@ public class UserController {
     @ResponseBody
     @RequestMapping(value = "getNews",method = RequestMethod.GET,produces = "text/html;charset=UTF-8")
     public String getNews(int user_id){
-
         return newsService.getNews(user_id);
     }
 }

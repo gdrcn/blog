@@ -1,13 +1,25 @@
 package com.rdc.entity;
 
-import java.util.ArrayList;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import org.springframework.format.annotation.DateTimeFormat;
 
-public class User {
+import javax.validation.constraints.Past;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Date;
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class User implements Serializable {
 
     private int id;
     private String username;
     private String password;
-    private Integer age;
+
+    @Past(message = "生日必须为一个过去的时间")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date born;
+
+    private String birthday;
     private String phone;
     private String email;
     private String realname;
@@ -52,12 +64,8 @@ public class User {
         this.password = password;
     }
 
-    public Integer getAge() {
-        return age;
-    }
-
-    public void setAge(Integer age) {
-        this.age = age;
+    public void setBorn(Date born) {
+        this.born = born;
     }
 
     public String getPhone() {
@@ -188,13 +196,26 @@ public class User {
         this.photoWallList = photoWallList;
     }
 
+    public Date getBorn() {
+        return born;
+    }
+
+    public String getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(String birthday) {
+        this.birthday = birthday;
+    }
+
     @Override
     public String toString() {
         return "User{" +
                 "id=" + id +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
-                ", age=" + age +
+                ", born=" + born +
+                ", birthday='" + birthday + '\'' +
                 ", phone='" + phone + '\'' +
                 ", email='" + email + '\'' +
                 ", realname='" + realname + '\'' +

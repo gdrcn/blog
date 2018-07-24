@@ -2,6 +2,7 @@ package com.rdc.controller;
 
 import com.google.gson.Gson;
 import com.rdc.bean.Msg;
+import com.rdc.bean.UserBean;
 import com.rdc.entity.Blog;
 import com.rdc.entity.Comment;
 import com.rdc.entity.Reply;
@@ -15,12 +16,9 @@ import com.rdc.util.UploadUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.filter.HttpPutFormContentFilter;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -40,7 +38,49 @@ public class BlogController {
 	private Gson gson=new Gson();
 	private Msg msg;
 
+	public String showCommentA(@RequestParam int blogId){
 
+		return "";
+		//是否点赞
+	}
+
+	@ResponseBody
+	@RequestMapping(value="/commentUp",method = RequestMethod.POST)
+	public String commentUp(@RequestParam int commentId,HttpSession session){
+		User user = (User) session.getAttribute("user");
+		if(upService.commentUp(1,commentId)){
+			return GsonUtil.getSuccessJson();
+		}
+		return GsonUtil.getErrorJson();
+	}
+
+	@ResponseBody
+	@RequestMapping(value="/commentDown",method = RequestMethod.POST)
+	public String commentDown(@RequestParam int commentId,HttpSession session){
+		User user = (User)session.getAttribute("user");
+		if(upService.commentDown(1,commentId)){
+			return GsonUtil.getSuccessJson();
+		}
+		return GsonUtil.getErrorJson();
+	}
+	@ResponseBody
+	@RequestMapping(value="/replyUp",method = RequestMethod.POST)
+	public String replyUp(@RequestParam int replyId,HttpSession session){
+		User user = (User) session.getAttribute("user");
+		if(upService.replyUp(1,replyId)){
+			return GsonUtil.getSuccessJson();
+		}
+		return GsonUtil.getErrorJson();
+	}
+	@ResponseBody
+	@RequestMapping(value="/replyDown",method = RequestMethod.POST)
+	public String replyDown(@RequestParam int replyId,HttpSession session){
+		User user = (User)session.getAttribute("user");
+		if(upService.replyDown(1,replyId)){
+			return GsonUtil.getSuccessJson();
+		}
+		return GsonUtil.getErrorJson();
+	}
 	/**
 	 * 回复评论
 	 * Asce 2018-07-23
@@ -199,14 +239,15 @@ public class BlogController {
 	 * @param category
 	 * @param session
 	 * @return
-	 * @throws IOException
-	 */
+     */
 	@ResponseBody
 	@RequestMapping(value="/modifyBlog")
-	public String modifyBlog(Blog blog, @RequestParam("categoryId")String[] category, HttpSession session) throws IOException {
+    public String modifyBlog(Blog blog, @RequestParam("categoryId") String[] category, HttpSession session) {
 
 		User user=(User)session.getAttribute("user");
-		blog.setUser(user);
+		UserBean userBean = new UserBean();
+		userBean.setId(user.getId());
+		blog.setUserBean(userBean);
 
 		if(blogService.modify(blog,category)){
 			return null;
@@ -224,7 +265,6 @@ public class BlogController {
 	@ResponseBody
 	@RequestMapping(value="/deleteBlog",method = RequestMethod.POST )
 	public String deleteBlog(@RequestParam("blogId") int blogId,HttpSession session){
-
 		User user=(User) session.getAttribute("user");
 		if(!blogService.delete(user.getId(),blogId)){
 			return gson.toJson(new Msg("error","删除失败"));
@@ -235,18 +275,18 @@ public class BlogController {
 	/**
 	 * Asce 2018-07-21
 	 * @param blog
-	 * @param response
 	 * @param categoryId
 	 * @param session
 	 * @return
-	 * @throws IOException
-	 */
+     */
 	@ResponseBody
 	@RequestMapping(value="/addBlog",method = RequestMethod.POST,produces = "text/html;charset=UTF-8")
-	public String addBlog(Blog blog, HttpServletResponse response, @RequestParam("categoryId")String[] categoryId , HttpSession session) throws IOException {
+    public String addBlog(Blog blog, @RequestParam("categoryId") String[] categoryId, HttpSession session) {
 
-		User user = (User)session.getAttribute("user");
-		blog.setUser(user);
+		User user=(User)session.getAttribute("user");
+		UserBean userBean = new UserBean();
+		userBean.setId(user.getId());
+		blog.setUserBean(userBean);
 
 		int result = blogService.add(blog,categoryId);
 		if(result!=0){

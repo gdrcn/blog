@@ -1,5 +1,7 @@
 package com.rdc.entity;
 
+import com.rdc.bean.UserBean;
+
 import java.util.ArrayList;
 
 public class Blog {
@@ -7,7 +9,7 @@ public class Blog {
     private String title;
     private String article;
     private String finishTime;
-    private User user;
+    private UserBean userBean;
     private ArrayList<Category> category;
     private String coverImg;
 
@@ -46,12 +48,12 @@ public class Blog {
         this.finishTime = finishTime;
     }
 
-    public User getUser() {
-        return user;
+    public UserBean getUserBean() {
+        return userBean;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserBean(UserBean userBean) {
+        this.userBean = userBean;
     }
 
     public ArrayList<Category> getCategory() {
@@ -70,16 +72,4 @@ public class Blog {
         this.coverImg = coverImg;
     }
 
-    @Override
-    public String toString() {
-        return "Blog{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", article='" + article + '\'' +
-                ", finishTime='" + finishTime + '\'' +
-                ", user=" + user +
-                ", category=" + category +
-                ", coverImg='" + coverImg + '\'' +
-                '}';
-    }
 }

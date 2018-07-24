@@ -5,12 +5,11 @@ import com.google.gson.FieldAttributes;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.rdc.bean.Msg;
-import com.rdc.entity.User;
 
 import java.util.*;
 
 public class GsonUtil {
-
+    //private static Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
     private static Gson gson = new GsonBuilder().serializeNulls().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
 
 
@@ -46,6 +45,10 @@ public class GsonUtil {
      */
     public static String getSuccessJson(Gson gson, Object o) {
         return gson.toJson(new Msg("success", o));
+    }
+
+    public static String getErrorJson(Gson gson, Object o) {
+        return gson.toJson(new Msg("error", o));
     }
 
     public static String getErrorJson() {

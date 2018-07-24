@@ -13,7 +13,7 @@ public interface AlbumDao {
      * @param userId
      * @return
      */
-    ArrayList<Album> getUserAlbum(int userId);
+    ArrayList<Album> getUserAlbumInfo(int userId);
 
     /**
      * 插入初始相册
@@ -82,4 +82,12 @@ public interface AlbumDao {
      * @return
      */
     ArrayList<Photo> getSpecificPhoto(Integer albumId);
+
+    /**
+     * 删除图片标签
+     *
+     * @param album
+     * @return
+     */
+    Integer deleteAlbum(Album album);
 }
