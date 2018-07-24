@@ -47,13 +47,62 @@ public interface CommentDao {
 
     int findCommentUserId(int commentId);
 
+    /**
+     * 博客评论新消息
+     * @param user_id
+     * @return
+     */
     List<NewsBean> blogCommentsNews(int user_id);
 
+    /**
+     * 图片评论新消息
+     * @param user_id
+     * @return
+     */
     List<NewsBean> photoCommentsNews(int user_id);
 
+    /**
+     * 相册评论新消息
+     * @param user_id
+     * @return
+     */
     List<NewsBean> albumCommentsNews(int user_id);
 
+    /**
+     * 二级评论新消息
+     * @param user_id
+     * @return
+     */
     List<NewsBean> commentCommentsNews(int user_id);
+
+
+    /**
+     * 读博客评论新消息
+     * @param id
+     * @return
+     */
+    int blogCommentsNewsRead(int id);
+
+    /**
+     * 读二级评论新消息
+     * @param id
+     * @return
+     */
+    int commentCommentsNewsRead(int id);
+
+    /**
+     * 读相册评论新消息
+     * @param id
+     * @return
+     */
+    int albumCommentsNewsRead(int id);
+
+    /**
+     * 读照片评论新消息
+     * @param id
+     * @return
+     */
+    int photoCommentsNewsRead(int id);
 }
 
 

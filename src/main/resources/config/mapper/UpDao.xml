@@ -67,6 +67,10 @@
         user.id = up.user_id and up.status = 1;
     </select>
 
+    <update id="upNewsRead" parameterType="int" >
+        update up set status=0 where id=#{id}
+    </update>
+
     <resultMap id="blogNewsBean" type="com.rdc.bean.NewsBean">
         <id property="id" column="id"/>
         <result property="username" column="username"/>

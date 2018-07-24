@@ -227,13 +227,31 @@ public class UserController {
 
     /**
      * 消息提醒
-     * @author chen
+     *
      * @param user_id
      * @return
-     */
+     * @author chen
+     * */
     @ResponseBody
     @RequestMapping(value = "getNews",method = RequestMethod.GET,produces = "text/html;charset=UTF-8")
     public String getNews(int user_id){
         return newsService.getNews(user_id);
+    }
+
+
+    /**
+     * 读新消息
+     *
+     * @param id
+     * @param type
+     * @author chen
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "newsRead",method = RequestMethod.GET,produces = "text/html;charset=UTF-8")
+    public String newsRead(int id,String type){
+        if(newsService.readNews(id, type)){
+            return GsonUtil.getSuccessJson();
+        }else return GsonUtil.getErrorJson();
     }
 }

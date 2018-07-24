@@ -150,4 +150,8 @@
         select relation.id,user.username from relation,user where relation.beliked_id = #{user_id} and+
         user.id = relation.user_id and relation.status = 1
     </select>
+
+    <update id="userLikeNewsRead" parameterType="int">
+        update relation set status=0 where id=#{id}
+    </update>
 </mapper>

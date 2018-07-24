@@ -139,5 +139,18 @@ public interface UserDao {
      */
     List<NewsBean> userLikeNews(int user_id);
 
+    /**
+     * 取消关注
+     * @param user_id
+     * @param beliked_id
+     * @return
+     */
     int offWatch(@Param("user_id") int user_id,@Param("beliked_id") int beliked_id);
+
+    /**
+     * 读用户关注新消息
+     * @param id
+     * @return
+     */
+    int userLikeNewsRead(int id);
 }

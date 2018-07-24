@@ -91,4 +91,19 @@
         select photo_comments.id,user.username from photo_comments,user where photo_comments.photo_id in(select photo.id from photo where photo.album_id in(select album.id from album where album.user_id=#{user_id})) and photo_comments.from_user_id = user.id and photo_comments.status = 1
     </select>
 
+    <update id="blogCommentsNewsRead" parameterType="int">
+        update first_comments set status=0 where id=#{id}
+    </update>
+
+    <update id="commentCommentsNewsRead" parameterType="int">
+        update second_comments set status=0 where id=#{id}
+    </update>
+
+    <update id="albumCommentsNewsRead" parameterType="int">
+        update album_comments set status=0 where id=#{id}
+    </update>
+
+    <update id="photoCommentsNewsRead" parameterType="int">
+        update photo_comments set status=0 where id=#{id}
+    </update>
 </mapper>
