@@ -5,7 +5,7 @@ import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 
-public class SendemailUtil {
+public class SendEmailUtil {
 
     public static void sendEmail(JavaMailSender javaMailSender,String email,String code){
         try {
