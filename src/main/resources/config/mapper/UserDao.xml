@@ -45,12 +45,21 @@
         <result property="username" column="username"/>
     </resultMap>
 
+
+    <resultMap id="blog" type="com.rdc.entity.Blog">
+        <id property="id" column="id"/>
+        <result property="title" column="title"/>
+        <result property="article" column="article"/>
+        <result property="coverImg" column="cover_img"/>
+        <result property="finishTime" column="finish_time"/>
+    </resultMap>
+
     <select id="getUserInfo" parameterType="java.lang.Integer" resultMap="user">
         SELECT * FROM (SELECT user.*, permission.* FROM USER LEFT JOIN permission ON user.id = permission.user_id) temp WHERE id = #{id};
     </select>
 
     <select id="scanOtherMsg" parameterType="java.lang.Integer" resultMap="user">
-        select user.username, user.age, user.phone, user.email, user.realname, user.face_img, user.signature, user.address, user.visible from user where id=#{id}
+        select user.username, user.birthday, user.phone, user.email, user.realname, user.face_img, user.signature, user.address, user.visible from user where id=#{id}
     </select>
 
     <select id="getFansNum" parameterType="java.lang.Integer" resultType="java.lang.Integer">
@@ -149,5 +158,9 @@
     <select id="userLikeNews" parameterType="int" resultMap="userNewsBean">
         select relation.id,user.username from relation,user where relation.beliked_id = #{user_id} and+
         user.id = relation.user_id and relation.status = 1
+    </select>
+
+    <select id="getUserBlogInfo" parameterType="java.lang.Integer" resultMap="blog">
+      SELECT * FROM blog WHERE user_id = #{userId} ORDER BY finish_time DESC;
     </select>
 </mapper>

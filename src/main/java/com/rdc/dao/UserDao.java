@@ -1,14 +1,13 @@
 package com.rdc.dao;
 
 import com.rdc.bean.NewsBean;
-import com.rdc.entity.Album;
+import com.rdc.entity.Blog;
 import com.rdc.entity.User;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import java.util.List;
-
 import java.util.ArrayList;
+import java.util.List;
 
 @Mapper
 public interface UserDao {
@@ -140,4 +139,13 @@ public interface UserDao {
     List<NewsBean> userLikeNews(int user_id);
 
     int offWatch(@Param("user_id") int user_id,@Param("beliked_id") int beliked_id);
+
+    /**
+     * 获取博客信息
+     *
+     * @param userId
+     * @return
+     */
+    ArrayList<Blog> getUserBlogInfo(int userId);
+
 }

@@ -1,8 +1,8 @@
 package com.rdc.dao;
 
+import com.rdc.bean.NewsBean;
 import com.rdc.entity.Comment;
 import com.rdc.entity.Reply;
-import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 

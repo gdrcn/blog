@@ -15,6 +15,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.Map;
 
@@ -109,8 +110,28 @@ public class UserServiceTest {
     }
 
     @Test
+    public void test8() {
+        System.out.println(Math.PI);
+
+        String all = String.join("2", "s", "a", "1");
+        System.out.println(all);
+    }
+
+    @Test
     public void test7() {
-        System.out.println(photoDao.getPhotoUp(1));
+        String dir = System.getProperty("user.dir");
+        System.out.println(dir);
+        System.out.println(LocalDate.now());
+    }
+
+    @Test
+    public void test28() {
+        Album album = new Album();
+        Class cl = album.getClass();
+        System.out.println(1);
+        System.out.println(cl);
+        String name = cl.getName();
+        System.out.println(name);
     }
 //    @Test
 //    public void test1(){

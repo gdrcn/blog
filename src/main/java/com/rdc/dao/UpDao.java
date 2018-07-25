@@ -1,5 +1,8 @@
 package com.rdc.dao;
 
+import com.rdc.bean.NewsBean;
+
+import java.util.List;
 import java.util.Map;
 
 public interface UpDao {
@@ -23,7 +26,8 @@ public interface UpDao {
 	Integer isCommentUp(Map<String,Integer> map);
 
 	Integer isReplyUp(Map<String,Integer> map);
-	List<NewsBean> blogUpNews(int user_id);
+
+    List<NewsBean> blogUpNews(int user_id);
 
 	List<NewsBean> albumUpNews(int user_id);
 
