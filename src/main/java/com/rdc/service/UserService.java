@@ -205,13 +205,9 @@ public class UserService {
             Map<String, String> map = new HashMap<>();
             map.put("result", "success");
             map.put("message", "已经发送验证码到你的邮箱,请验证");
-            map.put("code", code);
-            Map<String,String> map = new HashMap<>();
-            map.put("result","success");
-            map.put("message","已经发送验证码到你的邮箱,请验证");
 
-            SendemailUtil.sendEmail(user.getEmail(), code);
-            SendEmailUtil.sendEmail(mailSender,user.getEmail(),code);
+            SendemailUtil.sendEmail(mailSender,user.getEmail(), code);
+            SendemailUtil.sendEmail(mailSender,user.getEmail(),code);
             session.setAttribute("emailCode",code);
             return new Gson().toJson(map);
         }
@@ -254,7 +250,7 @@ public class UserService {
         }else{
             String code = CharacterUtil.getRandomString(5);
 
-            SendEmailUtil.sendEmail(mailSender,email,code);
+            SendemailUtil.sendEmail(mailSender,email,code);
             session.setAttribute("emailCode",code);
             return GsonUtil.getSuccessJson("已发送验证码到你的邮箱，请验证");
         }

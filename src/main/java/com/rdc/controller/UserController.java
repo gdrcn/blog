@@ -116,8 +116,6 @@ public class UserController {
      * 注册时邮箱验证
      *
      * @param checkcode
-     * @param code
-     * @param user
      * @param session
      * @return
      * @author chen
@@ -189,7 +187,7 @@ public class UserController {
     @RequestMapping(value = "validateEmail/{email}/{code}/{checkcode}", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
     public String validateEmail(@PathVariable String email, @PathVariable String code, @PathVariable String checkcode, Model model) {
         model.addAttribute("email", email);
-        return userService.validateEmail(checkcode, code, email);
+        return userService.validateEmail(checkcode, code);
     }
 
     /**

@@ -1,7 +1,5 @@
 package com.rdc.service;
 
-import com.rdc.entity.User;
-import com.rdc.util.SendEmailUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
