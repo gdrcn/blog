@@ -5,6 +5,18 @@
 
 <mapper namespace="com.rdc.dao.CommentDao">
 
+    <resultMap id="newsBean" type="com.rdc.bean.NewsBean">
+        <id property="id" column="id"/>
+        <result property="username" column="username"/>
+        <result property="content" column="title"/>
+    </resultMap>
+
+    <resultMap id="albumNewsBean" type="com.rdc.bean.NewsBean">
+        <id property="id" column="id"/>
+        <result property="username" column="username"/>
+        <result property="content" column="album_name"/>
+    </resultMap>
+
     <select id="countNotReadAlbum" parameterType="java.lang.Integer" resultType="java.lang.Integer">
         SELECT COUNT(id) FROM album_comments WHERE album_id IN ( SELECT id FROM album WHERE user_id = #{userId}) AND STATUS = 1;
     </select>
@@ -60,5 +72,69 @@
 
     <select id="findCommentUserId" parameterType="int" resultType="int">
         select commentser_id from first_comments where id=#{commentId}
+    </select>
+
+    <select id="blogCommentsNews" parameterType="int" resultMap="newsBean">
+        select first_comments.id,user.username,blog.title from first_comments,user,blog where blog_id in(select blog.id from blog where user_id=#{user_id}) and+
+        user.id = first_comments.commentser_id and blog.id = first_comments.id and first_comments.status = 1
+    </select>
+
+    <select id="commentCommentsNews" parameterType="int" resultMap="newsBean">
+        select second_comments.id,user.username from second_comments,user where first_comments_id in(select first_comments.id from first_comments where commentser_id=#{user_id}) and user.id = second_comments.commentser_id and second_comments.status = 1;
+    </select>
+
+    <select id="albumCommentsNews" parameterType="int" resultMap="albumNewsBean">
+        select album_comments.id,user.username,album.album_name from album_comments,user,album where album_comments.album_id in(select album.id from album where user_id =#{user_id}) and user.id = album_comments.from_user_id and album.id = album_comments.album_id and album_comments.status = 1
+    </select>
+
+    <select id="photoCommentsNews" parameterType="int" resultMap="newsBean">
+        select photo_comments.id,user.username from photo_comments,user where photo_comments.photo_id in(select photo.id from photo where photo.album_id in(select album.id from album where album.user_id=#{user_id})) and photo_comments.from_user_id = user.id and photo_comments.status = 1
+    </select>
+
+    <update id="blogCommentsNewsRead" parameterType="int">
+        update first_comments set status=0 where id=#{id}
+    </update>
+
+    <update id="commentCommentsNewsRead" parameterType="int">
+        update second_comments set status=0 where id=#{id}
+    </update>
+
+    <update id="albumCommentsNewsRead" parameterType="int">
+        update album_comments set status=0 where id=#{id}
+    </update>
+
+    <update id="photoCommentsNewsRead" parameterType="int">
+        update photo_comments set status=0 where id=#{id}
+    </update>
+
+    <select id="getCommentByBlog" parameterType="map" resultMap="commentMap">
+        select t1.id as comment_id,blog_id,time,comments,face_img,username,t2.id as user_id from first_comments as t1,user as t2 where blog_id=#{blogId} and commentser_id=t2.id order by time limit #{begin},10
+    </select>
+
+    <resultMap id="commentMap" type="com.rdc.entity.Comment" autoMapping="true">
+        <id property="id" column="comment_id"></id>
+        <result property="fromId" column="blog_id"></result>
+        <association property="fromUserBean" javaType="com.rdc.bean.UserBean" autoMapping="true">
+            <id property="id" column="user_id"></id>
+            <result property="face" column="face_img"></result>
+        </association>
+    </resultMap>
+
+    <select id="getReplyByComment" parameterType="int" resultMap="replyMap">
+        select t1.id as reply_id,first_comments_id,comments,time,second_comments_id,username,t2.id as user_id,face_img from second_comments as t1,user as t2 where first_comments_id=#{commentId} and t1.commentser_id=t2.id order by time
+    </select>
+
+    <resultMap id="replyMap" type="com.rdc.entity.Reply" autoMapping="true">
+        <id property="id" column="reply_id"></id>
+        <result property="fromCommentId" column="first_comments_id"></result>
+        <result property="fromReplyId" column="second_comments_id"></result>
+        <association property="fromUserBean" javaType="com.rdc.bean.UserBean" autoMapping="true">
+            <id property="id" column="user_id"></id>
+            <result property="face" column="face_img"></result>
+        </association>
+    </resultMap>
+
+    <select id="getCommentReplyCount" parameterType="int" resultType="int">
+        select count(id) from second_comments where first_comments_id=#{commentId}
     </select>
 </mapper>

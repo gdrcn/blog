@@ -25,6 +25,9 @@ public class CollectionService {
 		map.put("userId",userId);
 		//判断是否已收藏
 		if(collectDao.getCollectionId(map)!=null){
+			if(collectDao.delete(map)==1){
+				return true;
+			}
 			return false;
 		}
 		if(collectDao.add(map)==1){
@@ -32,23 +35,6 @@ public class CollectionService {
 		}
 		return false;
 	}
-
-	/**
-	 * Asce 2018-07-22
-	 * @param userId
-	 * @param blogId
-	 * @return
-	 */
-	public boolean deleteCollection(int userId,int blogId){
-		Map<String,Integer> map=new HashMap<>();
-		map.put("blogId",blogId);
-		map.put("userId",userId);
-		if(collectDao.delete(map)==1){
-			return true;
-		}
-		return false;
-	}
-
 	/**
 	 * Asce 2018-07-22
 	 * @param blogId

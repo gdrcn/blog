@@ -2,7 +2,9 @@ package com.rdc.controller;
 
 import com.google.gson.GsonBuilder;
 import com.rdc.bean.Msg;
+import com.rdc.entity.Message;
 import com.rdc.entity.User;
+import com.rdc.service.MessageService;
 import com.rdc.service.NewsService;
 import com.rdc.service.UserService;
 import com.rdc.util.GsonUtil;
@@ -23,6 +25,8 @@ public class UserController {
     @Autowired
     private NewsService newsService;
 
+    @Autowired
+    private MessageService messageService;
     /**
      * Created by Ning
      * time 2018/7/22 15:52
@@ -117,14 +121,17 @@ public class UserController {
      * 注册时邮箱验证
      *
      * @param checkcode
-     * @param code
-     * @param user
+     * @param session
      * @return
      * @author chen
      */
     @ResponseBody
     @RequestMapping(value = "validate",method = RequestMethod.POST,produces = "text/html;charset=UTF-8")
-    public String validate(@RequestParam(value = "code") String code,@RequestParam(value = "checkcode",required = false) String checkcode, User user){
+    public String validate(@RequestParam(value = "checkcode") String checkcode,HttpSession session){
+
+        User user = (User)session.getAttribute("user");
+        String code=(String) session.getAttribute("emailCode");
+
         return userService.validate(checkcode,code,user);
     }
 
@@ -167,10 +174,9 @@ public class UserController {
      * @author chen
      */
     @ResponseBody
-    @RequestMapping(value = "forgetPassword", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
-    public String forgetPassword(String email, Model model) {
-        model.addAttribute("email", email);
-        return userService.forgetPassword(email, model);
+    @RequestMapping(value="forgetPassword",method = RequestMethod.POST,produces = "text/html;charset=UTF-8")
+    public String forgetPassword(String email,HttpSession session){
+        return userService.forgetPassword(email,session);
     }
 
     /**
@@ -186,7 +192,7 @@ public class UserController {
     @RequestMapping(value = "validateEmail/{email}/{code}/{checkcode}", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
     public String validateEmail(@PathVariable String email, @PathVariable String code, @PathVariable String checkcode, Model model) {
         model.addAttribute("email", email);
-        return userService.validateEmail(checkcode, code, email);
+        return userService.validateEmail(checkcode, code);
     }
 
     /**
@@ -232,10 +238,11 @@ public class UserController {
 
     /**
      * 消息提醒
-     * @author chen
+     *
      * @param user_id
      * @return
-     */
+     * @author chen
+     * */
     @ResponseBody
     @RequestMapping(value = "getNews",method = RequestMethod.GET,produces = "text/html;charset=UTF-8")
     public String getNews(int user_id){
@@ -243,4 +250,35 @@ public class UserController {
     }
 
 
+    /**
+     * 读新消息
+     *
+     * @param id
+     * @param type
+     * @author chen
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "newsRead",method = RequestMethod.GET,produces = "text/html;charset=UTF-8")
+    public String newsRead(int id,String type){
+        if(newsService.readNews(id, type)){
+            return GsonUtil.getSuccessJson();
+        }else return GsonUtil.getErrorJson();
+    }
+
+    /**
+     * 发送信息
+     * @param from_user_id
+     * @param to_user_id
+     * @param content
+     * @author chen
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "postMessage",method = RequestMethod.POST,produces = "text/html;charset=UTF-8")
+    public String postMessage(int from_user_id,int to_user_id,String content){
+        if(messageService.postMessage(from_user_id,to_user_id,content))
+            return GsonUtil.getSuccessJson();
+        else return GsonUtil.getErrorJson();
+    }
 }
