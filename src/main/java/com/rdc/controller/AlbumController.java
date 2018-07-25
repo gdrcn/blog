@@ -149,4 +149,19 @@ public class AlbumController {
             return GsonUtil.getErrorJson();
         }
     }
+
+
+    /**
+     * Created by Ning
+     * time 2018/7/25 20:21
+     * 分页显示照片评论
+     *
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "showPhotoComments", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
+    public String showPhotoComments(@RequestParam("photoId") Integer photoId, @RequestParam("pageId") Integer pageId) {
+        albumService.getPhotoComment(photoId, pageId);
+        return null;
+    }
 }

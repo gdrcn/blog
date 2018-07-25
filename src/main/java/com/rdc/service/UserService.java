@@ -14,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.ui.Model;
 import org.springframework.web.util.HtmlUtils;
 
 import javax.servlet.http.HttpSession;
@@ -126,15 +125,9 @@ public class UserService {
             }
         }
         user = userService.reservedUser(user);
-        msg.setResult(null);
+        msg.setResult("success");
         msg.setMessage(user);
-        System.out.println(user.getBirthday());
-        try {
-            userDao.updateUserInfo(user);
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-
+        userDao.updateUserInfo(user);
         return msg;
     }
 
@@ -151,7 +144,9 @@ public class UserService {
         user.setUsername(newUser.getUsername());
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd ");
         user.setBorn(newUser.getBorn());
-        user.setBirthday(simpleDateFormat.format(user.getBorn()));
+        if (user.getBorn() != null) {
+            user.setBirthday(simpleDateFormat.format(user.getBorn()));
+        }
         user.setPhone(newUser.getPhone());
         user.setAddress(newUser.getAddress());
         user.setSignature(HtmlUtils.htmlEscape(newUser.getSignature()));

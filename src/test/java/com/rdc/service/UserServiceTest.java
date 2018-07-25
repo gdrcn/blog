@@ -133,6 +133,20 @@ public class UserServiceTest {
         String name = cl.getName();
         System.out.println(name);
     }
+
+    @Test
+    public void test9() {
+        /**
+         * @ExceptionHandler({ArithmeticExcption.class})
+         *      public ModelAndView handlerArithmeticException(Exception ex){
+         *          System.out.println("出异常了：" + ex);
+         *          ModelAndView mv = new ModelAndView("error');
+         *          mv.addObject("exception", ex);
+         *          return mv;
+         *      }
+         *
+         */
+    }
 //    @Test
 //    public void test1(){
 //        User user = new User();

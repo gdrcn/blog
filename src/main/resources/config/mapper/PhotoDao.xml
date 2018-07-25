@@ -10,6 +10,18 @@
         <result property="pushTime" column="push_time"/>
     </resultMap>
 
+    <resultMap id="photoComment" type="com.rdc.entity.Comment">
+        <id property="id" column="id"/>
+        <result property="comments" column="comments"/>
+        <result property="time" column="time"/>
+        <result property="fromId" column="from_user_id"/>
+        <association property="UserBean" javaType="com.rdc.bean.UserBean">
+            <id property="id" column="id"/>
+            <result property="username" column="username"/>
+            <result property="face" column="face_img"/>
+        </association>
+    </resultMap>
+
     <select id="isUpPhoto" parameterType="map" resultType="java.lang.Integer">
                 select * from up where user_id = #{userId} and photo_id =#{photoId};
     </select>
@@ -37,4 +49,8 @@
     <select id="getSomePhoto" parameterType="java.lang.Integer" resultMap="photo">
         SELECT * FROM photo WHERE album_id IN ( SELECT album.`id` FROM album WHERE user_id = #{userId} ) ORDER BY push_time DESC LIMIT 0, 6;
     </select>
+
+    <!--<select id="getPhotoComments" parameterType="map" resultType="photoComment">-->
+
+    <!--</select>-->
 </mapper>
