@@ -1,6 +1,8 @@
 package com.rdc.dao;
 
 import com.rdc.bean.NewsBean;
+import com.rdc.bean.UserBean;
+import com.rdc.entity.Album;
 import com.rdc.entity.User;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -152,4 +154,6 @@ public interface UserDao {
      * @return
      */
     int userLikeNewsRead(int id);
+    UserBean getUserBean(int userId);
+
 }

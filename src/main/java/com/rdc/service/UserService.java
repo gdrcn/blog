@@ -10,6 +10,7 @@ import com.rdc.entity.Photo;
 import com.rdc.entity.User;
 import com.rdc.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -40,6 +41,9 @@ public class UserService {
     @Autowired
     private PhotoDao photoDao;
 
+
+    @Autowired
+    private JavaMailSender mailSender;
     /**
      * Created by Ning
      * time 2018/7/22 16:02
@@ -195,35 +199,39 @@ public class UserService {
         if (userDao.checkEmail(user) != null) {
             return GsonUtil.getErrorJson("邮箱已经注册过");
         } else {
-            // session.setAttribute("user",user);
+            session.setAttribute("user",user);
+
             String code = CharacterUtil.getRandomString(5);
             Map<String, String> map = new HashMap<>();
             map.put("result", "success");
             map.put("message", "已经发送验证码到你的邮箱,请验证");
             map.put("code", code);
+            Map<String,String> map = new HashMap<>();
+            map.put("result","success");
+            map.put("message","已经发送验证码到你的邮箱,请验证");
 
             SendemailUtil.sendEmail(user.getEmail(), code);
+            SendEmailUtil.sendEmail(mailSender,user.getEmail(),code);
+            session.setAttribute("emailCode",code);
             return new Gson().toJson(map);
         }
     }
 
     /**
      * @param checkcode
-     * @param code
      * @param user
      * @return
      * @author chen
      * @function注册时邮箱验证码验证
      */
     @Transactional
-    public String validate(String checkcode, String code, User user) {
-
-        if (ValidateUtil.isInvalidString(checkcode)) {
+    public String validate(String checkcode,String code,User user) {
+        if(ValidateUtil.isInvalidString(checkcode)) {
             return GsonUtil.getErrorJson("输入不能为空");
-        } else {
-            if (code != checkcode || !code.equals(checkcode)) {
+        }else {
+            if (!code.equals(checkcode)) {
                 return GsonUtil.getErrorJson("验证码错误");
-            } else {
+            } else{
                 user.setPassword(ConvertUtil.encryptMd5(user.getPassword()));
                 userDao.registe(user);
                 albumDao.insertDefaultAlbum(userDao.getUserIdByName(user.getUsername()));
@@ -239,35 +247,32 @@ public class UserService {
      * @return
      * @author chen
      */
-    public String forgetPassword(String email, Model model) {
+    public String forgetPassword(String email,HttpSession session){
 
-        if (userDao.findEmail(email) == null) {
+        if(userDao.findEmail(email)==null){
             return GsonUtil.getErrorJson("该邮箱未注册");
-        } else {
+        }else{
             String code = CharacterUtil.getRandomString(5);
-            model.addAttribute("code", code);
 
-            SendemailUtil.sendEmail(email, code);
+            SendEmailUtil.sendEmail(mailSender,email,code);
+            session.setAttribute("emailCode",code);
             return GsonUtil.getSuccessJson("已发送验证码到你的邮箱，请验证");
         }
     }
 
     /**
      * 忘记密码时邮箱验证
-     *
-     * @param checkcode
-     * @param code
-     * @param email
-     * @return
      * @author chen
+     * @param checkcode
+     * @return
      */
-    public String validateEmail(String checkcode, String code, String email) {
-        if (ValidateUtil.isInvalidString(checkcode)) {
+    public String validateEmail(String checkcode,String code){
+        if(ValidateUtil.isInvalidString(checkcode)) {
             return GsonUtil.getErrorJson("输入不能为空");
-        } else {
-            if (!code.equals(checkcode)) {
+        }else {
+            if (! code.equals(checkcode)) {
                 return GsonUtil.getErrorJson("验证码错误");
-            } else {
+            } else{
                 return GsonUtil.getSuccessJson();
             }
         }
@@ -312,6 +317,8 @@ public class UserService {
        else
            return GsonUtil.getErrorJson();
     }
+
+
 
 
     /**

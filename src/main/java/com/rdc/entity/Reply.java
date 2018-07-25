@@ -12,6 +12,7 @@ public class Reply {
 	private int fromCommentId;
 	private int fromReplyId;
 	private int upCount;
+	private Boolean isUp;
 
 	public int getId() {
 		return id;
@@ -75,5 +76,13 @@ public class Reply {
 
 	public void setUpCount(int upCount) {
 		this.upCount = upCount;
+	}
+
+	public Boolean getIsUp() {
+		return isUp;
+	}
+
+	public void setIsUp(Boolean isUp) {
+		this.isUp = isUp;
 	}
 }

@@ -1,9 +1,8 @@
 package com.rdc.service;
 
 import com.rdc.dao.BlogDao;
-import com.rdc.dao.CategoryDao;
-import com.rdc.dao.UpDao;
 import com.rdc.entity.Blog;
+import com.rdc.util.ConvertUtil;
 import org.apache.ibatis.binding.BindingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -11,19 +10,37 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.util.HtmlUtils;
 
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
-
 
 @Service
 public class BlogService {
 
 	@Autowired
 	private BlogDao blogDao;
-	@Autowired
-	private CategoryDao categoryDao;
+
+	/**
+	 * 搜索提示
+	 * @param input
+	 * @return
+	 */
+	public Map<String,Integer> searchPoint(String input){
+		String usernameRegularExpression = "^(?!_)(?!.*?_$)[a-zA-Z0-9_\\u4e00-\\u9fa5]+$";
+		if (!input.matches(usernameRegularExpression)){
+			return null;
+		}
+		ArrayList<Blog> blog = blogDao.searchPoint(input);
+		Map<String,Integer> map=new HashMap<>();
+		for(int i=0;i<blog.size();i++){
+			map.put(blog.get(i).getTitle(),blog.get(i).getId());
+		}
+		return map;
+	}
 	/**
 	 *Asce 2018-07-22
 	 * @param blogId
@@ -36,13 +53,10 @@ public class BlogService {
 			return null;
 		}
 		//时间格式化
-		Calendar cal=Calendar.getInstance();
-		SimpleDateFormat date=new SimpleDateFormat("yyyy-MM-dd HH:mm");
-		blog.setFinishTime(date.format(cal.getTime()));
+		blog.setFinishTime(ConvertUtil.msecToMinutes(blog.getFinishTime()));
 
 		return blog;
 	}
-
 	/**
 	 * Asce 2018-07-21
 	 * @param userId
@@ -60,73 +74,61 @@ public class BlogService {
 		}
 		return false;
 	}
-
 	/**
 	 * Asce 2018-07-21
 	 * @param blog
-	 * @param categoryId
 	 * @return
 	 */
 	@Transactional
-	public Boolean modify(Blog blog, String[] categoryId){
+	public Boolean modify(Blog blog){
 		//本人判断
 		if(blog.getUserBean().getId()!=blogDao.findUserId(blog.getId())){
 			return false;
 		}
-
-		blog=blogConvert(blog,categoryId);	//博客判断
-
+		blog=blogConvert(blog);	//博客判断
 		if(blog==null)
 			return false;
 		blogDao.modify(blog);
-		//删除原有类别
-		categoryDao.delete(blog.getId());
-		//添加新类别
-		Map<String,Map<String,String>> mapMap = getCategoryMap(categoryId,blog.getId());
-		categoryDao.add(mapMap);
-
 		return true;
 	}
 
 	/**
 	 * Asce 2018-07-21
 	 * @param blog
-	 * @param categoryId
 	 * @return
 	 * @throws DataIntegrityViolationException
 	 */
 	@Transactional
-	public int add(Blog blog, String[] categoryId) throws DataIntegrityViolationException {
+	public int add(Blog blog) throws DataIntegrityViolationException {
 
-		blog=blogConvert(blog,categoryId);	//博客判断
+		blog=blogConvert(blog);	//博客判断
 
 		if(blog==null)
 			return 0;
 
 		blogDao.add(blog);
-		//批量插入博客类
-		Map<String,Map<String,String>> mapMap = getCategoryMap(categoryId,blog.getId());
-		//插入类别
-		categoryDao.add(mapMap);
-
 		return blog.getId();
 	}
 
 	/**
 	 * Asce 2018-07-21
 	 * @param blog
-	 * @param category
 	 * @return
 	 */
-	public Blog blogConvert(Blog blog, String[] category){
+	public Blog blogConvert(Blog blog){
 
 		if(blog.getTitle().length()>50||blog.getTitle().length()<5){
 			return null;
 		}
-		if(category.length==0||category.length>5){
-			return null;
+		if(!blog.getCategory().equals("后台")){
+			if(!blog.getCategory().equals("安卓")){
+				if(!blog.getCategory().equals("大数据")){
+					if(!blog.getCategory().equals("前端")){
+						return null;
+					}
+				}
+			}
 		}
-
 		blog.setTitle(HtmlUtils.htmlEscape(blog.getTitle()));
 		blog.setArticle(HtmlUtils.htmlEscape(blog.getArticle()));
 
@@ -136,24 +138,4 @@ public class BlogService {
 
 		return blog;
 	}
-
-	/**
-	 * Asce 2018-07-21
-	 * @param categoryId
-	 * @param blogId
-	 * @return
-	 */
-	public Map<String,Map<String,String>> getCategoryMap(String[] categoryId,int blogId){
-
-		Map<String,String> map=new HashMap<>();
-		Map<String,Map<String,String>> mapMap=new HashMap<>();
-
-		for(int i=0;i<categoryId.length;i++){
-			map.put(categoryId[i],blogId+"");
-		}
-		mapMap.put("keys",map);
-
-		return mapMap;
-	}
-
 }

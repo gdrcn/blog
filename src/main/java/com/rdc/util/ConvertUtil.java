@@ -3,6 +3,9 @@ package com.rdc.util;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class ConvertUtil {
 
@@ -32,4 +35,22 @@ public class ConvertUtil {
         }
         return hexValue.toString();
     }
+    /**
+     * 将数据库中时间转为：年-月-天     时：分
+     * @param timeMs
+     * @return
+     */
+    public static String msecToMinutes(String timeMs) {
+        SimpleDateFormat date=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
+        Date time=null;
+        try {
+            time=date.parse(timeMs);
+        } catch (ParseException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        SimpleDateFormat date2=new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        return date2.format(time);
+    }
+
 }

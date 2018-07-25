@@ -118,12 +118,17 @@ public class UserController {
      * @param checkcode
      * @param code
      * @param user
+     * @param session
      * @return
      * @author chen
      */
     @ResponseBody
     @RequestMapping(value = "validate",method = RequestMethod.POST,produces = "text/html;charset=UTF-8")
-    public String validate(@RequestParam(value = "code") String code,@RequestParam(value = "checkcode",required = false) String checkcode, User user){
+    public String validate(@RequestParam(value = "checkcode") String checkcode,HttpSession session){
+
+        User user = (User)session.getAttribute("user");
+        String code=(String) session.getAttribute("emailCode");
+
         return userService.validate(checkcode,code,user);
     }
 
@@ -166,10 +171,9 @@ public class UserController {
      * @author chen
      */
     @ResponseBody
-    @RequestMapping(value = "forgetPassword", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
-    public String forgetPassword(String email, Model model) {
-        model.addAttribute("email", email);
-        return userService.forgetPassword(email, model);
+    @RequestMapping(value="forgetPassword",method = RequestMethod.POST,produces = "text/html;charset=UTF-8")
+    public String forgetPassword(String email,HttpSession session){
+        return userService.forgetPassword(email,session);
     }
 
     /**

@@ -62,4 +62,8 @@ public interface UpDao {
 	 */
 	int upNewsRead(int id);
 
+	Integer getCommentUpCount(int blogId);
+
+	Integer getReplyUpCount(int replyId);
+
 }

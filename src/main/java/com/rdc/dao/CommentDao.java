@@ -5,7 +5,9 @@ import com.rdc.entity.Comment;
 import com.rdc.entity.Reply;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 
 public interface CommentDao {
@@ -103,6 +105,12 @@ public interface CommentDao {
      * @return
      */
     int photoCommentsNewsRead(int id);
+
+    ArrayList<Comment> getCommentByBlog(Map<String,Integer> map);
+
+    ArrayList<Reply> getReplyByComment(int CommentId);
+
+    Integer getCommentReplyCount(int CommentId);
 }
 
 

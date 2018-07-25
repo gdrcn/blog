@@ -18,7 +18,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
+import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -38,45 +42,41 @@ public class BlogController {
 	private Gson gson=new Gson();
 	private Msg msg;
 
-	public String showCommentA(@RequestParam int blogId){
-
-		return "";
-		//是否点赞
+	@ResponseBody
+	@RequestMapping(value="/blogSearchPoint/{input}",method = RequestMethod.GET)
+	public String blogSearchPoint(@PathVariable String input){
+		Map<String,Integer> map = blogService.searchPoint(input);
+		if(map==null){
+			return GsonUtil.getErrorJson();
+		}
+		return GsonUtil.getSuccessJson(map);
 	}
-
+	/**
+	 * 评论点赞
+	 * @param commentId
+	 * @param session
+	 * @return
+	 */
 	@ResponseBody
 	@RequestMapping(value="/commentUp",method = RequestMethod.POST)
 	public String commentUp(@RequestParam int commentId,HttpSession session){
 		User user = (User) session.getAttribute("user");
-		if(upService.commentUp(1,commentId)){
+		if(upService.commentUp(user.getId(),commentId)){
 			return GsonUtil.getSuccessJson();
 		}
 		return GsonUtil.getErrorJson();
 	}
-
-	@ResponseBody
-	@RequestMapping(value="/commentDown",method = RequestMethod.POST)
-	public String commentDown(@RequestParam int commentId,HttpSession session){
-		User user = (User)session.getAttribute("user");
-		if(upService.commentDown(1,commentId)){
-			return GsonUtil.getSuccessJson();
-		}
-		return GsonUtil.getErrorJson();
-	}
+	/**
+	 * 回复点赞
+	 * @param replyId
+	 * @param session
+	 * @return
+	 */
 	@ResponseBody
 	@RequestMapping(value="/replyUp",method = RequestMethod.POST)
 	public String replyUp(@RequestParam int replyId,HttpSession session){
 		User user = (User) session.getAttribute("user");
-		if(upService.replyUp(1,replyId)){
-			return GsonUtil.getSuccessJson();
-		}
-		return GsonUtil.getErrorJson();
-	}
-	@ResponseBody
-	@RequestMapping(value="/replyDown",method = RequestMethod.POST)
-	public String replyDown(@RequestParam int replyId,HttpSession session){
-		User user = (User)session.getAttribute("user");
-		if(upService.replyDown(1,replyId)){
+		if(upService.replyUp(user.getId(),replyId)){
 			return GsonUtil.getSuccessJson();
 		}
 		return GsonUtil.getErrorJson();
@@ -92,7 +92,7 @@ public class BlogController {
 	@RequestMapping(value="/commentReply",method = RequestMethod.POST)
 	public String commentReply(Reply reply,HttpSession session){
 		User user = (User)session.getAttribute("user");
-		int result = commentService.addCommentReply(2,reply);
+		int result = commentService.addCommentReply(user.getId(),reply);
 		if(result != 0){
 			return GsonUtil.getSuccessJson(result);
 		}
@@ -116,19 +116,6 @@ public class BlogController {
 		}
 		return GsonUtil.getErrorJson();
 	}
-
-	/**
-	 *
-	 * Asce 2018-07-23
-	 * @param userId
-	 * @return
-	 */
-	@ResponseBody
-	@RequestMapping(value="/blogFromUser",method = RequestMethod.GET)
-	public String blogFromUser(@RequestParam("userId")int userId){
-
-		return "";
-	}
 	/**
 	 * Asce 2018-07-22
 	 * @param blogId
@@ -151,38 +138,6 @@ public class BlogController {
 	 * @return
 	 */
 	@ResponseBody
-	@RequestMapping(value="/blogIgnore",method = RequestMethod.POST)
-	public String blogIgnore(@RequestParam("blogId")int blogId,HttpSession session){
-		User user = (User) session.getAttribute("user");
-		if(collectionService.deleteCollection(user.getId(),blogId)){
-			return GsonUtil.getSuccessJson();
-		}
-		return GsonUtil.getErrorJson();
-	}
-
-	/**
-	 * Asce 2018-07-22
-	 * @param blogId
-	 * @param session
-	 * @return
-	 */
-	@ResponseBody
-	@RequestMapping(value="/blogDown",method = RequestMethod.POST,produces = "text/html;charset=UTF-8")
-	public String blogDown(@RequestParam("blogId")int blogId, HttpSession session){
-		User user = (User) session.getAttribute("user");
-		if(upService.blogDown(user.getId(),blogId)){
-			return GsonUtil.getSuccessJson();
-		}
-		return GsonUtil.getErrorJson();
-	}
-
-	/**
-	 * Asce 2018-07-22
-	 * @param blogId
-	 * @param session
-	 * @return
-	 */
-	@ResponseBody
 	@RequestMapping(value="/blogUp",method = RequestMethod.POST,produces = "text/html;charset=UTF-8")
 	public String blogUp(@RequestParam("blogId")int blogId,HttpSession session){
 		User user = (User)session.getAttribute("user");
@@ -193,13 +148,56 @@ public class BlogController {
 	}
 	/**
 	 * Asce 2018-07-22
-	 *根据id找博客
+	 *根据id找博客,安卓
 	 * @param blogId
 	 * @return
 	 */
 	@ResponseBody
-	@RequestMapping(value="/blog/{blogId}",method = RequestMethod.GET,produces = "text/html;charset=UTF-8")
-	public String showBlogById(@PathVariable int blogId,HttpSession session){
+	@RequestMapping(value="/blogByAndroid/{blogId}/{page}",method = RequestMethod.GET,produces = "text/html;charset=UTF-8")
+	public String showBlogWithReply(@PathVariable int blogId,@PathVariable int page,HttpSession session) throws ParseException {
+		return showBlogById(blogId,1,page,session);
+	}
+	/**
+	 *根据id找博客，前端
+	 * @param blogId
+	 * @param session
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value="/blog/{blogId}/{page}",method = RequestMethod.GET,produces = "text/html;charset=UTF-8")
+	public String showBlogWithoutReply(@PathVariable int blogId,@PathVariable int page, HttpSession session) throws ParseException {
+		User user = new User();
+		user.setId(1);
+		session.setAttribute("user",user);
+
+		return showBlogById(blogId,0,page,session);
+	}
+	/**
+	 * 前端取得回复
+	 * @param commentId
+	 * @param session
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value="reply/{commentId}",method = RequestMethod.GET,produces = "text/html;charset=UTF-8")
+	public String getReply(@PathVariable int commentId,HttpSession session) throws ParseException {
+		User user = (User) session.getAttribute("user");
+		return GsonUtil.getSuccessJson(commentService.getReply(commentId,user.getId()));
+	}
+
+	/**
+	 * 根据取得博客
+	 * @param blogId
+	 * @param type	1为安卓，其他为前端
+	 * @param page
+	 * @param session
+	 * @return
+	 */
+	public String showBlogById(int blogId,int type ,int page,HttpSession session) throws ParseException {
+
+		User user1 = new User();
+		user1.setId(1);
+		session.setAttribute("user",user1);
 
 		Blog blog = blogService.showBlogById(blogId);
 		if (blog==null){
@@ -223,34 +221,41 @@ public class BlogController {
 			isCollect=false;
 			isUp=false;
 		}
+		//评论
+		ArrayList<Comment> comments;
 		Map<String,Object> map = new HashMap<>();
+		if(type==1){	//安卓
+			comments = commentService.getCommentWithReply(blogId,user.getId(),page);
+		}else {		//前端
+			comments = commentService.getCommentWithoutReply(blogId,user.getId(),page);
+		}
 		map.put("blog",blog);
 		map.put("upCount",upCount);
 		map.put("collectionCount",collectionCount);
 		map.put("commentCount",commentCount);
 		map.put("isCollect",isCollect);
 		map.put("isUp",isUp);
+		map.put("comments",comments);
 		return GsonUtil.getSuccessJson(map);
 	}
 
 	/**
 	 * Asce 2018-07-21
 	 * @param blog
-	 * @param category
 	 * @param session
 	 * @return
-     */
+	 * @throws IOException
+	 */
 	@ResponseBody
 	@RequestMapping(value="/modifyBlog")
-    public String modifyBlog(Blog blog, @RequestParam("categoryId") String[] category, HttpSession session) {
+	public String modifyBlog(Blog blog,HttpSession session) throws IOException {
 
 		User user=(User)session.getAttribute("user");
 		UserBean userBean = new UserBean();
 		userBean.setId(user.getId());
 		blog.setUserBean(userBean);
-
-		if(blogService.modify(blog,category)){
-			return null;
+		if(blogService.modify(blog)){
+			return gson.toJson(new Msg("success","修改成功"));
 		}
 
 		return gson.toJson(new Msg("error","修改失败"));
@@ -265,6 +270,7 @@ public class BlogController {
 	@ResponseBody
 	@RequestMapping(value="/deleteBlog",method = RequestMethod.POST )
 	public String deleteBlog(@RequestParam("blogId") int blogId,HttpSession session){
+
 		User user=(User) session.getAttribute("user");
 		if(!blogService.delete(user.getId(),blogId)){
 			return gson.toJson(new Msg("error","删除失败"));
@@ -275,20 +281,20 @@ public class BlogController {
 	/**
 	 * Asce 2018-07-21
 	 * @param blog
-	 * @param categoryId
 	 * @param session
 	 * @return
-     */
+	 * @throws IOException
+	 */
 	@ResponseBody
 	@RequestMapping(value="/addBlog",method = RequestMethod.POST,produces = "text/html;charset=UTF-8")
-    public String addBlog(Blog blog, @RequestParam("categoryId") String[] categoryId, HttpSession session) {
+	public String addBlog(Blog blog, HttpSession session) throws IOException {
 
 		User user=(User)session.getAttribute("user");
 		UserBean userBean = new UserBean();
 		userBean.setId(user.getId());
 		blog.setUserBean(userBean);
 
-		int result = blogService.add(blog,categoryId);
+		int result = blogService.add(blog);
 		if(result!=0){
 			return gson.toJson(new Msg("success",result));
 		}
