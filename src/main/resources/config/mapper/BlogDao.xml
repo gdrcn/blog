@@ -31,6 +31,7 @@
     <resultMap type="com.rdc.entity.Blog" id="blogMap" autoMapping="true">
         <id column="blog_id" property="id"/>
         <result column="finish_time" property="finishTime"/>
+        <result column="cover_img" property="coverImg"/>
         <association property="userBean" javaType="com.rdc.bean.UserBean" autoMapping="true">
             <id column="user_id" property="id"/>
             <result column="face_img" property="face"/>
@@ -39,5 +40,13 @@
 
     <select id="searchPoint" parameterType="String" resultType="com.rdc.entity.Blog">
         select id,title from blog where locate(#{input},title)>0 limit 5
+    </select>
+
+    <select id="search" parameterType="map" resultMap="blogMap">
+        select user_id,title,cover_img,article,finish_time,username,face_img,category,t1.id as blog_id from blog as t1,user as t2 where locate(#{input},title)>0 and t2.id=t1.user_id limit #{begin},10
+    </select>
+
+    <select id="findBlogByUser" parameterType="map" resultMap="blogMap">
+        select user_id,title,cover_img,article,finish_time,username,face_img,category,t1.id as blog_id from blog as t1,user as t2 where user_id=#{userId} and t2.id=t1.user_id limit #{begin},10
     </select>
 </mapper>

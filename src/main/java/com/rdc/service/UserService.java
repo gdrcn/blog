@@ -154,7 +154,6 @@ public class UserService {
         user.setEmail(newUser.getEmail());
         return user;
     }
-
     /**
      * @param user
      * @return
@@ -172,7 +171,6 @@ public class UserService {
                 return GsonUtil.getSuccessJson(user);
             }
         }
-
     /**
      * @param user
      * @param confirmPassword
@@ -203,8 +201,8 @@ public class UserService {
             map.put("result", "success");
             map.put("message", "已经发送验证码到你的邮箱,请验证");
 
-            SendemailUtil.sendEmail(mailSender,user.getEmail(), code);
-            SendemailUtil.sendEmail(mailSender,user.getEmail(),code);
+            SendEmailUtil.sendEmail(mailSender,user.getEmail(), code);
+            SendEmailUtil.sendEmail(mailSender,user.getEmail(),code);
             session.setAttribute("emailCode",code);
             return new Gson().toJson(map);
         }
@@ -247,8 +245,9 @@ public class UserService {
         }else{
             String code = CharacterUtil.getRandomString(5);
 
-            SendemailUtil.sendEmail(mailSender,email,code);
+            SendEmailUtil.sendEmail(mailSender,email,code);
             session.setAttribute("emailCode",code);
+            session.setAttribute("email",email);
             return GsonUtil.getSuccessJson("已发送验证码到你的邮箱，请验证");
         }
     }

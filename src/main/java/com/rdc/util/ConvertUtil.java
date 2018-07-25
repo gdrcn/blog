@@ -8,7 +8,12 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class ConvertUtil {
-
+    /**
+     * Asce 2018/7/25
+     * MD5加密
+     * @param str
+     * @return
+     */
     public static String encryptMd5(String str) {
         //确定计算方法
         MessageDigest md5 = null;
@@ -36,6 +41,7 @@ public class ConvertUtil {
         return hexValue.toString();
     }
     /**
+     * Asce 2018/7/25
      * 将数据库中时间转为：年-月-天     时：分
      * @param timeMs
      * @return

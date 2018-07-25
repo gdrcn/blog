@@ -23,7 +23,8 @@ public class UpService {
 	private CommentDao commentDao;
 
 	/**
-	 *
+	 * Asce 2018/7/25
+	 *赞同评论
 	 * @param userId
 	 * @param commentId
 	 * @return
@@ -51,6 +52,7 @@ public class UpService {
 	}
 	/**
 	 * Asce 2018-07-23
+	 * 赞同回复
 	 * @param userId
 	 * @param	replyId
 	 * @return
@@ -78,6 +80,7 @@ public class UpService {
 	}
 	/**
 	 * Asce 2018-07-22
+	 * 是否赞同博客
 	 * @param userId
 	 * @param blogId
 	 * @return
@@ -94,6 +97,7 @@ public class UpService {
 	}
 	/**
 	 * Asce 2018-07-22
+	 * 博客赞同数
 	 * @param blogId
 	 * @return
 	 */
@@ -102,6 +106,7 @@ public class UpService {
 	}
 	/**
 	 * Asce 2018-07-22
+	 * 赞同博客
 	 * @param userId
 	 * @param blogId
 	 * @return

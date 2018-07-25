@@ -31,21 +31,21 @@ public interface CommentDao {
      * @return
      */
     int countNotReadSecond(int userId);
-
+    //一级评论总数
     int getBlogFirstCommentCount(int blogId);
-
+    //回复总数
     int getBlogSecondCommentCount(int blogId);
-
+    //发表评论
     int addBlogComment(Comment comment);
-
+    //发表回复
     int addCommentReply(Reply reply);
-
+    //得到评论者id，防止自己回复自己
     int getFirstReplyUserId(int CommentId);
-
+    //得到回复者id，防止自己回复自己
     int getOtherReplyUserId(int replyId);
-
+    //找到回复对象id
     int findReplyUserId(int replyId);
-
+    //找到一级评论用户id（评论的第一条回复）
     int findCommentUserId(int commentId);
 
     /**
@@ -104,11 +104,11 @@ public interface CommentDao {
      * @return
      */
     int photoCommentsNewsRead(int id);
-
+    //得到博客评论
     ArrayList<Comment> getCommentByBlog(Map<String,Integer> map);
-
+    //得到评论回复
     ArrayList<Reply> getReplyByComment(int CommentId);
-
+    //得到评论回复数
     Integer getCommentReplyCount(int CommentId);
 }
 

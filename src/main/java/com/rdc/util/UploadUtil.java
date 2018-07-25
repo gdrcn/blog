@@ -9,6 +9,12 @@ public class UploadUtil {
 
 	public final static String[] allowFile = {"jpg","bmp","gif","png"};
 
+	/**
+	 * Asce 2018/7/25
+	 * 校验图片后缀
+	 * @param fileName
+	 * @return
+	 */
 	public static Boolean suffixMatch(String fileName){
 
 		String suffix = fileName.substring(fileName.lastIndexOf(".") + 1);
@@ -21,7 +27,12 @@ public class UploadUtil {
 		return false;
 	}
 
-	//获取文件名哈希值，有空改为文件哈希值
+	/**
+	 * Asce 2018/7/25
+	 * 获取图片名哈希值
+	 * @param fileName
+	 * @return
+	 */
 	public static String getFileHash(String fileName){
 
 		String prefix=fileName.substring(0,fileName.lastIndexOf("."));
@@ -32,6 +43,12 @@ public class UploadUtil {
 		return ConvertUtil.encryptMd5(name)+"."+suffix;
 	}
 
+	/**
+	 * Asce 2018/7/25
+	 * 上传图片
+	 * @param name
+	 * @param file
+	 */
 	public static void imgUpload(String name, MultipartFile file){
 		try {
 			String path = new Object() {

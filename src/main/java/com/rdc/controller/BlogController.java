@@ -1,6 +1,7 @@
 package com.rdc.controller;
 
 import com.google.gson.Gson;
+import com.rdc.bean.BlogBean;
 import com.rdc.bean.Msg;
 import com.rdc.bean.UserBean;
 import com.rdc.entity.Blog;
@@ -17,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import sun.swing.BakedArrayList;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -42,6 +44,69 @@ public class BlogController {
 	private Gson gson=new Gson();
 	private Msg msg;
 
+	/**
+	 * Asce 2018/7/25
+	 * 根据用户id找博客
+	 * @param userId
+	 * @param page
+	 * @param session
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value="blogByUser/{userId}/{page}",method = RequestMethod.GET)
+	public String BlogByUser(@PathVariable int userId,@PathVariable int page, HttpSession session){
+		ArrayList<Blog> blogs = blogService.getBlogByUser(userId,page);
+
+		User user = (User) session.getAttribute("user");
+		ArrayList<BlogBean> blogBeans = getBlogBean(blogs,user.getId());
+
+		return GsonUtil.getSuccessJson(blogBeans);
+	}
+	/**
+	 * Asce 2018/7/25
+	 * 封装BlogBean，通用方法
+	 * @param userId
+	 * @return
+	 */
+	public ArrayList<BlogBean> getBlogBean(ArrayList<Blog> blogs,int userId){
+
+		ArrayList<BlogBean> blogBeans = new ArrayList<>();
+		for(int i=0;i<blogs.size();i++) {
+			BlogBean blogBean = new BlogBean();
+			//点赞数
+			blogBean.setUpCount(upService.blogUpCount(blogs.get(i).getId()));
+			//收藏数
+			blogBean.setCollectionCount(collectionService.getCollectionCount(blogs.get(i).getId()));
+			//评论数
+			blogBean.setCommentCount(commentService.getBlogCommentCount(blogs.get(i).getId()));
+			blogBean.setIsCollect(collectionService.isCollect(userId,blogs.get(i).getId()));
+			blogBean.setIsUp(upService.isBlogUp(userId, blogs.get(i).getId()));
+			blogBean.setBlog(blogs.get(i));
+			blogBeans.add(blogBean);
+		}
+		return blogBeans;
+	}
+	/**
+	 * Asce 2018/7/25
+	 * 搜索结果
+	 * @param input
+	 * @param page
+	 * @param session
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value="/blogSearch/{input}/{page}",method = RequestMethod.GET)
+	public String blogSearch(@PathVariable String input,@PathVariable int page,HttpSession session){
+		ArrayList<Blog> blogs = blogService.search(input,page);
+		User user = (User) session.getAttribute("user");
+		return GsonUtil.getSuccessJson(getBlogBean(blogs,user.getId()));
+	}
+	/**
+	 * Asce 2018/7/25
+	 * 搜索提示
+	 * @param input
+	 * @return
+	 */
 	@ResponseBody
 	@RequestMapping(value="/blogSearchPoint/{input}",method = RequestMethod.GET)
 	public String blogSearchPoint(@PathVariable String input){
@@ -52,6 +117,7 @@ public class BlogController {
 		return GsonUtil.getSuccessJson(map);
 	}
 	/**
+	 * Asce 2018/7/25
 	 * 评论点赞
 	 * @param commentId
 	 * @param session
@@ -67,6 +133,7 @@ public class BlogController {
 		return GsonUtil.getErrorJson();
 	}
 	/**
+	 * Asce 2018/7/25
 	 * 回复点赞
 	 * @param replyId
 	 * @param session
@@ -118,6 +185,7 @@ public class BlogController {
 	}
 	/**
 	 * Asce 2018-07-22
+	 * 收藏博客
 	 * @param blogId
 	 * @param session
 	 * @return
@@ -133,6 +201,7 @@ public class BlogController {
 	}
 	/**
 	 * Asce 2018-07-22
+	 * 博客点赞
 	 * @param blogId
 	 * @param session
 	 * @return
@@ -158,6 +227,7 @@ public class BlogController {
 		return showBlogById(blogId,1,page,session);
 	}
 	/**
+	 * Asce 2018/7/25
 	 *根据id找博客，前端
 	 * @param blogId
 	 * @param session
@@ -166,13 +236,10 @@ public class BlogController {
 	@ResponseBody
 	@RequestMapping(value="/blog/{blogId}/{page}",method = RequestMethod.GET,produces = "text/html;charset=UTF-8")
 	public String showBlogWithoutReply(@PathVariable int blogId,@PathVariable int page, HttpSession session) throws ParseException {
-		User user = new User();
-		user.setId(1);
-		session.setAttribute("user",user);
-
 		return showBlogById(blogId,0,page,session);
 	}
 	/**
+	 * Asce 2018/7/25
 	 * 前端取得回复
 	 * @param commentId
 	 * @param session
@@ -184,8 +251,8 @@ public class BlogController {
 		User user = (User) session.getAttribute("user");
 		return GsonUtil.getSuccessJson(commentService.getReply(commentId,user.getId()));
 	}
-
 	/**
+	 * Asce 2018/7/25
 	 * 根据取得博客
 	 * @param blogId
 	 * @param type	1为安卓，其他为前端
@@ -195,32 +262,14 @@ public class BlogController {
 	 */
 	public String showBlogById(int blogId,int type ,int page,HttpSession session) throws ParseException {
 
-		User user1 = new User();
-		user1.setId(1);
-		session.setAttribute("user",user1);
-
 		Blog blog = blogService.showBlogById(blogId);
 		if (blog==null){
 			return GsonUtil.getErrorJson();		//没有此博客
 		}
-		//点赞数
-		int upCount = upService.blogUpCount(blogId);
-		//收藏数
-		int collectionCount = collectionService.getCollectionCount(blogId);
-		//评论数
-		int commentCount = commentService.getBlogCommentCount(blogId);
-		//是否收藏
-		Boolean isCollect;
-		//是否点赞
-		Boolean isUp;
 		User user = (User) session.getAttribute("user");
-		if(user!=null) {
-			isCollect = collectionService.isCollect(user.getId(),blogId);
-			isUp = upService.isBlogUp(user.getId(),blogId);
-		}else{
-			isCollect=false;
-			isUp=false;
-		}
+		ArrayList<Blog> blogs = new ArrayList<>();	//为使用getBlogBean妥协
+		blogs.add(blog);
+		ArrayList<BlogBean> blogBean = getBlogBean(blogs,user.getId());
 		//评论
 		ArrayList<Comment> comments;
 		Map<String,Object> map = new HashMap<>();
@@ -229,18 +278,14 @@ public class BlogController {
 		}else {		//前端
 			comments = commentService.getCommentWithoutReply(blogId,user.getId(),page);
 		}
-		map.put("blog",blog);
-		map.put("upCount",upCount);
-		map.put("collectionCount",collectionCount);
-		map.put("commentCount",commentCount);
-		map.put("isCollect",isCollect);
-		map.put("isUp",isUp);
+		map.put("blogBean",blogBean.get(1));
 		map.put("comments",comments);
 		return GsonUtil.getSuccessJson(map);
 	}
 
 	/**
 	 * Asce 2018-07-21
+	 * 修改博客
 	 * @param blog
 	 * @param session
 	 * @return
@@ -263,6 +308,7 @@ public class BlogController {
 
 	/**
 	 * Asce 2018-07-21
+	 * 删除博客
 	 * @param blogId
 	 * @param session
 	 * @return
@@ -280,6 +326,7 @@ public class BlogController {
 
 	/**
 	 * Asce 2018-07-21
+	 * 发表博客
 	 * @param blog
 	 * @param session
 	 * @return
@@ -304,6 +351,7 @@ public class BlogController {
 
 	/**
 	 * Asce 2018-07-20
+	 * 上传图片
 	 * @param file
 	 * @return
 	 */
