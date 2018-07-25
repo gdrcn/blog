@@ -13,7 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
 
-
+@CrossOrigin
 @Controller
 @RequestMapping("/blog")
 public class AlbumController {
@@ -159,9 +159,8 @@ public class AlbumController {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "showPhotoComments", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
-    public String showPhotoComments(@RequestParam("photoId") Integer photoId, @RequestParam("pageId") Integer pageId) {
-        albumService.getPhotoComment(photoId, pageId);
-        return null;
+    @RequestMapping(value = "/showPhotoComments/{photoId}/{pageId}", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
+    public String showPhotoComments(@PathVariable Integer photoId, @PathVariable Integer pageId) {
+        return GsonUtil.getSuccessJson(albumService.getPhotoComment(photoId, pageId));
     }
 }

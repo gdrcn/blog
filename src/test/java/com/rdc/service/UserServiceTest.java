@@ -17,6 +17,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 
@@ -132,6 +133,15 @@ public class UserServiceTest {
         System.out.println(cl);
         String name = cl.getName();
         System.out.println(name);
+    }
+
+    @Test
+    public void test11() {
+        Map<String, Integer> map = new HashMap<>();
+        map.put("photoId", 1);
+        map.put("pageId", 1);
+        System.out.println(photoDao.getPhotoComments(map));
+
     }
 //    @Test
 //    public void test1(){

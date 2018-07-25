@@ -9,11 +9,11 @@ import com.rdc.service.UserService;
 import com.rdc.util.GsonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 
+@CrossOrigin
 @Controller
 @RequestMapping("/blog")
 public class UserController {
@@ -26,6 +26,7 @@ public class UserController {
 
     @Autowired
     private MessageService messageService;
+
     /**
      * Created by Ning
      * time 2018/7/22 15:52

@@ -1,5 +1,6 @@
 package com.rdc.dao;
 
+import com.rdc.entity.Comment;
 import com.rdc.entity.Photo;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -72,5 +73,5 @@ public interface PhotoDao {
      *
      * @param map
      */
-    ArrayList<Photo> getPhotoComments(Map<String, Integer> map);
+    ArrayList<Comment> getPhotoComments(Map<String, Integer> map);
 }
