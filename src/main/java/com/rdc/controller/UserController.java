@@ -131,7 +131,7 @@ public class UserController {
 
         User user = (User)session.getAttribute("user");
         String code=(String) session.getAttribute("emailCode");
-
+        session.removeAttribute("emailCode");
         return userService.validate(checkcode,code,user);
     }
 
@@ -183,29 +183,27 @@ public class UserController {
      * 重置密码时邮箱验证
      *
      * @param checkcode
-     * @param code
-     * @param email
      * @return
      * @author chen
      */
     @ResponseBody
-    @RequestMapping(value = "validateEmail/{email}/{code}/{checkcode}", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
-    public String validateEmail(@PathVariable String email, @PathVariable String code, @PathVariable String checkcode, Model model) {
-        model.addAttribute("email", email);
+    @RequestMapping(value = "validateEmail/{checkcode}", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
+    public String validateEmail( @PathVariable String checkcode,HttpSession session) {
+        String code = (String)session.getAttribute("emailCode");
         return userService.validateEmail(checkcode, code);
     }
 
     /**
      * 重置密码
      *
-     * @param email
      * @param password
      * @return
      * @author chen
      */
     @ResponseBody
     @RequestMapping(value = "resetPassword", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
-    public String resetPassword(String email, String password, String confirmPassword) {
+    public String resetPassword( String password, String confirmPassword,HttpSession session) {
+        String email = (String)session.getAttribute("email");
         return userService.resetPassword(password, email, confirmPassword);
     }
 
