@@ -252,6 +252,7 @@ public class UserService {
 
             SendEmailUtil.sendEmail(mailSender,email,code);
             session.setAttribute("emailCode",code);
+            session.setAttribute("email",email);
             return GsonUtil.getSuccessJson("已发送验证码到你的邮箱，请验证");
         }
     }
