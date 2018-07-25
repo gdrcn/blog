@@ -2,7 +2,6 @@ package com.rdc.controller;
 
 import com.google.gson.GsonBuilder;
 import com.rdc.bean.Msg;
-import com.rdc.entity.Message;
 import com.rdc.entity.User;
 import com.rdc.service.MessageService;
 import com.rdc.service.NewsService;
@@ -144,7 +143,9 @@ public class UserController {
     @ResponseBody
     @RequestMapping(value = "photoWall/{userId}", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
     public String myPhotoWall(@PathVariable Integer userId, HttpSession session) {
-        User realUser = (User) session.getAttribute("user");
+//        User realUser = (User) session.getAttribute("user");
+        User realUser = new User();
+        realUser.setId(1);
         if (realUser.getId() == userId) {
             User user = userService.getUserPWInfo(userId);
             return GsonUtil.getMsgJson(user, "me");

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.util.HtmlUtils;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -156,6 +157,22 @@ public class AlbumService {
             albumDao.updateAlbumName(album);
             return "success";
         }
+    }
+
+    /**
+     * 得到特定评论
+     * Created by Ning
+     * time 2018/7/25 20:32
+     *
+     * @param photoId
+     * @param pageId
+     */
+    public ArrayList<Photo> getPhotoComment(Integer photoId, Integer pageId) {
+        Map<String, Integer> map = new HashMap<>();
+        map.put("photoId", photoId);
+        map.put("pageId", pageId);
+        photoDao.getPhotoComments(map);
+        return null;
     }
 }
 

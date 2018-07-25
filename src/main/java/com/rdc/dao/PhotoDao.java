@@ -66,4 +66,11 @@ public interface PhotoDao {
      * @param usreId
      */
     ArrayList<Photo> getSomePhoto(int usreId);
+
+    /**
+     * 得到分页效果
+     *
+     * @param map
+     */
+    ArrayList<Photo> getPhotoComments(Map<String, Integer> map);
 }
