@@ -6,6 +6,7 @@ import com.rdc.dao.AlbumDao;
 import com.rdc.dao.CommentDao;
 import com.rdc.dao.PhotoDao;
 import com.rdc.dao.UserDao;
+import com.rdc.entity.Album;
 import com.rdc.entity.Photo;
 import com.rdc.entity.User;
 import com.rdc.util.*;
@@ -56,6 +57,7 @@ public class UserService {
         User user = userDao.getUserInfo(id);
         user.setFans((userDao.getFansNum(id)).length);
         user.setIdols((userDao.getIdolsNum(id)).length);
+        user.setBlogList(userDao.getUserBlogInfo(user.getId()));
         user.setNotReadComment(commentDao.countNotReadAlbum(id) + commentDao.countNotReadFirst(id) + commentDao.countNotReadSecond(id));
         user.setPhotoWallList(photoDao.getSomePhoto(user.getId()));
         return user;
@@ -157,7 +159,6 @@ public class UserService {
         user.setEmail(newUser.getEmail());
         return user;
     }
-
     /**
      * @param user
      * @return
@@ -175,7 +176,6 @@ public class UserService {
                 return GsonUtil.getSuccessJson(user);
             }
         }
-
     /**
      * @param user
      * @param confirmPassword
@@ -206,8 +206,8 @@ public class UserService {
             map.put("result", "success");
             map.put("message", "已经发送验证码到你的邮箱,请验证");
 
-            SendemailUtil.sendEmail(mailSender,user.getEmail(), code);
-            SendemailUtil.sendEmail(mailSender,user.getEmail(),code);
+            SendEmailUtil.sendEmail(mailSender,user.getEmail(), code);
+            SendEmailUtil.sendEmail(mailSender,user.getEmail(),code);
             session.setAttribute("emailCode",code);
             return new Gson().toJson(map);
         }
@@ -250,7 +250,7 @@ public class UserService {
         }else{
             String code = CharacterUtil.getRandomString(5);
 
-            SendemailUtil.sendEmail(mailSender,email,code);
+            SendEmailUtil.sendEmail(mailSender,email,code);
             session.setAttribute("emailCode",code);
             return GsonUtil.getSuccessJson("已发送验证码到你的邮箱，请验证");
         }
@@ -328,6 +328,7 @@ public class UserService {
     public Msg scanOtherHomepage(Integer userId) {
         Msg msg = new Msg();
         User user = userDao.scanOtherMsg(userId);
+        user.setBlogList(userDao.getUserBlogInfo(user.getId()));
         if (user.getVisible() == 0) {
             user = null;
             msg.setMessage(user);
@@ -352,6 +353,9 @@ public class UserService {
         User user = userDao.getUserPWInfo(userId);
         user.setNiceFriendsList(userDao.getNiceFriends(userId));
         user.setAlbumList(albumDao.getUserAlbumList(userId));
+        for (Album album : user.getAlbumList()) {
+            album.setCoverHash(albumDao.getAlbumCover(album.getId()));
+        }
         user.setPhotoWallList(albumDao.getUserAllPhoto(userId));
         for (Photo photo : user.getPhotoWallList()) {
             photo.setBeUpNum(photoDao.getPhotoUp(photo.getId()));
@@ -370,6 +374,9 @@ public class UserService {
     public User getOtherPWInfo(Integer userId) {
         User user = userDao.getUserPWInfo(userId);
         user.setAlbumList(albumDao.getUserAlbumList(userId));
+        for (Album album : user.getAlbumList()) {
+            album.setCoverHash(albumDao.getAlbumCover(album.getId()));
+        }
         user.setPhotoWallList(albumDao.getUserAllPhoto(userId));
         return user;
     }

@@ -51,12 +51,17 @@ public class UserController {
      */
     @ResponseBody
     @RequestMapping(value = "otherHomepage/{id}", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
-    public String scanOtherHomepage(@PathVariable Integer id) {
-        Msg message = userService.scanOtherHomepage(id);
-        if ("fail".equals(message.getResult())) {
-            return GsonUtil.getErrorJson(new GsonBuilder().create(), message.getMessage());
+    public String scanOtherHomepage(@PathVariable Integer id, HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        if (id == user.getId()) {
+            return GsonUtil.getSuccessJson(userService.getUserInfo(user.getId()));
         } else {
-            return GsonUtil.getSuccessJson(new GsonBuilder().create(), message.getMessage());
+            Msg message = userService.scanOtherHomepage(id);
+            if ("fail".equals(message.getResult())) {
+                return GsonUtil.getErrorJson(new GsonBuilder().create(), message.getMessage());
+            } else {
+                return GsonUtil.getSuccessJson(new GsonBuilder().create(), message.getMessage());
+            }
         }
     }
 

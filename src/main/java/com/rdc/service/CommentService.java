@@ -34,6 +34,7 @@ public class CommentService {
 	private UserDao userDao;
 
 	/**
+	 * Asce 2018/7/25
 	 * 获取回复
 	 * @param commentId
 	 * @param userId
@@ -62,6 +63,7 @@ public class CommentService {
 		return replies;
 	}
 	/**
+	 * Asce 2018/7/25
 	 * 获取评论
 	 * @param blogId
 	 * @param userId
@@ -98,6 +100,7 @@ public class CommentService {
 	}
 
 	/**
+	 * Asce 2018/7/25
 	 * 获取评论（前端）
 	 * @param blogId
 	 * @param userId
@@ -108,6 +111,7 @@ public class CommentService {
 		return getComment(blogId,userId,page);
 	}
 	/**
+	 * Asce 2018/7/25
 	 * 获取评论（回复在评论下）
 	 * @param blogId
 	 * @param userId
@@ -124,7 +128,13 @@ public class CommentService {
 		}
 		return comments;
 	}
-
+	/**
+	 * Asce 2018/7/25
+	 * 发表博客
+	 * @param userId
+	 * @param reply
+	 * @return
+	 */
 	public int addCommentReply(int userId, Reply reply){
 		//判断是否为自己回复自己
 		if(reply.getFromReplyId()==0){
@@ -151,6 +161,7 @@ public class CommentService {
 	}
 	/**
 	 * Asce 2018-07-23
+	 * 发表评论
 	 * @param userId
 	 * @param comment
 	 * @return
@@ -175,6 +186,7 @@ public class CommentService {
 
 	/**
 	 * Asce 2018-07-22
+	 * 得到评论数
 	 * @param blogId
 	 * @return
 	 */
@@ -191,6 +203,12 @@ public class CommentService {
 		return 0;
 	}
 
+	/**
+	 * Asce 2018/7/25
+	 * 校验评论
+	 * @param comment
+	 * @return
+	 */
 	public Comment commentConvert(Comment comment){
 
 		if(comment.getComments().length()>200||comment.getComments().length()==0){
@@ -206,6 +224,12 @@ public class CommentService {
 		return comment;
 	}
 
+	/**
+	 * Asce 2018/7/25
+	 * 校验回复
+	 * @param reply
+	 * @return
+	 */
 	public Reply replyConvert(Reply reply){
 		if(reply.getComments().length()>200||reply.getComments().length()==0){
 			return null;

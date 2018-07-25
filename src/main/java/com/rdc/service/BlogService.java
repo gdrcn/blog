@@ -1,5 +1,6 @@
 package com.rdc.service;
 
+import com.rdc.bean.BlogBean;
 import com.rdc.dao.BlogDao;
 import com.rdc.entity.Blog;
 import com.rdc.util.ConvertUtil;
@@ -10,21 +11,52 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.util.HtmlUtils;
 
-import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class BlogService {
 
 	@Autowired
 	private BlogDao blogDao;
+	private final int PAGE_SIZE=10;
 
 	/**
+	 * Asce 2018/7/25
+	 * 从用户id取博客列表
+	 * @param userId
+	 * @param page
+	 * @return
+	 */
+	public ArrayList<Blog> getBlogByUser(int userId,int page){
+		Map<String,Integer> map = new HashMap<>();
+		map.put("userId",userId);
+		int begin = page*PAGE_SIZE;
+		map.put("begin",begin);
+		ArrayList<Blog> blogs = blogDao.findBlogByUser(map);
+		return blogs;
+	}
+	/**
+	 * Asce 2018/7/25
+	 * 搜索提示
+	 * @param input
+	 * @return
+	 */
+	public ArrayList<Blog> search(String input,int page){
+		String usernameRegularExpression = "^(?!_)(?!.*?_$)[a-zA-Z0-9_\\u4e00-\\u9fa5]+$";
+		if (!input.matches(usernameRegularExpression)){
+			return null;
+		}
+		int begin = page*PAGE_SIZE;
+		Map<String,Object> map = new HashMap<>();
+		map.put("input",input);
+		map.put("begin",begin);
+		ArrayList<Blog> blogs = blogDao.search(map);
+		return blogs;
+	}
+
+	/**
+	 * Asce 2018/7/25
 	 * 搜索提示
 	 * @param input
 	 * @return
@@ -43,6 +75,7 @@ public class BlogService {
 	}
 	/**
 	 *Asce 2018-07-22
+	 * 通过博客id取博客
 	 * @param blogId
 	 * @return
 	 */
@@ -59,6 +92,7 @@ public class BlogService {
 	}
 	/**
 	 * Asce 2018-07-21
+	 * 删除博客
 	 * @param userId
 	 * @param blogId
 	 * @return
@@ -76,6 +110,7 @@ public class BlogService {
 	}
 	/**
 	 * Asce 2018-07-21
+	 * 修改博客
 	 * @param blog
 	 * @return
 	 */
@@ -94,6 +129,7 @@ public class BlogService {
 
 	/**
 	 * Asce 2018-07-21
+	 * 发表博客
 	 * @param blog
 	 * @return
 	 * @throws DataIntegrityViolationException
@@ -112,6 +148,7 @@ public class BlogService {
 
 	/**
 	 * Asce 2018-07-21
+	 * 博客验证
 	 * @param blog
 	 * @return
 	 */

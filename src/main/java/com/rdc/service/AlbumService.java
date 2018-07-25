@@ -71,6 +71,9 @@ public class AlbumService {
      * @return
      */
     public String deleteAlbum(Album album) {
+        if (albumDao.getAlbumNum(album) == 1) {
+            return "error";
+        }
         albumDao.deleteAlbum(album);
         return "success";
     }
@@ -137,6 +140,22 @@ public class AlbumService {
         map.put("time", simpleDateFormat.format(date));
         photoDao.addPhotoComment(map);
         return "success";
+    }
+
+    /**
+     * Created by Ning
+     * time 2018/7/25 10:11
+     * 修改相册名字
+     *
+     * @param album
+     */
+    public String updateAlbumName(Album album) {
+        if (albumDao.findTheSameAlbumByUserId(album) != null) {
+            return "error";
+        } else {
+            albumDao.updateAlbumName(album);
+            return "success";
+        }
     }
 }
 

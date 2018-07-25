@@ -82,17 +82,43 @@ public class AlbumController {
      * time 2018/7/24 12:15
      * 删除相册或者标签
      *
-     * @param album
+     * @param albumId
      * @return gson
      */
     @ResponseBody
-    @RequestMapping(value = "/deleteAlbum", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
-    public String deleteAlbum(Album album) {
+    @RequestMapping(value = "/deleteAlbum/{albumId}", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
+    public String deleteAlbum(@PathVariable Integer albumId, HttpSession session) {
+        User realUser = (User) session.getAttribute("user");
+        Album album = new Album();
+        album.setUserId(realUser.getId());
+        album.setId(albumId);
         String msg = albumService.deleteAlbum(album);
         if ("success".equals(msg)) {
             return GsonUtil.getSuccessJson();
         } else {
             return GsonUtil.getErrorJson();
+        }
+    }
+
+    /**
+     * Created by Ning
+     * time 2018/7/25 10:17
+     * 修改相册名字
+     *
+     * @param album
+     * @param session
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/updateAlbumName", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
+    public String updateAlbumName(Album album, HttpSession session) {
+        User realUser = (User) session.getAttribute("user");
+        album.setUserId(realUser.getId());
+        String msg = albumService.updateAlbumName(album);
+        if ("success".equals(msg)) {
+            return GsonUtil.getSuccessJson(msg);
+        } else {
+            return GsonUtil.getErrorJson(msg);
         }
     }
 

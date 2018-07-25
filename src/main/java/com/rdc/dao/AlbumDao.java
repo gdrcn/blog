@@ -90,4 +90,28 @@ public interface AlbumDao {
      * @return
      */
     Integer deleteAlbum(Album album);
+
+
+    /**
+     * 得到用户相册的总数
+     *
+     * @param album
+     * @return
+     */
+    Integer getAlbumNum(Album album);
+
+    /**
+     * 修改相册的名字
+     *
+     * @param album
+     */
+    Integer updateAlbumName(Album album);
+
+    /**
+     * 得到相册最新的照片作为封面
+     *
+     * @param id
+     * @return
+     */
+    String getAlbumCover(Integer id);
 }

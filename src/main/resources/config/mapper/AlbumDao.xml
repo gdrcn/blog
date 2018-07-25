@@ -79,4 +79,16 @@
     <delete id="deleteAlbum" parameterType="com.rdc.entity.Album">
         delete from album where id = #{id};
     </delete>
+
+    <select id="getAlbumNum" parameterType="com.rdc.entity.Album" resultType="java.lang.Integer">
+         SELECT COUNT(id) FROM album WHERE user_id = #{userId};
+    </select>
+
+    <update id="updateAlbumName" parameterType="com.rdc.entity.Album">
+        update album set album_name = #{albumName} where id = #{id};
+    </update>
+
+    <select id="getAlbumCover" parameterType="java.lang.Integer" resultType="java.lang.String">
+        SELECT photo.`photo_hash` FROM photo WHERE album_id = #{albumId} ORDER BY push_time DESC LIMIT 0, 1;
+    </select>
 </mapper>

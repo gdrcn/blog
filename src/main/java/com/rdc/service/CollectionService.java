@@ -15,6 +15,7 @@ public class CollectionService {
 
 	/**
 	 * Asce 2018-07-22
+	 * 收藏博客
 	 * @param userId
 	 * @param blogId
 	 * @return
@@ -37,6 +38,7 @@ public class CollectionService {
 	}
 	/**
 	 * Asce 2018-07-22
+	 * 得到博客收藏数
 	 * @param blogId
 	 * @return
 	 */
@@ -50,6 +52,7 @@ public class CollectionService {
 
 	/**
 	 * Asce 2018-07-22
+	 * 判断是否收藏
 	 * @param blogId
 	 * @param userId
 	 * @return
