@@ -2,7 +2,9 @@ package com.rdc.controller;
 
 import com.google.gson.GsonBuilder;
 import com.rdc.bean.Msg;
+import com.rdc.entity.Message;
 import com.rdc.entity.User;
+import com.rdc.service.MessageService;
 import com.rdc.service.NewsService;
 import com.rdc.service.UserService;
 import com.rdc.util.GsonUtil;
@@ -23,6 +25,8 @@ public class UserController {
     @Autowired
     private NewsService newsService;
 
+    @Autowired
+    private MessageService messageService;
     /**
      * Created by Ning
      * time 2018/7/22 15:52
@@ -253,5 +257,21 @@ public class UserController {
         if(newsService.readNews(id, type)){
             return GsonUtil.getSuccessJson();
         }else return GsonUtil.getErrorJson();
+    }
+
+    /**
+     * 发送信息
+     * @param from_user_id
+     * @param to_user_id
+     * @param content
+     * @author chen
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "postMessage",method = RequestMethod.POST,produces = "text/html;charset=UTF-8")
+    public String postMessage(int from_user_id,int to_user_id,String content){
+        if(messageService.postMessage(from_user_id,to_user_id,content))
+            return GsonUtil.getSuccessJson();
+        else return GsonUtil.getErrorJson();
     }
 }

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.rdc.dao.MessageDao">
+
+<resultMap id="messgae" type="com.rdc.entity.Message" >
+    <id property="id" column="id"/>
+    <result property="content" column="content"/>
+    <result property="time" column="time"/>
+    <association property="fromUser" javaType="com.rdc.bean.UserBean">
+        <id property="id" column="id"/>
+        <result property="username" column="username"/>
+        <result property="face" column="face_img"/>
+    </association>
+</resultMap>
+
+    <insert id="postMessage" >
+        insert into user_chat(from_user_id,to_user_id,content,time,from_id,to_id) values(#{from_user_id},#{to_user_id},#{content},#{time},#{from_user_id},#{to_user_id});
+    </insert>
+</mapper>

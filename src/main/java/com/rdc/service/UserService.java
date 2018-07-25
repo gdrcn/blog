@@ -166,6 +166,7 @@ public class UserService {
             if (userDao.login(user) == null) {
                 return GsonUtil.getErrorJson();
             }else{
+                user = userDao.login(user);
                 session.setAttribute("user",user);
                 return GsonUtil.getSuccessJson(user);
             }

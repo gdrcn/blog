@@ -45,6 +45,7 @@
         <result property="username" column="username"/>
     </resultMap>
 
+
     <select id="getUserInfo" parameterType="java.lang.Integer" resultMap="user">
         SELECT * FROM (SELECT user.*, permission.* FROM USER LEFT JOIN permission ON user.id = permission.user_id) temp WHERE id = #{id};
     </select>
@@ -81,7 +82,7 @@
 		select * from user where email = #{email}
 	</select>
 
-    <select id="login" parameterType="com.rdc.entity.User" resultType="com.rdc.entity.User">
+    <select id="login" parameterType="com.rdc.entity.User" resultMap="user">
 		select *from user where username=#{username} and password=#{password}
 	</select>
 
