@@ -1,6 +1,7 @@
 package com.rdc.controller;
 
 import com.google.gson.Gson;
+import com.rdc.bean.BlogBean;
 import com.rdc.bean.Msg;
 import com.rdc.bean.UserBean;
 import com.rdc.entity.Blog;
@@ -42,6 +43,17 @@ public class BlogController {
 	private Gson gson=new Gson();
 	private Msg msg;
 
+	@ResponseBody
+	@RequestMapping(value="/blogSearch/{input}",method = RequestMethod.GET)
+	public String blogSearch(@PathVariable String input){
+
+		return "";
+	}
+	/**
+	 * 搜索提示
+	 * @param input
+	 * @return
+	 */
 	@ResponseBody
 	@RequestMapping(value="/blogSearchPoint/{input}",method = RequestMethod.GET)
 	public String blogSearchPoint(@PathVariable String input){
@@ -166,10 +178,6 @@ public class BlogController {
 	@ResponseBody
 	@RequestMapping(value="/blog/{blogId}/{page}",method = RequestMethod.GET,produces = "text/html;charset=UTF-8")
 	public String showBlogWithoutReply(@PathVariable int blogId,@PathVariable int page, HttpSession session) throws ParseException {
-		User user = new User();
-		user.setId(1);
-		session.setAttribute("user",user);
-
 		return showBlogById(blogId,0,page,session);
 	}
 	/**
@@ -184,7 +192,6 @@ public class BlogController {
 		User user = (User) session.getAttribute("user");
 		return GsonUtil.getSuccessJson(commentService.getReply(commentId,user.getId()));
 	}
-
 	/**
 	 * 根据取得博客
 	 * @param blogId
@@ -195,31 +202,25 @@ public class BlogController {
 	 */
 	public String showBlogById(int blogId,int type ,int page,HttpSession session) throws ParseException {
 
-		User user1 = new User();
-		user1.setId(1);
-		session.setAttribute("user",user1);
-
 		Blog blog = blogService.showBlogById(blogId);
 		if (blog==null){
 			return GsonUtil.getErrorJson();		//没有此博客
 		}
+		BlogBean blogBean = new BlogBean();
 		//点赞数
-		int upCount = upService.blogUpCount(blogId);
+		blogBean.setUpCount(upService.blogUpCount(blogId));
 		//收藏数
-		int collectionCount = collectionService.getCollectionCount(blogId);
+		blogBean.setCollectionCount(collectionService.getCollectionCount(blogId));
 		//评论数
-		int commentCount = commentService.getBlogCommentCount(blogId);
-		//是否收藏
-		Boolean isCollect;
-		//是否点赞
-		Boolean isUp;
+		blogBean.setCommentCount(commentService.getBlogCommentCount(blogId));
+
 		User user = (User) session.getAttribute("user");
-		if(user!=null) {
-			isCollect = collectionService.isCollect(user.getId(),blogId);
-			isUp = upService.isBlogUp(user.getId(),blogId);
+		if(user!=null) {	//是否点赞、收藏
+			blogBean.setIsCollect(collectionService.isCollect(user.getId(),blogId));
+			blogBean.setIsUp(upService.isBlogUp(user.getId(),blogId));
 		}else{
-			isCollect=false;
-			isUp=false;
+			blogBean.setIsUp(false);
+			blogBean.setIsCollect(false);
 		}
 		//评论
 		ArrayList<Comment> comments;
@@ -229,12 +230,7 @@ public class BlogController {
 		}else {		//前端
 			comments = commentService.getCommentWithoutReply(blogId,user.getId(),page);
 		}
-		map.put("blog",blog);
-		map.put("upCount",upCount);
-		map.put("collectionCount",collectionCount);
-		map.put("commentCount",commentCount);
-		map.put("isCollect",isCollect);
-		map.put("isUp",isUp);
+		map.put("blogBean",blogBean);
 		map.put("comments",comments);
 		return GsonUtil.getSuccessJson(map);
 	}

@@ -45,23 +45,11 @@
     <!--<mvc:resources mapping="/css/**" location="/WEB-INF/css/" />-->
     <!--<mvc:resources mapping="/doc/**" location="/WEB-INF/doc/" />-->
 
-    <!--<mvc:interceptors>-->
-        <!-- 配置自定义的拦截器-->
-        <!--<bean class="com.rdc.filter.EncodingFilter"></bean>-->
-        <!-- 配置拦截器(不)作用的路径
-        <mvc:interceptor>
-            <mvc:mapping path="/emps"/>
-            <bean class="com.atguigu.springmvc.interceptors.SecondInterceptor"></bean>
-        </mvc:interceptor>
-        -->
-    <!--</mvc:interceptors>-->
-
-    <!--
     <mvc:interceptors>
-        <mvc:interceptor>
-            <mvc:mapping path="/signUp"/>
-            <bean class="com.ssm.filter.UserFilter"></bean>
-        </mvc:interceptor>
+        <!-- 配置自定义的拦截器-->
+        <bean class="com.rdc.filter.PermissionFilter"></bean>
+        <!-- 配置拦截器(不)作用的路径-->
+
     </mvc:interceptors>
-    -->
+
 </beans>

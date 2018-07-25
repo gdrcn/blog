@@ -245,19 +245,9 @@
       <version>1.2.21</version>
     </dependency>
     <dependency>
-      <groupId>net.sf.json-lib</groupId>
-      <artifactId>json-lib</artifactId>
-      <version>2.4</version>
-    </dependency>
-    <dependency>
       <groupId>org.mortbay.jetty</groupId>
       <artifactId>jetty-util</artifactId>
       <version>6.1.25</version>
-    </dependency>
-    <dependency>
-      <groupId>net.sf.json-lib</groupId>
-      <artifactId>json-lib</artifactId>
-      <version>2.4</version>
     </dependency>
     <dependency>
       <groupId>javax</groupId>
