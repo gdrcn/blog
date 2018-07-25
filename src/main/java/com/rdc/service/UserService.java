@@ -6,10 +6,12 @@ import com.rdc.dao.AlbumDao;
 import com.rdc.dao.CommentDao;
 import com.rdc.dao.PhotoDao;
 import com.rdc.dao.UserDao;
+import com.rdc.entity.Album;
 import com.rdc.entity.Photo;
 import com.rdc.entity.User;
 import com.rdc.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -40,6 +42,9 @@ public class UserService {
     @Autowired
     private PhotoDao photoDao;
 
+
+    @Autowired
+    private JavaMailSender mailSender;
     /**
      * Created by Ning
      * time 2018/7/22 16:02
@@ -52,6 +57,7 @@ public class UserService {
         User user = userDao.getUserInfo(id);
         user.setFans((userDao.getFansNum(id)).length);
         user.setIdols((userDao.getIdolsNum(id)).length);
+        user.setBlogList(userDao.getUserBlogInfo(user.getId()));
         user.setNotReadComment(commentDao.countNotReadAlbum(id) + commentDao.countNotReadFirst(id) + commentDao.countNotReadSecond(id));
         user.setPhotoWallList(photoDao.getSomePhoto(user.getId()));
         return user;
@@ -195,35 +201,35 @@ public class UserService {
         if (userDao.checkEmail(user) != null) {
             return GsonUtil.getErrorJson("邮箱已经注册过");
         } else {
-            // session.setAttribute("user",user);
+            session.setAttribute("user",user);
+
             String code = CharacterUtil.getRandomString(5);
             Map<String, String> map = new HashMap<>();
             map.put("result", "success");
             map.put("message", "已经发送验证码到你的邮箱,请验证");
-            map.put("code", code);
 
-            SendemailUtil.sendEmail(user.getEmail(), code);
+            SendemailUtil.sendEmail(mailSender,user.getEmail(), code);
+            SendemailUtil.sendEmail(mailSender,user.getEmail(),code);
+            session.setAttribute("emailCode",code);
             return new Gson().toJson(map);
         }
     }
 
     /**
      * @param checkcode
-     * @param code
      * @param user
      * @return
      * @author chen
      * @function注册时邮箱验证码验证
      */
     @Transactional
-    public String validate(String checkcode, String code, User user) {
-
-        if (ValidateUtil.isInvalidString(checkcode)) {
+    public String validate(String checkcode,String code,User user) {
+        if(ValidateUtil.isInvalidString(checkcode)) {
             return GsonUtil.getErrorJson("输入不能为空");
-        } else {
-            if (code != checkcode || !code.equals(checkcode)) {
+        }else {
+            if (!code.equals(checkcode)) {
                 return GsonUtil.getErrorJson("验证码错误");
-            } else {
+            } else{
                 user.setPassword(ConvertUtil.encryptMd5(user.getPassword()));
                 userDao.registe(user);
                 albumDao.insertDefaultAlbum(userDao.getUserIdByName(user.getUsername()));
@@ -239,35 +245,32 @@ public class UserService {
      * @return
      * @author chen
      */
-    public String forgetPassword(String email, Model model) {
+    public String forgetPassword(String email,HttpSession session){
 
-        if (userDao.findEmail(email) == null) {
+        if(userDao.findEmail(email)==null){
             return GsonUtil.getErrorJson("该邮箱未注册");
-        } else {
+        }else{
             String code = CharacterUtil.getRandomString(5);
-            model.addAttribute("code", code);
 
-            SendemailUtil.sendEmail(email, code);
+            SendemailUtil.sendEmail(mailSender,email,code);
+            session.setAttribute("emailCode",code);
             return GsonUtil.getSuccessJson("已发送验证码到你的邮箱，请验证");
         }
     }
 
     /**
      * 忘记密码时邮箱验证
-     *
-     * @param checkcode
-     * @param code
-     * @param email
-     * @return
      * @author chen
+     * @param checkcode
+     * @return
      */
-    public String validateEmail(String checkcode, String code, String email) {
-        if (ValidateUtil.isInvalidString(checkcode)) {
+    public String validateEmail(String checkcode,String code){
+        if(ValidateUtil.isInvalidString(checkcode)) {
             return GsonUtil.getErrorJson("输入不能为空");
-        } else {
-            if (!code.equals(checkcode)) {
+        }else {
+            if (! code.equals(checkcode)) {
                 return GsonUtil.getErrorJson("验证码错误");
-            } else {
+            } else{
                 return GsonUtil.getSuccessJson();
             }
         }
@@ -314,6 +317,8 @@ public class UserService {
     }
 
 
+
+
     /**
      * Created by Ning
      * time 2018/7/22 16:04
@@ -325,6 +330,7 @@ public class UserService {
     public Msg scanOtherHomepage(Integer userId) {
         Msg msg = new Msg();
         User user = userDao.scanOtherMsg(userId);
+        user.setBlogList(userDao.getUserBlogInfo(user.getId()));
         if (user.getVisible() == 0) {
             user = null;
             msg.setMessage(user);
@@ -349,6 +355,9 @@ public class UserService {
         User user = userDao.getUserPWInfo(userId);
         user.setNiceFriendsList(userDao.getNiceFriends(userId));
         user.setAlbumList(albumDao.getUserAlbumList(userId));
+        for (Album album : user.getAlbumList()) {
+            album.setCoverHash(albumDao.getAlbumCover(album.getId()));
+        }
         user.setPhotoWallList(albumDao.getUserAllPhoto(userId));
         for (Photo photo : user.getPhotoWallList()) {
             photo.setBeUpNum(photoDao.getPhotoUp(photo.getId()));
@@ -367,6 +376,9 @@ public class UserService {
     public User getOtherPWInfo(Integer userId) {
         User user = userDao.getUserPWInfo(userId);
         user.setAlbumList(albumDao.getUserAlbumList(userId));
+        for (Album album : user.getAlbumList()) {
+            album.setCoverHash(albumDao.getAlbumCover(album.getId()));
+        }
         user.setPhotoWallList(albumDao.getUserAllPhoto(userId));
         return user;
     }

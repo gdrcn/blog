@@ -106,4 +106,35 @@
     <update id="photoCommentsNewsRead" parameterType="int">
         update photo_comments set status=0 where id=#{id}
     </update>
+
+    <select id="getCommentByBlog" parameterType="map" resultMap="commentMap">
+        select t1.id as comment_id,blog_id,time,comments,face_img,username,t2.id as user_id from first_comments as t1,user as t2 where blog_id=#{blogId} and commentser_id=t2.id order by time limit #{begin},10
+    </select>
+
+    <resultMap id="commentMap" type="com.rdc.entity.Comment" autoMapping="true">
+        <id property="id" column="comment_id"></id>
+        <result property="fromId" column="blog_id"></result>
+        <association property="fromUserBean" javaType="com.rdc.bean.UserBean" autoMapping="true">
+            <id property="id" column="user_id"></id>
+            <result property="face" column="face_img"></result>
+        </association>
+    </resultMap>
+
+    <select id="getReplyByComment" parameterType="int" resultMap="replyMap">
+        select t1.id as reply_id,first_comments_id,comments,time,second_comments_id,username,t2.id as user_id,face_img from second_comments as t1,user as t2 where first_comments_id=#{commentId} and t1.commentser_id=t2.id order by time
+    </select>
+
+    <resultMap id="replyMap" type="com.rdc.entity.Reply" autoMapping="true">
+        <id property="id" column="reply_id"></id>
+        <result property="fromCommentId" column="first_comments_id"></result>
+        <result property="fromReplyId" column="second_comments_id"></result>
+        <association property="fromUserBean" javaType="com.rdc.bean.UserBean" autoMapping="true">
+            <id property="id" column="user_id"></id>
+            <result property="face" column="face_img"></result>
+        </association>
+    </resultMap>
+
+    <select id="getCommentReplyCount" parameterType="int" resultType="int">
+        select count(id) from second_comments where first_comments_id=#{commentId}
+    </select>
 </mapper>

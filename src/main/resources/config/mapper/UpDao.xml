@@ -45,7 +45,13 @@
         select id from up where user_id=#{userId} and blog_second_id=#{replyId};
     </select>
 
+    <select id="getReplyUpCount" parameterType="map" resultType="int">
+        select count(id) from up where user_id=#{userId} and blog_second_id=#{ReplyId}
+    </select>
 
+    <select id="getCommentUpCount" parameterType="int" resultType="int">
+        select count(id) from up where user_id=#{userId} and blog_first_id=#{commentId}
+    </select>
 
     <select id="blogUpNews" parameterType="int" resultMap="blogNewsBean">
         select up.id,user.username,blog.title from up,user,blog where up.beuser_id = #{user_id} and up.blog_id is not null and+

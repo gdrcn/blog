@@ -37,14 +37,14 @@ public class UploadUtil {
 			String path = new Object() {
 				public String getPath() {
 					String path=this.getClass().getResource("/").getPath();
-					path=path.replace('/', '\\'); // 将/换成\
-					path=path.replace("classes\\", ""); //去掉classes
-					path=path.substring(1);
-					System.out.print(path);
+					//path=path.replace('/', '\\'); // 将/换成\
+					path=path.replace("classes/", ""); //去掉classes
+					//path=path.substring(1);
 					return path;
 				}
 			}.getPath();
-			file.transferTo(new File(path+"img\\"+name));
+			file.transferTo(new File(path+"img/"+name));
+			System.out.println(path+"img/"+name);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

@@ -1,6 +1,9 @@
 package com.rdc.dao;
 
 import com.rdc.bean.NewsBean;
+import com.rdc.bean.UserBean;
+import com.rdc.entity.Album;
+import com.rdc.entity.Blog;
 import com.rdc.entity.User;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -139,6 +142,13 @@ public interface UserDao {
     List<NewsBean> userLikeNews(int user_id);
 
     /**
+     * 读用户关注新消息
+     * @param id
+     * @return
+     */
+    int userLikeNewsRead(int id);
+    UserBean getUserBean(int userId);
+    /**
      * 取消关注
      * @param user_id
      * @param beliked_id
@@ -147,9 +157,11 @@ public interface UserDao {
     int offWatch(@Param("user_id") int user_id,@Param("beliked_id") int beliked_id);
 
     /**
-     * 读用户关注新消息
-     * @param id
+     * 获取博客信息
+     *
+     * @param userId
      * @return
      */
-    int userLikeNewsRead(int id);
+    ArrayList<Blog> getUserBlogInfo(int userId);
+
 }

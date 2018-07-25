@@ -9,7 +9,7 @@
         <selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">
             SELECT LAST_INSERT_ID() AS ID
         </selectKey>
-        insert into blog(user_id,title,cover_img,article,finish_time) values(#{userBean.id},#{title},#{coverImg},#{article},#{finishTime})
+        insert into blog(user_id,title,cover_img,article,finish_time,category) values(#{userBean.id},#{title},#{coverImg},#{article},#{finishTime},#{category})
     </insert>
 
     <select id="findUserId" parameterType="int" resultType="int">
@@ -25,14 +25,19 @@
     </update>
 
     <select id="findBlogById" parameterType="int" resultMap="blogMap">
-        select *,t1.id as blog_id from blog as t1,user where t1.id=#{blogId}
+        select user_id,title,cover_img,article,finish_time,username,face_img,category,t1.id as blog_id from blog as t1,user as t2 where t1.id=#{blogId} and t2.id=t1.user_id
     </select>
 
     <resultMap type="com.rdc.entity.Blog" id="blogMap" autoMapping="true">
         <id column="blog_id" property="id"/>
-        <association property="userBean" javaType="com.rdc.bean.UserBean">
+        <result column="finish_time" property="finishTime"/>
+        <association property="userBean" javaType="com.rdc.bean.UserBean" autoMapping="true">
             <id column="user_id" property="id"/>
             <result column="face_img" property="face"/>
         </association>
     </resultMap>
+
+    <select id="searchPoint" parameterType="String" resultType="com.rdc.entity.Blog">
+        select id,title from blog where locate(#{input},title)>0 limit 5
+    </select>
 </mapper>

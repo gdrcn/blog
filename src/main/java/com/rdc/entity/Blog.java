@@ -2,15 +2,13 @@ package com.rdc.entity;
 
 import com.rdc.bean.UserBean;
 
-import java.util.ArrayList;
-
 public class Blog {
     private int id;
     private String title;
     private String article;
     private String finishTime;
     private UserBean userBean;
-    private ArrayList<Category> category;
+    private String category;
     private String coverImg;
 
     public Blog() {
@@ -56,11 +54,11 @@ public class Blog {
         this.userBean = userBean;
     }
 
-    public ArrayList<Category> getCategory() {
+    public String getCategory() {
         return category;
     }
 
-    public void setCategory(ArrayList<Category> category) {
+    public void setCategory(String category) {
         this.category = category;
     }
 

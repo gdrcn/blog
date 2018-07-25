@@ -11,6 +11,8 @@ public class Comment {
     private UserBean fromUserBean;
     private int fromId;
     private ArrayList<Reply> replies;
+    private Boolean isUp;
+    private int replyCount;
     private Integer upCount;
     Integer status;
 
@@ -81,17 +83,19 @@ public class Comment {
         this.upCount = upCount;
     }
 
-    @Override
-    public String toString() {
-        return "Comment{" +
-                "id=" + id +
-                ", comments='" + comments + '\'' +
-                ", time='" + time + '\'' +
-                ", fromUserBean=" + fromUserBean +
-                ", fromId=" + fromId +
-                ", replies=" + replies +
-                ", upCount=" + upCount +
-                ", status=" + status +
-                '}';
+    public Boolean getIsUp() {
+        return isUp;
+    }
+
+    public void setIsUp(Boolean isUp) {
+        this.isUp = isUp;
+    }
+
+    public int getReplyCount() {
+        return replyCount;
+    }
+
+    public void setReplyCount(int replyCount) {
+        this.replyCount = replyCount;
     }
 }

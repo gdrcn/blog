@@ -51,12 +51,17 @@ public class UserController {
      */
     @ResponseBody
     @RequestMapping(value = "otherHomepage/{id}", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
-    public String scanOtherHomepage(@PathVariable Integer id) {
-        Msg message = userService.scanOtherHomepage(id);
-        if ("fail".equals(message.getResult())) {
-            return GsonUtil.getErrorJson(new GsonBuilder().create(), message.getMessage());
+    public String scanOtherHomepage(@PathVariable Integer id, HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        if (id == user.getId()) {
+            return GsonUtil.getSuccessJson(userService.getUserInfo(user.getId()));
         } else {
-            return GsonUtil.getSuccessJson(new GsonBuilder().create(), message.getMessage());
+            Msg message = userService.scanOtherHomepage(id);
+            if ("fail".equals(message.getResult())) {
+                return GsonUtil.getErrorJson(new GsonBuilder().create(), message.getMessage());
+            } else {
+                return GsonUtil.getSuccessJson(new GsonBuilder().create(), message.getMessage());
+            }
         }
     }
 
@@ -116,14 +121,17 @@ public class UserController {
      * 注册时邮箱验证
      *
      * @param checkcode
-     * @param code
-     * @param user
+     * @param session
      * @return
      * @author chen
      */
     @ResponseBody
     @RequestMapping(value = "validate",method = RequestMethod.POST,produces = "text/html;charset=UTF-8")
-    public String validate(@RequestParam(value = "code") String code,@RequestParam(value = "checkcode",required = false) String checkcode, User user){
+    public String validate(@RequestParam(value = "checkcode") String checkcode,HttpSession session){
+
+        User user = (User)session.getAttribute("user");
+        String code=(String) session.getAttribute("emailCode");
+
         return userService.validate(checkcode,code,user);
     }
 
@@ -166,10 +174,9 @@ public class UserController {
      * @author chen
      */
     @ResponseBody
-    @RequestMapping(value = "forgetPassword", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
-    public String forgetPassword(String email, Model model) {
-        model.addAttribute("email", email);
-        return userService.forgetPassword(email, model);
+    @RequestMapping(value="forgetPassword",method = RequestMethod.POST,produces = "text/html;charset=UTF-8")
+    public String forgetPassword(String email,HttpSession session){
+        return userService.forgetPassword(email,session);
     }
 
     /**
@@ -185,7 +192,7 @@ public class UserController {
     @RequestMapping(value = "validateEmail/{email}/{code}/{checkcode}", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
     public String validateEmail(@PathVariable String email, @PathVariable String code, @PathVariable String checkcode, Model model) {
         model.addAttribute("email", email);
-        return userService.validateEmail(checkcode, code, email);
+        return userService.validateEmail(checkcode, code);
     }
 
     /**

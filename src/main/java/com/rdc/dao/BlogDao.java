@@ -2,6 +2,8 @@ package com.rdc.dao;
 
 import com.rdc.entity.Blog;
 
+import java.util.ArrayList;
+
 
 public interface BlogDao {
 
@@ -15,5 +17,5 @@ public interface BlogDao {
 
 	Blog findBlogById(int blogId);
 
-
+	ArrayList<Blog> searchPoint(String input);
 }
