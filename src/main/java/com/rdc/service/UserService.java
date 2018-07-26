@@ -284,10 +284,12 @@ public class UserService {
         if (!password.equals(confirmPassword)) {
             return GsonUtil.getErrorJson("两次输入密码不一致");
         }
-        if (userDao.resetPassword(password, email) > 0)
+        else {
+            ConvertUtil.encryptMd5(password);
+            if(userDao.resetPassword(password, email) > 0)
             return GsonUtil.getSuccessJson();
-        else
-            return GsonUtil.getErrorJson("重置密码失败");
+        }
+        return GsonUtil.getErrorJson();
     }
 
 

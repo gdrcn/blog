@@ -13,7 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
 
-@CrossOrigin
+
 @Controller
 @RequestMapping("/blog")
 public class AlbumController {

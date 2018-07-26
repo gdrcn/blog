@@ -18,7 +18,7 @@ import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Map;
 
-@CrossOrigin
+
 @Controller
 @RequestMapping("/blog")
 public class UserController {
@@ -320,5 +320,18 @@ public class UserController {
         if(messageService.postMessage(from_user_id,to_user_id,content))
             return GsonUtil.getSuccessJson();
         else return GsonUtil.getErrorJson();
+    }
+
+    /**
+     * 退出登录
+     * @param session
+     * @author chen
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "exit",method = RequestMethod.GET,produces = "text/html;charset=UTF-8")
+    public String Exit(HttpSession session){
+        session.removeAttribute("user");
+        return GsonUtil.getSuccessJson();
     }
 }
