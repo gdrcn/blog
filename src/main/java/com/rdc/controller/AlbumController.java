@@ -33,16 +33,12 @@ public class AlbumController {
         album.setUserId(user.getId());
         Msg message = new Msg();
         if (!UploadUtil.suffixMatch(file.getOriginalFilename())) {
-            message.setResult("error");
-            message.setMessage("不支持此文件类型");
-            return GsonUtil.getErrorJson(message);
+            return GsonUtil.getErrorJson("不支持此文件类型");
         } else {
             String hashName = UploadUtil.getFileHash(file.getOriginalFilename());
             UploadUtil.imgUpload(hashName, file);
             albumService.uploadPhotos(album, hashName);
-            message.setResult("success");
-            message.setMessage("/img/" +hashName);
-            return GsonUtil.getSuccessJson(message);
+            return GsonUtil.getSuccessJson(hashName);
         }
     }
 
