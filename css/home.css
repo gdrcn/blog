@@ -1,0 +1,458 @@
+/*首页背景效果*/
+body, html {
+    padding: 0;
+    margin: 0
+}
+
+a {
+    text-decoration: none;
+}
+
+body {
+    background: #232323;
+    color: #fff;
+    width: 100%;
+}
+
+.opaque {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    opacity: 0;
+    background: #d2d6f1;
+}
+
+.lt-ie9 .opaque {
+    display: none;
+}
+
+.feature {
+    position: fixed;
+    top: 0;
+    z-index: 0;
+    width: 100%;
+    padding-top: 60%;
+    background: url(../pics/微信图片_20180720164117.jpg) center center no-repeat;
+    -webkit-background-size: 150%;
+    -moz-background-size: 150%;
+    -o-background-size: 150%;
+    background-size: 150%;
+    -webkit-box-shadow: 0 -50px 20px -20px #232323 inset;
+    -moz-box-shadow: 0 -50px 20px -20px #232323 inset;
+    box-shadow: 0 -50px 20px -20px #232323 inset;
+}
+
+.content {
+    position: relative;
+    z-index: 1;
+    width: 90%;
+    margin: 0 auto;
+}
+
+@media only screen and (min-width: 36.250em) {
+    .content {
+        width: 60%;
+    }
+}
+
+.fa {
+    margin-right: 5px;
+}
+
+.noselect {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/*首页*/
+body {
+    font-size: 16px;
+    letter-spacing: 1px;
+    font-family: Microsoft YaHei, \\5FAE\8F6F\96C5\9ED1, Arial, sans-serif;
+}
+
+/*b*/
+h1 {
+    display: block;
+    font-size: 2em;
+    -webkit-margin-before: 0.67em;
+    -webkit-margin-after: 0.67em;
+    -webkit-margin-start: 0px;
+    -webkit-margin-end: 0px;
+    font-weight: bold;
+}
+
+.b_dynamic {
+    max-width: 1200px;
+    position: relative;
+    margin: 0 auto;
+    box-sizing: border-box;
+    padding: 0 20px;
+}
+
+/*picked-pens*/
+.b_picked {
+    position: relative;
+    margin: 0 0 70px 0;
+}
+
+.b_dynamib_title {
+    border-bottom: 5px solid #0ebeff;
+    position: relative;
+    margin: 40px 0 25px 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.b_dynamic h1 {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-family: 微软雅黑;
+    line-height: 1.1;
+    font-size: 3rem;
+    margin: 0 0 10px 0;
+    font-weight: normal;
+    padding: 0;
+    box-sizing: border-box;
+    color: white;
+}
+
+@media (max-width: 550px) {
+    .b_dynamic h1 {
+        font-size: 2.2rem;
+    }
+}
+
+.b_dynamic .b_more {
+    position: absolute;
+    right: 0;
+    bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    transition: 0.2s;
+    text-decoration: none;
+    color: #76DAFF;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    cursor: pointer;
+}
+
+.b_pens {
+    padding-bottom: 80px;
+    position: relative;
+    display: flex !important;
+    flex-wrap: wrap;
+    margin: 0;
+    padding: 0;
+}
+
+.b_pens .b_pictures {
+    width: 32%;
+    border-radius: 6px;
+    overflow: hidden;
+    margin: 0 2% 25px 0;
+    position: relative;
+    box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.28);
+}
+
+.b_pens .b_r_picture {
+    margin-right: 0px;
+}
+
+@media (max-width: 830px) {
+    .b_pens .b_pictures {
+        width: 49%;
+    }
+}
+
+@media (max-width: 550px) {
+    .b_pens .b_pictures {
+        width: 100%;
+        margin-right: 0 !important;
+    }
+}
+
+.b_pens_wrap {
+    position: relative;
+    height: 0;
+    padding-top: 56.25%;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+}
+
+.b_meta {
+    background: #32333B;
+    opacity: .8;
+    position: relative;
+    font-size: 0.85em;
+    white-space: nowrap;
+    padding: 1rem 1rem .5rem;
+    z-index: 3;
+}
+
+.b_meta-container {
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+    border-bottom: 1px solid #40434D;
+    padding-bottom: .875rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.b_title-name {
+    width: 100%;
+    box-sizing: border-box;
+    padding-right: 1rem;
+    overflow: hidden;
+}
+
+.b_item-name {
+    font-size: 1rem;
+    margin: 0 0.125rem;
+    text-overflow: ellipsis;
+}
+
+.b_user-name {
+    color: #A6A9B0;
+    font-size: .95rem;
+}
+
+.b_user_signal {
+    display: inline-block;
+    margin-left: 5px;
+    position: relative;
+    top: 1px;
+}
+
+.b_starts {
+    margin-top: .5rem;
+}
+
+.b_single-start {
+    cursor: pointer;
+    color: #A6A9B0;
+    display: inline-block;
+    height: 100%;
+    text-align: center;
+    padding: 0 .625rem 0 0;
+    font-size: 13px;
+}
+
+/*picked-pics*/
+.b_pics {
+    display: flex;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+@media (max-width: 830px) {
+    .b_pics {
+        display: block;
+    }
+}
+
+.b_lists {
+    display: flex;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    overflow: hidden;
+    border-radius: 6px;
+    color: #9396A4;
+    box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.28);
+    margin-bottom: 20px;
+    width: 32%;
+    margin-right: 2%;
+}
+
+@media (max-width: 830px) {
+    .b_lists {
+        width: 100%;
+        margin-right: 0;
+    }
+}
+
+.b_r_list {
+    margin-right: 0;
+}
+
+.b_pics_article {
+    position: relative;
+    -webkit-flex-grow: 1;
+    -ms-flex-positive: 1;
+    flex-grow: 1;
+    background: white;
+    opacity: .6;
+    padding: 20px;
+}
+
+.b_pics_article h2 {
+    font-family: "Telefon", Sans-Serif;
+    font-size: 1.8rem;
+    line-height: 1.2;
+    margin: 0 0 10px 0;
+    font-weight: normal;
+}
+
+/*wewewewew8*/
+div#w_page1, div#w_page2 {
+    width: 100%;
+}
+
+div#w_welcome {
+    text-align: center;
+    line-height: 160%;
+    color: white;
+    font-size: 2.6rem;
+    position: absolute;
+    transform: translateX(-50%) translateY(-50%);
+    left: 50%;
+}
+
+span#w_welcomeSpan {
+    text-shadow: 0 0 30px black;
+    font-size: 5rem;
+}
+
+div#w_welcomeStart {
+    box-sizing: border-box;
+    position: relative;
+    border-radius: 5px;
+    line-height: 233%;
+    font-size: 1.3rem;
+    display: inline-block;
+    letter-spacing: 2px;
+    margin-top: 1rem;
+    padding: 2px 13px;
+    cursor: pointer;
+    background: rgba(29, 2, 2, 0.75);
+    color: white;
+
+}
+
+div#w_login {
+    box-sizing: border-box;
+    box-shadow: 0 0 30px black;
+    color: #0ebeff;
+    display: inline-block;
+    display: none;
+    background: #32333B;
+    border-radius: 6px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    padding-left: 30px;
+    padding-right: 30px;
+    transform-style: preserve-3d;
+    opacity: 0.96;
+    position: absolute;
+    top: 46%;
+    right: 5%;
+    transform: translateX(50%) translateY(-50%);
+}
+
+p.w_loginWord {
+    box-sizing: border-box;
+    color: white;
+    text-shadow: 0 0 15px black;
+    font-size: 18px;
+    text-align: left;
+    margin: 2px;
+}
+
+input.w_loginInput {
+    box-sizing: border-box;
+    width: 200px;
+    color: white;
+    border-radius: 3px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    margin-bottom: 17px;
+    margin-top: 10px;
+    height: 1.5rem;
+    background: rgba(0, 0, 0, 0.3);
+    border: 0;
+    padding-left: 10px;
+}
+
+a#w_loginAlert {
+    box-sizing: border-box;
+    display: inline-block;
+    font-size: 0.75rem;
+    color: gray;
+    height: 0.8rem;
+    margin-bottom: 7px;
+    cursor: pointer;
+}
+
+div.w_loginButton {
+    box-sizing: border-box;
+    height: 1.8rem;
+    line-height: 1.8rem;
+    width: 200px;
+    position: relative;
+    display: inline-block;
+    color: white;
+    font-size: 1rem;
+    background: #0ebeff;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: 10px;
+    margin-bottom: 7px;
+    padding-left: 5px;
+    padding-right: 5px;
+    border-radius: 3px;
+    text-align: center;
+    cursor: pointer;
+}
+
+#b_signRegister, #b_signlast3, div#b_signlast2, #b_signlast1, #b_signVerification, #b_signNext {
+    width: 98px;
+    left: 0;
+    transform: none;
+}
+
+div.w_loginButton:hover {
+    background: #009eff;
+}
+
+.keeppassword {
+    box-sizing: border-box;
+    color: rgb(180, 180, 180);
+    cursor: pointer;
+    font-size: 13px;
+    margin-top: 8px;
+    margin-bottom: 3px;
+}
+
+.b_login_none {
+    display: none;
+}
+
+.login_after_fail {
+    position: absolute;
+    color: red;
+    top: 42px;
+    right: 10px;
+}
+
+.login_after_right {
+    position: absolute;
+    color: inherit;
+    top: 42px;
+    right: 10px;
+}
