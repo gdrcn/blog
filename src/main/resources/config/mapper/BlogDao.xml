@@ -49,4 +49,8 @@
     <select id="findBlogByUser" parameterType="map" resultMap="blogMap">
         select user_id,title,cover_img,article,finish_time,username,face_img,category,t1.id as blog_id from blog as t1,user as t2 where user_id=#{userId} and t2.id=t1.user_id limit #{begin},10
     </select>
+
+    <select id="findBlogByCategory" parameterType="map" resultMap="blogMap">
+         select user_id,title,cover_img,article,finish_time,username,face_img,category,t1.id as blog_id from blog as t1,user as t2 where t1.category=#{category} order by finish_time limit #{begin},10
+    </select>
 </mapper>

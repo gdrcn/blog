@@ -21,6 +21,22 @@ public class BlogService {
 	private BlogDao blogDao;
 	private final int PAGE_SIZE=10;
 
+	public ArrayList<Blog> getBlogByCategory(String category,int page){
+		if(!category.equals("后台")){
+			if(!category.equals("安卓")){
+				if(!category.equals("大数据")){
+					if(!category.equals("前端")){
+						return null;
+					}
+				}
+			}
+		}
+		int begin = page*PAGE_SIZE;
+		Map<String,Object> map = new HashMap<>();
+		map.put("category",category);
+		map.put("begin",begin);
+		return blogDao.findBlogByCategory(map);
+	}
 	/**
 	 * Asce 2018/7/25
 	 * 从用户id取博客列表

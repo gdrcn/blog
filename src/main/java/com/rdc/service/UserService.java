@@ -14,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.HtmlUtils;
 
 import javax.servlet.http.HttpSession;
@@ -68,11 +67,10 @@ public class UserService {
      * time 2018/7/22 16:02
      *
      * @param user
-     * @param faceImg
      * @return MsG
      * @function 在个人主页修改信息
      */
-    public Msg updateUserInfo(User user, MultipartFile faceImg) {
+    public Msg updateUserInfo(User user) {
         String usernameRegularExpression = "^(?!_)(?!.*?_$)[a-zA-Z0-9_\\u4e00-\\u9fa5]+$";
         String emailRegularExpression = "^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\\.[a-zA-Z0-9_-]+)+$";
         String addressRegularExpression = "^[a-zA-Z0-9\u4E00-\u9FA5]{0,20}$";
@@ -94,18 +92,6 @@ public class UserService {
             msg.setResult("用户名已存在");
             msg.setMessage(user);
             return msg;
-        }
-        if (faceImg != null) {
-            if (!UploadUtil.suffixMatch(faceImg.getOriginalFilename())) {
-                msg.setResult("faceImgError");
-                msg.setMessage(user);
-                return msg;
-            } else {
-                String hashName = UploadUtil.getFileHash(faceImg.getOriginalFilename());
-                UploadUtil.imgUpload(hashName, faceImg);
-                user.setFaceImg(hashName);
-                System.out.println(hashName);
-            }
         }
         if ((user.getEmail() != null)) {
             if (!(user.getEmail().matches(emailRegularExpression))) {
@@ -162,7 +148,6 @@ public class UserService {
         if (user.getBorn() != null) {
             user.setBirthday(simpleDateFormat.format(user.getBorn()));
         }
-        user.setFaceImg(newUser.getFaceImg());
         user.setPhone(newUser.getPhone());
         user.setAddress(newUser.getAddress());
         user.setSignature(HtmlUtils.htmlEscape(newUser.getSignature()));
@@ -194,7 +179,7 @@ public class UserService {
      * @author chen
      * @function用户注册
      */
-    public String registe(User user, String confirmPassword,HttpSession session) {
+    public String registe(User user, String confirmPassword, HttpSession session) {
         if (ValidateUtil.isInvalidString(user.getUsername()) || ValidateUtil.isInvalidString(user.getPassword()) || ValidateUtil.isInvalidString(user.getEmail())) {
             return GsonUtil.getErrorJson("输入不能为空");
         }
@@ -210,16 +195,15 @@ public class UserService {
         if (userDao.checkEmail(user) != null) {
             return GsonUtil.getErrorJson("邮箱已经注册过");
         } else {
+            session.setAttribute("user",user);
 
             String code = CharacterUtil.getRandomString(5);
             Map<String, String> map = new HashMap<>();
             map.put("result", "success");
             map.put("message", "已经发送验证码到你的邮箱,请验证");
 
-            session.setAttribute("code",code);
-            session.setAttribute("user",user);
-            System.out.println(session);
-            //SendEmailUtil.sendEmail(mailSender,user.getEmail(), code);
+            SendEmailUtil.sendEmail(mailSender,user.getEmail(), code);
+            session.setAttribute("emailCode",code);
             return new Gson().toJson(map);
         }
     }
@@ -241,7 +225,7 @@ public class UserService {
             } else{
                 user.setPassword(ConvertUtil.encryptMd5(user.getPassword()));
                 userDao.registe(user);
-                //albumDao.insertDefaultAlbum(userDao.getUserIdByName(user.getUsername()));
+                albumDao.insertDefaultAlbum(userDao.getUserIdByName(user.getUsername()));
                 return GsonUtil.getSuccessJson();
             }
         }
@@ -264,7 +248,6 @@ public class UserService {
             SendEmailUtil.sendEmail(mailSender,email,code);
             session.setAttribute("emailCode",code);
             session.setAttribute("email",email);
-            System.out.println(session);
             return GsonUtil.getSuccessJson("已发送验证码到你的邮箱，请验证");
         }
     }
@@ -279,7 +262,7 @@ public class UserService {
         if(ValidateUtil.isInvalidString(checkcode)) {
             return GsonUtil.getErrorJson("输入不能为空");
         }else {
-            if (!checkcode.equals(code)) {
+            if (! code.equals(checkcode)) {
                 return GsonUtil.getErrorJson("验证码错误");
             } else{
                 return GsonUtil.getSuccessJson();
@@ -349,6 +332,8 @@ public class UserService {
             return msg;
         }
         msg.setMessage(user);
+        System.out.println(user.getBirthday());
+        System.out.println(user.getBorn());
         msg.setResult("success");
         return msg;
     }

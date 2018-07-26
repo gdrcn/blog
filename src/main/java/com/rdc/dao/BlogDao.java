@@ -2,7 +2,6 @@ package com.rdc.dao;
 
 import com.rdc.entity.Blog;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -25,4 +24,6 @@ public interface BlogDao {
 	ArrayList<Blog> search(Map<String,Object> map);
 	//查看用户博客
 	ArrayList<Blog> findBlogByUser(Map<String,Integer> map);
+	//分类查看博客
+	ArrayList<Blog> findBlogByCategory(Map<String,Object> map);
 }

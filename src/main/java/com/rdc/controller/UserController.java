@@ -2,18 +2,21 @@ package com.rdc.controller;
 
 import com.google.gson.GsonBuilder;
 import com.rdc.bean.Msg;
+import com.rdc.dao.UserDao;
 import com.rdc.entity.User;
 import com.rdc.service.MessageService;
 import com.rdc.service.NewsService;
 import com.rdc.service.UserService;
-import com.rdc.util.ConvertUtil;
 import com.rdc.util.GsonUtil;
+import com.rdc.util.UploadUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
+import java.util.Map;
 
 
 @Controller
@@ -22,6 +25,9 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private UserDao userDao;
 
     @Autowired
     private NewsService newsService;
@@ -55,14 +61,14 @@ public class UserController {
     @RequestMapping(value = "otherHomepage/{id}", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
     public String scanOtherHomepage(@PathVariable Integer id, HttpSession session) {
         User user = (User) session.getAttribute("user");
-        if (id == user.getId()) {
+        if (id != null && id == user.getId()) {
             return GsonUtil.getSuccessJson(userService.getUserInfo(user.getId()));
         } else {
             Msg message = userService.scanOtherHomepage(id);
             if ("fail".equals(message.getResult())) {
-                return GsonUtil.getErrorJson(new GsonBuilder().create(), message.getMessage());
+                return GsonUtil.getErrorJson(new GsonBuilder().serializeNulls().create(), message.getMessage());
             } else {
-                return GsonUtil.getSuccessJson(new GsonBuilder().create(), message.getMessage());
+                return GsonUtil.getSuccessJson(new GsonBuilder().serializeNulls().create(), message.getMessage());
             }
         }
     }
@@ -76,17 +82,48 @@ public class UserController {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "updateUserInfo", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
-    public String updateUserInfo(@RequestParam("myFaceImg") MultipartFile myFaceImg, User user, HttpSession session) {
+    @RequestMapping(value = "/updateUserInfo", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
+    public String updateUserInfo(User user, HttpSession session) {
         User realUser = (User) session.getAttribute("user");
-        if (user.getId() != realUser.getId()) {
+        if ((Integer) user.getId() != null && user.getId() != realUser.getId()) {
             return GsonUtil.getErrorJson();
         }
-        Msg message = userService.updateUserInfo(user, myFaceImg);
+        user.setId(realUser.getId());
+        Msg message = userService.updateUserInfo(user);
         if (message.getResult() != null) {
             return GsonUtil.getErrorJson(message.getMessage(), message.getResult());
         } else {
             return GsonUtil.getSuccessJson(message.getMessage());
+        }
+    }
+
+    /**
+     * 修改个人头像
+     * Created by Ning
+     * time 2018/7/26 17:13
+     *
+     * @param myFaceImg
+     * @param session
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/updateFaceImg", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
+    public String updateFaceImg(@RequestParam("myFaceImg") MultipartFile myFaceImg, HttpSession session) {
+//        User user = (User) session.getAttribute("user");
+        User user = new User();
+        user.setId(1);
+        Map<String, String> map = new HashMap<>();
+        Msg message = new Msg();
+        if (!UploadUtil.suffixMatch(myFaceImg.getOriginalFilename())) {
+            return GsonUtil.getErrorJson("不支持此文件类型");
+        } else {
+            String hashName = UploadUtil.getFileHash(myFaceImg.getOriginalFilename());
+            UploadUtil.imgUpload(hashName, myFaceImg);
+            map.put("userId", user.getId() + "");
+            map.put("hashName", hashName);
+            userDao.updateFaceImg(map);
+            message.setResult("success");
+            return GsonUtil.getSuccessJson(hashName);
         }
     }
 
@@ -99,7 +136,7 @@ public class UserController {
      * @author chen
      */
     @ResponseBody
-    @RequestMapping(value = "login", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
+    @RequestMapping(value = "/login", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
     public String login(User user, HttpSession session) {
         return userService.login(user, session);
     }
@@ -109,13 +146,14 @@ public class UserController {
      *
      * @param user
      * @param confirmPassword
+     * @param session
      * @return
      * @author chen
      */
     @ResponseBody
-    @RequestMapping(value = "registe", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
-    public String registe(User user, @RequestParam(value = "confirmPassword") String confirmPassword,HttpSession sessioin) {
-        return userService.registe(user, confirmPassword ,sessioin);
+    @RequestMapping(value = "/registe", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
+    public String registe(User user, @RequestParam(value = "confirmPassword") String confirmPassword, HttpSession session) {
+        return userService.registe(user, confirmPassword, session);
     }
 
     /**
@@ -129,12 +167,9 @@ public class UserController {
     @ResponseBody
     @RequestMapping(value = "validate",method = RequestMethod.POST,produces = "text/html;charset=UTF-8")
     public String validate(@RequestParam(value = "checkcode") String checkcode,HttpSession session){
-        System.out.println(session);
-        User user = (User) session.getAttribute("user");
-        System.out.println(user);
-
-        String code = (String)session.getAttribute("code");
-        System.out.println(code);
+        User user = (User)session.getAttribute("user");
+        String code=(String) session.getAttribute("emailCode");
+        session.removeAttribute("emailCode");
         return userService.validate(checkcode,code,user);
     }
 
@@ -193,7 +228,7 @@ public class UserController {
     @RequestMapping(value = "validateEmail/{checkcode}", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
     public String validateEmail( @PathVariable String checkcode,HttpSession session) {
         String code = (String)session.getAttribute("emailCode");
-        return userService.validateEmail(checkcode,code);
+        return userService.validateEmail(checkcode, code);
     }
 
     /**
@@ -207,7 +242,6 @@ public class UserController {
     @RequestMapping(value = "resetPassword", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
     public String resetPassword( String password, String confirmPassword,HttpSession session) {
         String email = (String)session.getAttribute("email");
-        password = ConvertUtil.encryptMd5(password);
         return userService.resetPassword(password, email, confirmPassword);
     }
 
@@ -246,7 +280,7 @@ public class UserController {
      * @author chen
      * */
     @ResponseBody
-    @RequestMapping(value = "getNews/{user_id}",method = RequestMethod.GET,produces = "text/html;charset=UTF-8")
+    @RequestMapping(value = "getNews",method = RequestMethod.GET,produces = "text/html;charset=UTF-8")
     public String getNews(int user_id){
         return newsService.getNews(user_id);
     }
@@ -261,7 +295,7 @@ public class UserController {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "newsRead",method = RequestMethod.POST,produces = "text/html;charset=UTF-8")
+    @RequestMapping(value = "newsRead",method = RequestMethod.GET,produces = "text/html;charset=UTF-8")
     public String newsRead(int id,String type){
         if(newsService.readNews(id, type)){
             return GsonUtil.getSuccessJson();
