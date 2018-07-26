@@ -1,0 +1,158 @@
+*{
+	margin:0;
+	padding:0;
+}
+div.w_90line{
+	width:90%;
+	height:0;
+	border-top:1px solid rgba(156,156,156,0.39);
+	margin:0 auto;
+}
+body{
+	white-space:nowrap;
+	color:rgb(37, 78, 129); 
+	font-size:15px;
+	letter-spacing:1px;
+	min-width:1400px;
+}
+div#w_wallPaper{
+	height:350px;
+	max-height:100vh;
+	background:url(../pic/wallPaper.jpg);
+	background-position:center bottom;
+	background-size:100% auto;
+}
+div#w_underWall{
+	position:relative;
+	box-shadow:0 0 66px rgba(0,0,0,0.5);
+	min-height:100vh;
+}
+div#w_labelAndUp{
+	margin-bottom:2.1rem;
+}
+div#w_wordPressLine{
+	padding-bottom:30px;
+	height:100px;
+	background:white;;
+}
+div#w_myHead{
+	box-shadow:0 0 10px black;
+	display:inline-block;
+	position:relative;
+	height:200px;
+	width:200px;
+	background:url(../pic/myHead.jpg);
+	background-size:100% 100%;
+	border:3px solid rgb(255, 255, 255);
+	left:5%;
+	bottom:150px;
+}
+div#w_myHeadName{
+	position:absolute;
+	text-align:center;
+	bottom:-50px;
+	font-size:1.3rem;
+	font-weight:bold;
+	left:50%;
+	transform:translateX(-50%);
+}
+div#w_wordPress{
+	height:100px;
+	vertical-align:top;
+	line-height:100px;
+	position:relative;
+	left:20%;
+	display:inline-block;
+}
+div#w_labelAndUp{
+	position:relative;
+}
+div#w_labelChose{
+	position:relative;
+	max-width:90%;
+	margin-top:30px;
+	margin-bottom:30px;
+	left:5%;
+	padding-right:15px;
+	display:inline-block;
+	font-size:1.2rem;
+	font-weight:bold;
+}
+div.w_label{
+	margin-right:5px;
+	display:inline-block;
+	height:1.2rem;
+	line-height:1.2rem;
+	background:rgba(83,148,228,0.7);
+	border-radius:0.2rem;
+	font-size:0.8rem;
+	color:white;
+	vertical-align:0.1rem;
+	padding-left:5px;
+	padding-right:5px;
+	letter-spacing:2px;
+}
+div.w_label:hover{
+	background:rgb(61, 109, 167);
+}
+div#w_upload{
+	letter-spacing:2px;
+	font-size:1.1rem;
+	font-weight:bold;
+	position:absolute;
+	right:25%;
+	bottom:-1.1rem;
+}
+div#w_upload>a:hover{
+	text-decoration:underline;
+}
+div#w_upload>a{
+	margin-right:5px;
+	margin-left:5px;
+}
+div#w_albumFriends{
+	padding:15px;
+	position:absolute;
+	top:130px;
+	right:5%;
+	width:18%;
+	height:200px;
+	
+}
+div.w_album{
+	position:relative;
+	left:5%;
+	width:70%;
+	padding-top:30px;
+	padding-bottom:30px;
+}
+div.w_album>div{
+	display:inline-block;
+}
+div.w_albumDate{
+	padding-top:10px;
+	font-size:1.2rem;
+	height:1.2rem;
+	line-height:1.2rem;
+	vertical-align:top;
+	text-align:center;
+	width:200px;
+}
+div.w_albumPage{
+	max-width:80%;
+	white-space:normal;
+}
+div.w_albumPicFrame{
+	margin-left:17px;
+	margin-bottom:15px;
+	width:150px;
+	height:170px;
+	box-shadow:0 0 10px black;
+	display:inline-block;
+}
+div.w_albumPic{
+	margin:7px;
+	height:136px;
+	width:136px;
+	background:black;
+}
