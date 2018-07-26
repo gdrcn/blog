@@ -13,7 +13,7 @@
         <result property="realname" column="realname"/>
         <result property="faceImg" column="face_img"/>
         <result property="phone" column="phone"/>
-        <result property="born" column="birthday"/>
+        <result property="birthday" column="birthday"/>
         <result property="signature" column="signature"/>
         <result property="address" column="address"/>
         <result property="visible" column="visible"/>
@@ -59,7 +59,7 @@
     </select>
 
     <select id="scanOtherMsg" parameterType="java.lang.Integer" resultMap="user">
-        select user.username, user.birthday, user.phone, user.email, user.realname, user.face_img, user.signature, user.address, user.visible from user where id=#{id}
+        select user.id ,user.username, user.birthday, user.phone, user.email, user.realname, user.face_img, user.signature, user.address, user.visible from user where id=#{id}
     </select>
 
     <select id="getFansNum" parameterType="java.lang.Integer" resultType="java.lang.Integer">

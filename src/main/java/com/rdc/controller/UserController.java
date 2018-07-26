@@ -66,9 +66,9 @@ public class UserController {
         } else {
             Msg message = userService.scanOtherHomepage(id);
             if ("fail".equals(message.getResult())) {
-                return GsonUtil.getErrorJson(new GsonBuilder().create(), message.getMessage());
+                return GsonUtil.getErrorJson(new GsonBuilder().serializeNulls().create(), message.getMessage());
             } else {
-                return GsonUtil.getSuccessJson(new GsonBuilder().create(), message.getMessage());
+                return GsonUtil.getSuccessJson(new GsonBuilder().serializeNulls().create(), message.getMessage());
             }
         }
     }
@@ -82,12 +82,13 @@ public class UserController {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "updateUserInfo", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
+    @RequestMapping(value = "/updateUserInfo", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
     public String updateUserInfo(User user, HttpSession session) {
         User realUser = (User) session.getAttribute("user");
         if ((Integer) user.getId() != null && user.getId() != realUser.getId()) {
             return GsonUtil.getErrorJson();
         }
+        user.setId(realUser.getId());
         Msg message = userService.updateUserInfo(user);
         if (message.getResult() != null) {
             return GsonUtil.getErrorJson(message.getMessage(), message.getResult());
@@ -108,23 +109,21 @@ public class UserController {
     @ResponseBody
     @RequestMapping(value = "/updateFaceImg", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
     public String updateFaceImg(@RequestParam("myFaceImg") MultipartFile myFaceImg, HttpSession session) {
-        User user = (User) session.getAttribute("user");
+//        User user = (User) session.getAttribute("user");
+        User user = new User();
+        user.setId(1);
         Map<String, String> map = new HashMap<>();
         Msg message = new Msg();
         if (!UploadUtil.suffixMatch(myFaceImg.getOriginalFilename())) {
-            message.setResult("error");
-            message.setMessage("不支持此文件类型");
-            return GsonUtil.getErrorJson(message);
+            return GsonUtil.getErrorJson("不支持此文件类型");
         } else {
             String hashName = UploadUtil.getFileHash(myFaceImg.getOriginalFilename());
             UploadUtil.imgUpload(hashName, myFaceImg);
             map.put("userId", user.getId() + "");
             map.put("hashName", hashName);
-            System.out.println(user.getId());
-            System.out.println(hashName);
             userDao.updateFaceImg(map);
             message.setResult("success");
-            return GsonUtil.getSuccessJson(message);
+            return GsonUtil.getSuccessJson(hashName);
         }
     }
 
@@ -137,7 +136,7 @@ public class UserController {
      * @author chen
      */
     @ResponseBody
-    @RequestMapping(value = "login", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
+    @RequestMapping(value = "/login", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
     public String login(User user, HttpSession session) {
         return userService.login(user, session);
     }
@@ -152,7 +151,7 @@ public class UserController {
      * @author chen
      */
     @ResponseBody
-    @RequestMapping(value = "registe", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
+    @RequestMapping(value = "/registe", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
     public String registe(User user, @RequestParam(value = "confirmPassword") String confirmPassword, HttpSession session) {
         return userService.registe(user, confirmPassword, session);
     }
