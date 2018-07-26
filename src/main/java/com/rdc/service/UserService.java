@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.Model;
 import org.springframework.web.util.HtmlUtils;
 
 import javax.servlet.http.HttpSession;
@@ -168,6 +169,7 @@ public class UserService {
             }else{
                 user = userDao.login(user);
                 session.setAttribute("user",user);
+                //model.addAttribute("user",user);
                 return GsonUtil.getSuccessJson(user);
             }
         }
@@ -202,7 +204,6 @@ public class UserService {
             map.put("message", "已经发送验证码到你的邮箱,请验证");
 
             SendEmailUtil.sendEmail(mailSender,user.getEmail(), code);
-            SendEmailUtil.sendEmail(mailSender,user.getEmail(),code);
             session.setAttribute("emailCode",code);
             return new Gson().toJson(map);
         }
@@ -284,6 +285,7 @@ public class UserService {
         if (!password.equals(confirmPassword)) {
             return GsonUtil.getErrorJson("两次输入密码不一致");
         }
+         password = ConvertUtil.encryptMd5(password);
         if (userDao.resetPassword(password, email) > 0)
             return GsonUtil.getSuccessJson();
         else
