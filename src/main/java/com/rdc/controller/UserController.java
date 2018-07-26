@@ -317,4 +317,17 @@ public class UserController {
             return GsonUtil.getSuccessJson();
         else return GsonUtil.getErrorJson();
     }
+
+    /**
+     * 退出登录
+     * @param session
+     * @author chen
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "exit",method = RequestMethod.GET,produces = "text/html;charset=UTF-8")
+    public String Exit(HttpSession session){
+        session.removeAttribute("user");
+        return GsonUtil.getSuccessJson();
+    }
 }
