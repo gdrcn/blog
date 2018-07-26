@@ -4,7 +4,6 @@ import com.rdc.bean.NewsBean;
 import com.rdc.bean.UserBean;
 import com.rdc.entity.Blog;
 import com.rdc.entity.User;
-import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.ArrayList;
@@ -168,4 +167,27 @@ public interface UserDao {
      * 修改个人头像
      */
     Integer updateFaceImg(Map<String, String> map);
+
+    /**
+     * 更新已读粉丝通知
+     *
+     * @param userId
+     */
+    Integer readNewFans(int userId);
+
+    /**
+     * 得到粉丝数量
+     *
+     * @param userId
+     * @return
+     */
+    ArrayList<UserBean> getUserFans(int userId);
+
+    /**
+     * 获得关注列表
+     *
+     * @param userId
+     * @return
+     */
+    ArrayList<UserBean> getUserIdols(int userId);
 }

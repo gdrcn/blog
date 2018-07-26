@@ -45,6 +45,11 @@
         <result property="username" column="username"/>
     </resultMap>
 
+    <resultMap id="userBean" type="com.rdc.bean.UserBean">
+        <id property="id" column="id"/>
+        <result property="username" column="username"/>
+        <result property="face" column="face_img"/>
+    </resultMap>
 
     <resultMap id="blog" type="com.rdc.entity.Blog">
         <id property="id" column="id"/>
@@ -179,4 +184,16 @@
     <update id="updateFaceImg" parameterType="map">
         update user set face_img = #{hashName} where id = #{userId};
     </update>
+
+    <update id="readNewFans" parameterType="java.lang.Integer">
+        UPDATE relation SET STATUS = 0 WHERE beliked_id = #{userId};
+    </update>
+
+    <select id="getUserFans" parameterType="java.lang.Integer" resultMap="userBean">
+      SELECT user.id, user.`username`, user.`face_img` FROM USER WHERE id IN (SELECT relation.user_id FROM relation WHERE beliked_id = #{userId});
+    </select>
+
+    <select id="getUserIdols" parameterType="java.lang.Integer" resultMap="userBean">
+        SELECT user.id, user.`username`, user.`face_img` FROM USER WHERE id IN (SELECT relation.beliked_id FROM relation WHERE user_id = #{userId});
+    </select>
 </mapper>

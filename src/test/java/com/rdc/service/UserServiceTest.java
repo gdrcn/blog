@@ -1,5 +1,6 @@
 package com.rdc.service;
 
+import com.rdc.bean.UserBean;
 import com.rdc.dao.AlbumDao;
 import com.rdc.dao.CommentDao;
 import com.rdc.dao.PhotoDao;
@@ -16,6 +17,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Map;
 
@@ -136,7 +138,8 @@ public class UserServiceTest {
 
     @Test
     public void test11() {
-        
+        ArrayList<UserBean> userBeans = userDao.getUserFans(1);
+        System.out.println(userBeans);
     }
 //    @Test
 //    public void test1(){

@@ -2,6 +2,7 @@ package com.rdc.service;
 
 import com.google.gson.Gson;
 import com.rdc.bean.Msg;
+import com.rdc.bean.UserBean;
 import com.rdc.dao.AlbumDao;
 import com.rdc.dao.CommentDao;
 import com.rdc.dao.PhotoDao;
@@ -404,5 +405,33 @@ public class UserService {
         List<User> users = new ArrayList<>();
         users = userDao.findUser(username);
         return users;
+    }
+
+    /**
+     * Created by Ning
+     * time 2018/7/26 23:30
+     * <p>
+     * 得到粉丝列表
+     *
+     * @param userId
+     */
+    public ArrayList<UserBean> showUserFans(int userId) {
+        userDao.readNewFans(userId);
+        ArrayList<UserBean> userBeans = userDao.getUserFans(userId);
+        return userBeans;
+    }
+
+    /**
+     * Created by Ning
+     * time 2018/7/26 23:30
+     * <p>
+     * 得到关注列表
+     *
+     * @param userId
+     * @return
+     */
+    public ArrayList<UserBean> showUserIdols(int userId) {
+        ArrayList<UserBean> userBeans = userDao.getUserIdols(userId);
+        return userBeans;
     }
 }
