@@ -109,9 +109,7 @@ public class UserController {
     @ResponseBody
     @RequestMapping(value = "/updateFaceImg", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
     public String updateFaceImg(@RequestParam("myFaceImg") MultipartFile myFaceImg, HttpSession session) {
-//        User user = (User) session.getAttribute("user");
-        User user = new User();
-        user.setId(1);
+        User user = (User) session.getAttribute("user");
         Map<String, String> map = new HashMap<>();
         Msg message = new Msg();
         if (!UploadUtil.suffixMatch(myFaceImg.getOriginalFilename())) {
@@ -126,6 +124,12 @@ public class UserController {
             return GsonUtil.getSuccessJson(hashName);
         }
     }
+
+//    @ResponseBody
+//    @RequestMapping()
+//    public String getNiceFans(){
+//
+//    }
 
     /**
      * 用户登录

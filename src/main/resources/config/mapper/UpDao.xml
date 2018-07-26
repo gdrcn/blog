@@ -14,7 +14,7 @@
     </delete>
 
     <select id="isBlogUp" parameterType="map" resultType="int">
-        select id from up where user_id=#{userId} and blog_id=#{blogId};
+        select id from up where user_id=#{userId} and blog_id=#{blogId} limit 1;
     </select>
 
     <select id="blogUpCount" parameterType="int" resultType="int">
@@ -42,7 +42,7 @@
     </delete>
 
     <select id="isReplyUp" parameterType="map" resultType="int">
-        select id from up where user_id=#{userId} and blog_second_id=#{replyId};
+        select id from up where user_id=#{userId} and blog_second_id=#{replyId} limit 1;
     </select>
 
     <select id="getReplyUpCount" parameterType="map" resultType="int">
