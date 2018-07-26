@@ -3,6 +3,7 @@ package com.rdc.service;
 import com.rdc.dao.AlbumDao;
 import com.rdc.dao.PhotoDao;
 import com.rdc.entity.Album;
+import com.rdc.entity.Comment;
 import com.rdc.entity.Photo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -167,12 +168,17 @@ public class AlbumService {
      * @param photoId
      * @param pageId
      */
-    public ArrayList<Photo> getPhotoComment(Integer photoId, Integer pageId) {
+    public ArrayList<Comment> getPhotoComment(Integer photoId, Integer pageId) {
         Map<String, Integer> map = new HashMap<>();
         map.put("photoId", photoId);
+        if (pageId == 1) {
+            pageId = 0;
+        } else {
+            pageId = (pageId * 10);
+        }
         map.put("pageId", pageId);
-        photoDao.getPhotoComments(map);
-        return null;
+        System.out.println(photoDao.getPhotoComments(map));
+        return photoDao.getPhotoComments(map);
     }
 }
 

@@ -9,11 +9,12 @@ import com.rdc.service.UserService;
 import com.rdc.util.GsonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
 
+@CrossOrigin
 @Controller
 @RequestMapping("/blog")
 public class UserController {
@@ -26,6 +27,7 @@ public class UserController {
 
     @Autowired
     private MessageService messageService;
+
     /**
      * Created by Ning
      * time 2018/7/22 15:52
@@ -74,12 +76,12 @@ public class UserController {
      */
     @ResponseBody
     @RequestMapping(value = "updateUserInfo", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
-    public String updateUserInfo(User user, HttpSession session) {
+    public String updateUserInfo(@RequestParam("myFaceImg") MultipartFile myFaceImg, User user, HttpSession session) {
         User realUser = (User) session.getAttribute("user");
         if (user.getId() != realUser.getId()) {
             return GsonUtil.getErrorJson();
         }
-        Msg message = userService.updateUserInfo(user);
+        Msg message = userService.updateUserInfo(user, myFaceImg);
         if (message.getResult() != null) {
             return GsonUtil.getErrorJson(message.getMessage(), message.getResult());
         } else {
@@ -127,7 +129,6 @@ public class UserController {
     @ResponseBody
     @RequestMapping(value = "validate",method = RequestMethod.POST,produces = "text/html;charset=UTF-8")
     public String validate(@RequestParam(value = "checkcode") String checkcode,HttpSession session){
-
         User user = (User)session.getAttribute("user");
         String code=(String) session.getAttribute("emailCode");
         session.removeAttribute("emailCode");
@@ -143,9 +144,7 @@ public class UserController {
     @ResponseBody
     @RequestMapping(value = "photoWall/{userId}", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
     public String myPhotoWall(@PathVariable Integer userId, HttpSession session) {
-//        User realUser = (User) session.getAttribute("user");
-        User realUser = new User();
-        realUser.setId(1);
+        User realUser = (User) session.getAttribute("user");
         if (realUser.getId() == userId) {
             User user = userService.getUserPWInfo(userId);
             return GsonUtil.getMsgJson(user, "me");

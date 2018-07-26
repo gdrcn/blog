@@ -29,4 +29,13 @@ public class UserBean {
 	public void setFace(String face) {
 		this.face = face;
 	}
+
+    @Override
+    public String toString() {
+        return "UserBean{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", face='" + face + '\'' +
+                '}';
+    }
 }

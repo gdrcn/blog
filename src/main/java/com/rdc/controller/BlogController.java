@@ -18,16 +18,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import sun.swing.BakedArrayList;
 
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+@CrossOrigin
 @RequestMapping("/blog")
 @Controller
 public class BlogController {
@@ -62,6 +60,7 @@ public class BlogController {
 
 		return GsonUtil.getSuccessJson(blogBeans);
 	}
+
 	/**
 	 * Asce 2018/7/25
 	 * 封装BlogBean，通用方法
@@ -71,7 +70,7 @@ public class BlogController {
 	public ArrayList<BlogBean> getBlogBean(ArrayList<Blog> blogs,int userId){
 
 		ArrayList<BlogBean> blogBeans = new ArrayList<>();
-		for(int i=0;i<blogs.size();i++) {
+		for(int i=0; i<blogs.size(); i++) {
 			BlogBean blogBean = new BlogBean();
 			//点赞数
 			blogBean.setUpCount(upService.blogUpCount(blogs.get(i).getId()));
@@ -86,6 +85,7 @@ public class BlogController {
 		}
 		return blogBeans;
 	}
+
 	/**
 	 * Asce 2018/7/25
 	 * 搜索结果
@@ -101,6 +101,7 @@ public class BlogController {
 		User user = (User) session.getAttribute("user");
 		return GsonUtil.getSuccessJson(getBlogBean(blogs,user.getId()));
 	}
+
 	/**
 	 * Asce 2018/7/25
 	 * 搜索提示
@@ -116,6 +117,7 @@ public class BlogController {
 		}
 		return GsonUtil.getSuccessJson(map);
 	}
+
 	/**
 	 * Asce 2018/7/25
 	 * 评论点赞
@@ -132,6 +134,7 @@ public class BlogController {
 		}
 		return GsonUtil.getErrorJson();
 	}
+
 	/**
 	 * Asce 2018/7/25
 	 * 回复点赞
@@ -148,6 +151,7 @@ public class BlogController {
 		}
 		return GsonUtil.getErrorJson();
 	}
+
 	/**
 	 * 回复评论
 	 * Asce 2018-07-23
@@ -165,6 +169,7 @@ public class BlogController {
 		}
 		return GsonUtil.getErrorJson();
 	}
+
 	/**
 	 * 发表评论
 	 * Asce 2018-07-23
@@ -183,6 +188,7 @@ public class BlogController {
 		}
 		return GsonUtil.getErrorJson();
 	}
+
 	/**
 	 * Asce 2018-07-22
 	 * 收藏博客
@@ -199,6 +205,7 @@ public class BlogController {
 		}
 		return GsonUtil.getErrorJson();
 	}
+
 	/**
 	 * Asce 2018-07-22
 	 * 博客点赞
@@ -215,6 +222,7 @@ public class BlogController {
 		}
 		return GsonUtil.getErrorJson();
 	}
+
 	/**
 	 * Asce 2018-07-22
 	 *根据id找博客,安卓
@@ -226,6 +234,7 @@ public class BlogController {
 	public String showBlogWithReply(@PathVariable int blogId,@PathVariable int page,HttpSession session) throws ParseException {
 		return showBlogById(blogId,1,page,session);
 	}
+
 	/**
 	 * Asce 2018/7/25
 	 *根据id找博客，前端
@@ -235,9 +244,10 @@ public class BlogController {
 	 */
 	@ResponseBody
 	@RequestMapping(value="/blog/{blogId}/{page}",method = RequestMethod.GET,produces = "text/html;charset=UTF-8")
-	public String showBlogWithoutReply(@PathVariable int blogId,@PathVariable int page, HttpSession session) throws ParseException {
+	public String showBlogWithoutReply(@PathVariable int blogId, @PathVariable int page, HttpSession session) throws ParseException {
 		return showBlogById(blogId,0,page,session);
 	}
+
 	/**
 	 * Asce 2018/7/25
 	 * 前端取得回复
@@ -247,10 +257,11 @@ public class BlogController {
 	 */
 	@ResponseBody
 	@RequestMapping(value="reply/{commentId}",method = RequestMethod.GET,produces = "text/html;charset=UTF-8")
-	public String getReply(@PathVariable int commentId,HttpSession session) throws ParseException {
+	public String getReply(@PathVariable int commentId, HttpSession session) {
 		User user = (User) session.getAttribute("user");
 		return GsonUtil.getSuccessJson(commentService.getReply(commentId,user.getId()));
 	}
+
 	/**
 	 * Asce 2018/7/25
 	 * 根据取得博客
@@ -260,7 +271,7 @@ public class BlogController {
 	 * @param session
 	 * @return
 	 */
-	public String showBlogById(int blogId,int type ,int page,HttpSession session) throws ParseException {
+	public String showBlogById(int blogId, int type , int page, HttpSession session) throws ParseException {
 
 		Blog blog = blogService.showBlogById(blogId);
 		if (blog==null){
@@ -278,7 +289,7 @@ public class BlogController {
 		}else {		//前端
 			comments = commentService.getCommentWithoutReply(blogId,user.getId(),page);
 		}
-		map.put("blogBean",blogBean.get(1));
+		map.put("blogBean",blogBean.get(0));
 		map.put("comments",comments);
 		return GsonUtil.getSuccessJson(map);
 	}
@@ -289,11 +300,10 @@ public class BlogController {
 	 * @param blog
 	 * @param session
 	 * @return
-	 * @throws IOException
 	 */
 	@ResponseBody
 	@RequestMapping(value="/modifyBlog")
-	public String modifyBlog(Blog blog,HttpSession session) throws IOException {
+	public String modifyBlog(Blog blog, HttpSession session) {
 
 		User user=(User)session.getAttribute("user");
 		UserBean userBean = new UserBean();
@@ -315,7 +325,7 @@ public class BlogController {
 	 */
 	@ResponseBody
 	@RequestMapping(value="/deleteBlog",method = RequestMethod.POST )
-	public String deleteBlog(@RequestParam("blogId") int blogId,HttpSession session){
+	public String deleteBlog(@RequestParam("blogId") int blogId, HttpSession session){
 
 		User user=(User) session.getAttribute("user");
 		if(!blogService.delete(user.getId(),blogId)){
@@ -330,11 +340,10 @@ public class BlogController {
 	 * @param blog
 	 * @param session
 	 * @return
-	 * @throws IOException
 	 */
 	@ResponseBody
 	@RequestMapping(value="/addBlog",method = RequestMethod.POST,produces = "text/html;charset=UTF-8")
-	public String addBlog(Blog blog, HttpSession session) throws IOException {
+	public String addBlog(Blog blog, HttpSession session) {
 
 		User user=(User)session.getAttribute("user");
 		UserBean userBean = new UserBean();
