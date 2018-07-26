@@ -332,6 +332,8 @@ public class UserService {
             return msg;
         }
         msg.setMessage(user);
+        System.out.println(user.getBirthday());
+        System.out.println(user.getBorn());
         msg.setResult("success");
         return msg;
     }
