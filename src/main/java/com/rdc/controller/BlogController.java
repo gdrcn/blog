@@ -278,7 +278,7 @@ public class BlogController {
 		}else {		//前端
 			comments = commentService.getCommentWithoutReply(blogId,user.getId(),page);
 		}
-		map.put("blogBean",blogBean.get(1));
+		map.put("blogBean",blogBean.get(0));
 		map.put("comments",comments);
 		return GsonUtil.getSuccessJson(map);
 	}
