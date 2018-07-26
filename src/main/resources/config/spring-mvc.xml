@@ -42,7 +42,7 @@
     <mvc:resources mapping="/js/**" location="/WEB-INF/js/" />
     <!--<mvc:resources mapping="/fonts/**" location="/WEB-INF/fonts/" />-->
     <mvc:resources mapping="/css/**" location="/WEB-INF/css/"/>
-    <mvc:resources mapping="/doc/**" location="/WEB-INF/doc/"/>
+    <!--<mvc:resources mapping="/doc/**" location="/WEB-INF/doc/"/>-->
 
     <!--<mvc:interceptors>-->
         <!--&lt;!&ndash; 配置自定义的拦截器&ndash;&gt;-->
