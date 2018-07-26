@@ -82,12 +82,13 @@ public class UserController {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "updateUserInfo", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
+    @RequestMapping(value = "/updateUserInfo", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
     public String updateUserInfo(User user, HttpSession session) {
         User realUser = (User) session.getAttribute("user");
         if ((Integer) user.getId() != null && user.getId() != realUser.getId()) {
             return GsonUtil.getErrorJson();
         }
+        user.setId(realUser.getId());
         Msg message = userService.updateUserInfo(user);
         if (message.getResult() != null) {
             return GsonUtil.getErrorJson(message.getMessage(), message.getResult());
