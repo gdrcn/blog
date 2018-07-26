@@ -14,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.HtmlUtils;
 
 import javax.servlet.http.HttpSession;
@@ -68,11 +67,10 @@ public class UserService {
      * time 2018/7/22 16:02
      *
      * @param user
-     * @param faceImg
      * @return MsG
      * @function 在个人主页修改信息
      */
-    public Msg updateUserInfo(User user, MultipartFile faceImg) {
+    public Msg updateUserInfo(User user) {
         String usernameRegularExpression = "^(?!_)(?!.*?_$)[a-zA-Z0-9_\\u4e00-\\u9fa5]+$";
         String emailRegularExpression = "^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\\.[a-zA-Z0-9_-]+)+$";
         String addressRegularExpression = "^[a-zA-Z0-9\u4E00-\u9FA5]{0,20}$";
@@ -94,18 +92,6 @@ public class UserService {
             msg.setResult("用户名已存在");
             msg.setMessage(user);
             return msg;
-        }
-        if (faceImg != null) {
-            if (!UploadUtil.suffixMatch(faceImg.getOriginalFilename())) {
-                msg.setResult("faceImgError");
-                msg.setMessage(user);
-                return msg;
-            } else {
-                String hashName = UploadUtil.getFileHash(faceImg.getOriginalFilename());
-                UploadUtil.imgUpload(hashName, faceImg);
-                user.setFaceImg(hashName);
-                System.out.println(hashName);
-            }
         }
         if ((user.getEmail() != null)) {
             if (!(user.getEmail().matches(emailRegularExpression))) {
@@ -162,7 +148,6 @@ public class UserService {
         if (user.getBorn() != null) {
             user.setBirthday(simpleDateFormat.format(user.getBorn()));
         }
-        user.setFaceImg(newUser.getFaceImg());
         user.setPhone(newUser.getPhone());
         user.setAddress(newUser.getAddress());
         user.setSignature(HtmlUtils.htmlEscape(newUser.getSignature()));
@@ -218,7 +203,6 @@ public class UserService {
             map.put("message", "已经发送验证码到你的邮箱,请验证");
 
             SendEmailUtil.sendEmail(mailSender,user.getEmail(), code);
-            SendEmailUtil.sendEmail(mailSender,user.getEmail(),code);
             session.setAttribute("emailCode",code);
             return new Gson().toJson(map);
         }

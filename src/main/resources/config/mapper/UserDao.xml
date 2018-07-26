@@ -175,4 +175,8 @@
     <select id="getUserBean" parameterType="int" resultType="com.rdc.bean.UserBean">
         select id,username,face_img as face from user where id=#{userId}
     </select>
+
+    <update id="updateFaceImg" parameterType="map">
+        update user set face_img = #{hashName} where id = #{userId};
+    </update>
 </mapper>

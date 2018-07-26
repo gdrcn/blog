@@ -2,17 +2,21 @@ package com.rdc.controller;
 
 import com.google.gson.GsonBuilder;
 import com.rdc.bean.Msg;
+import com.rdc.dao.UserDao;
 import com.rdc.entity.User;
 import com.rdc.service.MessageService;
 import com.rdc.service.NewsService;
 import com.rdc.service.UserService;
 import com.rdc.util.GsonUtil;
+import com.rdc.util.UploadUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
+import java.util.Map;
 
 @CrossOrigin
 @Controller
@@ -21,6 +25,9 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private UserDao userDao;
 
     @Autowired
     private NewsService newsService;
@@ -54,7 +61,7 @@ public class UserController {
     @RequestMapping(value = "otherHomepage/{id}", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
     public String scanOtherHomepage(@PathVariable Integer id, HttpSession session) {
         User user = (User) session.getAttribute("user");
-        if (id == user.getId()) {
+        if (id != null && id == user.getId()) {
             return GsonUtil.getSuccessJson(userService.getUserInfo(user.getId()));
         } else {
             Msg message = userService.scanOtherHomepage(id);
@@ -76,16 +83,48 @@ public class UserController {
      */
     @ResponseBody
     @RequestMapping(value = "updateUserInfo", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
-    public String updateUserInfo(@RequestParam("myFaceImg") MultipartFile myFaceImg, User user, HttpSession session) {
+    public String updateUserInfo(User user, HttpSession session) {
         User realUser = (User) session.getAttribute("user");
-        if (user.getId() != realUser.getId()) {
+        if ((Integer) user.getId() != null && user.getId() != realUser.getId()) {
             return GsonUtil.getErrorJson();
         }
-        Msg message = userService.updateUserInfo(user, myFaceImg);
+        Msg message = userService.updateUserInfo(user);
         if (message.getResult() != null) {
             return GsonUtil.getErrorJson(message.getMessage(), message.getResult());
         } else {
             return GsonUtil.getSuccessJson(message.getMessage());
+        }
+    }
+
+    /**
+     * 修改个人头像
+     * Created by Ning
+     * time 2018/7/26 17:13
+     *
+     * @param myFaceImg
+     * @param session
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/updateFaceImg", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
+    public String updateFaceImg(@RequestParam("myFaceImg") MultipartFile myFaceImg, HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        Map<String, String> map = new HashMap<>();
+        Msg message = new Msg();
+        if (!UploadUtil.suffixMatch(myFaceImg.getOriginalFilename())) {
+            message.setResult("error");
+            message.setMessage("不支持此文件类型");
+            return GsonUtil.getErrorJson(message);
+        } else {
+            String hashName = UploadUtil.getFileHash(myFaceImg.getOriginalFilename());
+            UploadUtil.imgUpload(hashName, myFaceImg);
+            map.put("userId", user.getId() + "");
+            map.put("hashName", hashName);
+            System.out.println(user.getId());
+            System.out.println(hashName);
+            userDao.updateFaceImg(map);
+            message.setResult("success");
+            return GsonUtil.getSuccessJson(message);
         }
     }
 
