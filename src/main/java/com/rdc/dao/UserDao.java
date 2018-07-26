@@ -12,7 +12,7 @@ import java.util.List;
 
 import java.util.ArrayList;
 
-@Mapper
+
 public interface UserDao {
 
     /**

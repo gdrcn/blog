@@ -194,7 +194,7 @@ public class UserService {
      * @author chen
      * @function用户注册
      */
-    public String registe(User user, String confirmPassword, HttpSession session) {
+    public String registe(User user, String confirmPassword,HttpSession session) {
         if (ValidateUtil.isInvalidString(user.getUsername()) || ValidateUtil.isInvalidString(user.getPassword()) || ValidateUtil.isInvalidString(user.getEmail())) {
             return GsonUtil.getErrorJson("输入不能为空");
         }
@@ -210,15 +210,16 @@ public class UserService {
         if (userDao.checkEmail(user) != null) {
             return GsonUtil.getErrorJson("邮箱已经注册过");
         } else {
-            session.setAttribute("user",user);
 
             String code = CharacterUtil.getRandomString(5);
             Map<String, String> map = new HashMap<>();
             map.put("result", "success");
             map.put("message", "已经发送验证码到你的邮箱,请验证");
 
-            SendEmailUtil.sendEmail(mailSender,user.getEmail(), code);
-            session.setAttribute("emailCode",code);
+            session.setAttribute("code",code);
+            session.setAttribute("user",user);
+            System.out.println(session);
+            //SendEmailUtil.sendEmail(mailSender,user.getEmail(), code);
             return new Gson().toJson(map);
         }
     }
@@ -240,7 +241,7 @@ public class UserService {
             } else{
                 user.setPassword(ConvertUtil.encryptMd5(user.getPassword()));
                 userDao.registe(user);
-                albumDao.insertDefaultAlbum(userDao.getUserIdByName(user.getUsername()));
+                //albumDao.insertDefaultAlbum(userDao.getUserIdByName(user.getUsername()));
                 return GsonUtil.getSuccessJson();
             }
         }
@@ -263,6 +264,7 @@ public class UserService {
             SendEmailUtil.sendEmail(mailSender,email,code);
             session.setAttribute("emailCode",code);
             session.setAttribute("email",email);
+            System.out.println(session);
             return GsonUtil.getSuccessJson("已发送验证码到你的邮箱，请验证");
         }
     }
@@ -277,7 +279,7 @@ public class UserService {
         if(ValidateUtil.isInvalidString(checkcode)) {
             return GsonUtil.getErrorJson("输入不能为空");
         }else {
-            if (! code.equals(checkcode)) {
+            if (!checkcode.equals(code)) {
                 return GsonUtil.getErrorJson("验证码错误");
             } else{
                 return GsonUtil.getSuccessJson();

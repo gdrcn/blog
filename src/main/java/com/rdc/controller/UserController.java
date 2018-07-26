@@ -6,6 +6,7 @@ import com.rdc.entity.User;
 import com.rdc.service.MessageService;
 import com.rdc.service.NewsService;
 import com.rdc.service.UserService;
+import com.rdc.util.ConvertUtil;
 import com.rdc.util.GsonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,7 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
 
-@CrossOrigin
+
 @Controller
 @RequestMapping("/blog")
 public class UserController {
@@ -108,14 +109,13 @@ public class UserController {
      *
      * @param user
      * @param confirmPassword
-     * @param session
      * @return
      * @author chen
      */
     @ResponseBody
     @RequestMapping(value = "registe", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
-    public String registe(User user, @RequestParam(value = "confirmPassword") String confirmPassword, HttpSession session) {
-        return userService.registe(user, confirmPassword, session);
+    public String registe(User user, @RequestParam(value = "confirmPassword") String confirmPassword,HttpSession sessioin) {
+        return userService.registe(user, confirmPassword ,sessioin);
     }
 
     /**
@@ -129,9 +129,12 @@ public class UserController {
     @ResponseBody
     @RequestMapping(value = "validate",method = RequestMethod.POST,produces = "text/html;charset=UTF-8")
     public String validate(@RequestParam(value = "checkcode") String checkcode,HttpSession session){
-        User user = (User)session.getAttribute("user");
-        String code=(String) session.getAttribute("emailCode");
-        session.removeAttribute("emailCode");
+        System.out.println(session);
+        User user = (User) session.getAttribute("user");
+        System.out.println(user);
+
+        String code = (String)session.getAttribute("code");
+        System.out.println(code);
         return userService.validate(checkcode,code,user);
     }
 
@@ -190,7 +193,7 @@ public class UserController {
     @RequestMapping(value = "validateEmail/{checkcode}", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
     public String validateEmail( @PathVariable String checkcode,HttpSession session) {
         String code = (String)session.getAttribute("emailCode");
-        return userService.validateEmail(checkcode, code);
+        return userService.validateEmail(checkcode,code);
     }
 
     /**
@@ -204,6 +207,7 @@ public class UserController {
     @RequestMapping(value = "resetPassword", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
     public String resetPassword( String password, String confirmPassword,HttpSession session) {
         String email = (String)session.getAttribute("email");
+        password = ConvertUtil.encryptMd5(password);
         return userService.resetPassword(password, email, confirmPassword);
     }
 
@@ -242,7 +246,7 @@ public class UserController {
      * @author chen
      * */
     @ResponseBody
-    @RequestMapping(value = "getNews",method = RequestMethod.GET,produces = "text/html;charset=UTF-8")
+    @RequestMapping(value = "getNews/{user_id}",method = RequestMethod.GET,produces = "text/html;charset=UTF-8")
     public String getNews(int user_id){
         return newsService.getNews(user_id);
     }
@@ -257,7 +261,7 @@ public class UserController {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "newsRead",method = RequestMethod.GET,produces = "text/html;charset=UTF-8")
+    @RequestMapping(value = "newsRead",method = RequestMethod.POST,produces = "text/html;charset=UTF-8")
     public String newsRead(int id,String type){
         if(newsService.readNews(id, type)){
             return GsonUtil.getSuccessJson();
