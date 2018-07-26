@@ -1,6 +1,5 @@
 package com.rdc.controller;
 
-import com.rdc.bean.Msg;
 import com.rdc.entity.Album;
 import com.rdc.entity.User;
 import com.rdc.service.AlbumService;
@@ -31,7 +30,6 @@ public class AlbumController {
     public String uploadPhotos(@RequestParam("file") MultipartFile file, Album album, HttpSession session) {
         User user = (User) session.getAttribute("user");
         album.setUserId(user.getId());
-        Msg message = new Msg();
         if (!UploadUtil.suffixMatch(file.getOriginalFilename())) {
             return GsonUtil.getErrorJson("不支持此文件类型");
         } else {
