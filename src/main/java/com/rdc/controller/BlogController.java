@@ -43,6 +43,24 @@ public class BlogController {
 	private Msg msg;
 
 	/**
+	 * 分类加载博客
+	 * @param category
+	 * @param page
+	 * @param session
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value="blogByCategory/{category}/{page}",method = RequestMethod.GET,produces = "text/html;charset=UTF-8")
+	public String blogByCategory(@PathVariable String category,@PathVariable int page,HttpSession session){
+		User user = (User) session.getAttribute("user");
+		ArrayList<Blog> blogs = blogService.getBlogByCategory(category,page);
+		if (blogs==null){
+			return GsonUtil.getErrorJson();
+		}
+		ArrayList<BlogBean> blogBeans = getBlogBean(blogs,user.getId());
+		return GsonUtil.getSuccessJson(blogBeans);
+	}
+	/**
 	 * Asce 2018/7/25
 	 * 根据用户id找博客
 	 * @param userId
@@ -51,8 +69,8 @@ public class BlogController {
 	 * @return
 	 */
 	@ResponseBody
-	@RequestMapping(value="blogByUser/{userId}/{page}",method = RequestMethod.GET)
-	public String BlogByUser(@PathVariable int userId,@PathVariable int page, HttpSession session){
+	@RequestMapping(value="blogByUser/{userId}/{page}",method = RequestMethod.GET,produces = "text/html;charset=UTF-8")
+	public String blogByUser(@PathVariable int userId,@PathVariable int page, HttpSession session){
 		ArrayList<Blog> blogs = blogService.getBlogByUser(userId,page);
 
 		User user = (User) session.getAttribute("user");
@@ -95,7 +113,7 @@ public class BlogController {
 	 * @return
 	 */
 	@ResponseBody
-	@RequestMapping(value="/blogSearch/{input}/{page}",method = RequestMethod.GET)
+	@RequestMapping(value="/blogSearch/{input}/{page}",method = RequestMethod.GET,produces = "text/html;charset=UTF-8")
 	public String blogSearch(@PathVariable String input,@PathVariable int page,HttpSession session){
 		ArrayList<Blog> blogs = blogService.search(input,page);
 		User user = (User) session.getAttribute("user");
@@ -109,7 +127,7 @@ public class BlogController {
 	 * @return
 	 */
 	@ResponseBody
-	@RequestMapping(value="/blogSearchPoint/{input}",method = RequestMethod.GET)
+	@RequestMapping(value="/blogSearchPoint/{input}",method = RequestMethod.GET,produces = "text/html;charset=UTF-8")
 	public String blogSearchPoint(@PathVariable String input){
 		Map<String,Integer> map = blogService.searchPoint(input);
 		if(map==null){
@@ -126,7 +144,7 @@ public class BlogController {
 	 * @return
 	 */
 	@ResponseBody
-	@RequestMapping(value="/commentUp",method = RequestMethod.POST)
+	@RequestMapping(value="/commentUp",method = RequestMethod.POST,produces = "text/html;charset=UTF-8")
 	public String commentUp(@RequestParam int commentId,HttpSession session){
 		User user = (User) session.getAttribute("user");
 		if(upService.commentUp(user.getId(),commentId)){
@@ -143,7 +161,7 @@ public class BlogController {
 	 * @return
 	 */
 	@ResponseBody
-	@RequestMapping(value="/replyUp",method = RequestMethod.POST)
+	@RequestMapping(value="/replyUp",method = RequestMethod.POST,produces = "text/html;charset=UTF-8")
 	public String replyUp(@RequestParam int replyId,HttpSession session){
 		User user = (User) session.getAttribute("user");
 		if(upService.replyUp(user.getId(),replyId)){
@@ -160,7 +178,7 @@ public class BlogController {
 	 * @return
 	 */
 	@ResponseBody
-	@RequestMapping(value="/commentReply",method = RequestMethod.POST)
+	@RequestMapping(value="/commentReply",method = RequestMethod.POST,produces = "text/html;charset=UTF-8")
 	public String commentReply(Reply reply,HttpSession session){
 		User user = (User)session.getAttribute("user");
 		int result = commentService.addCommentReply(user.getId(),reply);
@@ -178,7 +196,7 @@ public class BlogController {
 	 * @return
 	 */
 	@ResponseBody
-	@RequestMapping(value="/blogComment",method = RequestMethod.POST)
+	@RequestMapping(value="/blogComment",method = RequestMethod.POST,produces = "text/html;charset=UTF-8")
 	public String blogComment(Comment comment,HttpSession session){
 
 		User user = (User)session.getAttribute("user");
@@ -197,7 +215,7 @@ public class BlogController {
 	 * @return
 	 */
 	@ResponseBody
-	@RequestMapping(value="/blogCollect",method = RequestMethod.POST)
+	@RequestMapping(value="/blogCollect",method = RequestMethod.POST,produces = "text/html;charset=UTF-8")
 	public String blogCollect(@RequestParam("blogId")int blogId,HttpSession session){
 		User user = (User) session.getAttribute("user");
 		if (collectionService.addCollection(user.getId(),blogId)){
@@ -205,7 +223,6 @@ public class BlogController {
 		}
 		return GsonUtil.getErrorJson();
 	}
-
 	/**
 	 * Asce 2018-07-22
 	 * 博客点赞
@@ -222,7 +239,6 @@ public class BlogController {
 		}
 		return GsonUtil.getErrorJson();
 	}
-
 	/**
 	 * Asce 2018-07-22
 	 *根据id找博客,安卓
@@ -230,11 +246,26 @@ public class BlogController {
 	 * @return
 	 */
 	@ResponseBody
-	@RequestMapping(value="/blogByAndroid/{blogId}/{page}",method = RequestMethod.GET,produces = "text/html;charset=UTF-8")
-	public String showBlogWithReply(@PathVariable int blogId,@PathVariable int page,HttpSession session) throws ParseException {
-		return showBlogById(blogId,1,page,session);
+	@RequestMapping(value="/blogByAndroid/{blogId}",method = RequestMethod.GET,produces = "text/html;charset=UTF-8")
+	public String showBlogWithReply(@PathVariable int blogId,HttpSession session) throws ParseException {
+		return showBlogById(blogId,1,0,session);
 	}
-
+	/**
+	 * 获取评论
+	 * @param blogId
+	 * @param page
+	 * @param session
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value="/blogComment/{blogId}/{page}",method = RequestMethod.GET,produces = "text/html;charset=UTF-8")
+	public String showComment(@PathVariable int blogId,@PathVariable int page,HttpSession session) throws ParseException {
+		User user = (User) session.getAttribute("user");
+		ArrayList<Comment> comments = getCommentByBlog(blogId,1,page,user.getId());
+		Map<String,Object> map = new HashMap<>();
+		map.put("comments",comments);
+		return GsonUtil.getSuccessJson(map);
+	}
 	/**
 	 * Asce 2018/7/25
 	 *根据id找博客，前端
@@ -247,7 +278,6 @@ public class BlogController {
 	public String showBlogWithoutReply(@PathVariable int blogId, @PathVariable int page, HttpSession session) throws ParseException {
 		return showBlogById(blogId,0,page,session);
 	}
-
 	/**
 	 * Asce 2018/7/25
 	 * 前端取得回复
@@ -282,18 +312,31 @@ public class BlogController {
 		blogs.add(blog);
 		ArrayList<BlogBean> blogBean = getBlogBean(blogs,user.getId());
 		//评论
-		ArrayList<Comment> comments;
+		ArrayList<Comment> comments = getCommentByBlog(blogId,type,page,user.getId());
 		Map<String,Object> map = new HashMap<>();
-		if(type==1){	//安卓
-			comments = commentService.getCommentWithReply(blogId,user.getId(),page);
-		}else {		//前端
-			comments = commentService.getCommentWithoutReply(blogId,user.getId(),page);
-		}
 		map.put("blogBean",blogBean.get(0));
 		map.put("comments",comments);
 		return GsonUtil.getSuccessJson(map);
 	}
 
+	/**
+	 * 获取博客评论，通用方法
+	 * @param blogId
+	 * @param type
+	 * @param page
+	 * @param userId
+	 * @return
+	 * @throws ParseException
+	 */
+	public ArrayList<Comment> getCommentByBlog(int blogId,int type,int page,int userId) throws ParseException {
+		ArrayList<Comment> comments;
+		if(type==1){	//安卓
+			comments = commentService.getCommentWithReply(blogId,userId,page);
+		}else {		//前端
+			comments = commentService.getCommentWithoutReply(blogId,userId,page);
+		}
+		return comments;
+	}
 	/**
 	 * Asce 2018-07-21
 	 * 修改博客
@@ -302,7 +345,7 @@ public class BlogController {
 	 * @return
 	 */
 	@ResponseBody
-	@RequestMapping(value="/modifyBlog")
+	@RequestMapping(value="/modifyBlog",method = RequestMethod.POST,produces = "text/html;charset=UTF-8")
 	public String modifyBlog(Blog blog, HttpSession session) {
 
 		User user=(User)session.getAttribute("user");
@@ -312,7 +355,6 @@ public class BlogController {
 		if(blogService.modify(blog)){
 			return gson.toJson(new Msg("success","修改成功"));
 		}
-
 		return gson.toJson(new Msg("error","修改失败"));
 	}
 
@@ -324,7 +366,7 @@ public class BlogController {
 	 * @return
 	 */
 	@ResponseBody
-	@RequestMapping(value="/deleteBlog",method = RequestMethod.POST )
+	@RequestMapping(value="/deleteBlog",method = RequestMethod.POST ,produces = "text/html;charset=UTF-8")
 	public String deleteBlog(@RequestParam("blogId") int blogId, HttpSession session){
 
 		User user=(User) session.getAttribute("user");
@@ -347,7 +389,7 @@ public class BlogController {
 
 		User user=(User)session.getAttribute("user");
 		UserBean userBean = new UserBean();
-		userBean.setId(user.getId());
+		userBean.setId(1);
 		blog.setUserBean(userBean);
 
 		int result = blogService.add(blog);
