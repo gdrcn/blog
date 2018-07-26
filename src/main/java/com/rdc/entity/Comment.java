@@ -98,4 +98,20 @@ public class Comment {
     public void setReplyCount(int replyCount) {
         this.replyCount = replyCount;
     }
+
+    @Override
+    public String toString() {
+        return "Comment{" +
+                "id=" + id +
+                ", comments='" + comments + '\'' +
+                ", time='" + time + '\'' +
+                ", fromUserBean=" + fromUserBean +
+                ", fromId=" + fromId +
+                ", replies=" + replies +
+                ", isUp=" + isUp +
+                ", replyCount=" + replyCount +
+                ", upCount=" + upCount +
+                ", status=" + status +
+                '}';
+    }
 }

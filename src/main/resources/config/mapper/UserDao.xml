@@ -130,6 +130,9 @@
             <if test="phone != null and phone != ''">
                 u.phone = #{phone},
             </if>
+            <if test="faceImg != null and faceImg != ''">
+                u.face_img = #{faceImg},
+            </if>
             <if test="address != null and address != ''">
                 u.address = #{address},
             </if>
