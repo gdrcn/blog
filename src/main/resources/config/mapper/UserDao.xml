@@ -12,6 +12,7 @@
         <result property="email" column="email"/>
         <result property="realname" column="realname"/>
         <result property="faceImg" column="face_img"/>
+        <result property="school" column="school"/>
         <result property="phone" column="phone"/>
         <result property="birthday" column="birthday"/>
         <result property="signature" column="signature"/>
@@ -144,12 +145,16 @@
             <if test="signature != null and signature != ''">
                 u.signature = #{signature},
             </if>
+            <if test="school != null and school != ''">
+                u.school = #{school}
+            </if>
             <if test="visible != null and visible != ''">
                 u.visible = #{visible},
             </if>
             <if test="email != null and email != ''">
                 u.email = #{email}
             </if>
+
         </set>
         where id=#{id}
     </update>

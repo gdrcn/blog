@@ -117,6 +117,22 @@ public class AlbumController {
     }
 
     /**
+     * 点赞相册
+     * Created by Ning
+     * time 2018/7/27 16:20
+     *
+     * @param albumId
+     * @param session
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/likeThisAlbum", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
+    public String upAlbum(@RequestParam("albumId") Integer albumId, HttpSession session) {
+        User realUser = (User) session.getAttribute("user");
+        return GsonUtil.getSuccessJson(albumService.upAlbum(realUser.getId(), albumId));
+    }
+
+    /**
      * 点赞照片
      * Created by Ning
      * time 2018/7/23 19:08

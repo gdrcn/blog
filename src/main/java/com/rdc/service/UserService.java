@@ -76,6 +76,7 @@ public class UserService {
         String emailRegularExpression = "^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\\.[a-zA-Z0-9_-]+)+$";
         String addressRegularExpression = "^[a-zA-Z0-9\u4E00-\u9FA5]{0,20}$";
         String phoneRegularExpression = "^[0-9]{0,12}$";
+        String schoolRegularExpression = "^[a-zA-Z0-9\u4E00-\u9FA5]{0,20}$";
         Msg msg = new Msg();
 
         if (user.getUsername() == null) {
@@ -99,6 +100,14 @@ public class UserService {
                 user = userService.reservedUser(user);
                 msg.setMessage(user);
                 msg.setResult("emailError");
+                return msg;
+            }
+        }
+        if (user.getSchool() != null) {
+            if (!(user.getSchool().matches(schoolRegularExpression))) {
+                user = userService.reservedUser(user);
+                msg.setMessage(user);
+                msg.setResult("schoolError");
                 return msg;
             }
         }
@@ -149,6 +158,7 @@ public class UserService {
         if (user.getBorn() != null) {
             user.setBirthday(simpleDateFormat.format(user.getBorn()));
         }
+        user.setSchool(newUser.getSchool());
         user.setPhone(newUser.getPhone());
         user.setAddress(newUser.getAddress());
         user.setSignature(HtmlUtils.htmlEscape(newUser.getSignature()));
@@ -376,7 +386,16 @@ public class UserService {
         User user = userDao.getUserPWInfo(userId);
         user.setAlbumList(albumDao.getUserAlbumList(userId));
         for (Album album : user.getAlbumList()) {
+            Map<String, Integer> map = new HashMap<>();
+            map.put("userId", userId);
+            map.put("albumId", album.getId());
             album.setCoverHash(albumDao.getAlbumCover(album.getId()));
+            Integer upNum = albumDao.getAlbumUpStatus(map);
+            if (upNum != null) {
+                album.setUpStatus(0);
+            } else {
+                album.setUpStatus(1);
+            }
         }
         user.setPhotoWallList(albumDao.getUserAllPhoto(userId));
         return user;
