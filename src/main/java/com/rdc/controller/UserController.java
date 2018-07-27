@@ -2,6 +2,7 @@ package com.rdc.controller;
 
 import com.google.gson.GsonBuilder;
 import com.rdc.bean.Msg;
+import com.rdc.bean.UserBean;
 import com.rdc.dao.UserDao;
 import com.rdc.entity.User;
 import com.rdc.service.MessageService;
@@ -15,10 +16,11 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-@CrossOrigin
+
 @Controller
 @RequestMapping("/blog")
 public class UserController {
@@ -85,7 +87,7 @@ public class UserController {
     @RequestMapping(value = "/updateUserInfo", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
     public String updateUserInfo(User user, HttpSession session) {
         User realUser = (User) session.getAttribute("user");
-        if ((Integer) user.getId() != null && user.getId() != realUser.getId()) {
+        if (user.getId() != realUser.getId()) {
             return GsonUtil.getErrorJson();
         }
         user.setId(realUser.getId());
@@ -125,11 +127,46 @@ public class UserController {
         }
     }
 
-//    @ResponseBody
-//    @RequestMapping()
-//    public String getNiceFans(){
-//
-//    }
+
+    /**
+     * 展示粉丝数量
+     * Created by Ning
+     * time 2018/7/26 23:16
+     *
+     * @param session
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/showUserFans", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
+    public String showUserFans(HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        ArrayList<UserBean> userBeans = userService.showUserFans(user.getId());
+        if (userBeans.size() < 1) {
+            return GsonUtil.getErrorJson();
+        } else {
+            return GsonUtil.getSuccessJson(userBeans);
+        }
+    }
+
+    /**
+     * 展示关注列表
+     * Created by Ning
+     * time 2018/7/26 23:33
+     *
+     * @param session
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/showUserIdols", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
+    public String showUserIdols(HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        ArrayList<UserBean> userBeans = userService.showUserIdols(user.getId());
+        if (userBeans.size() < 1) {
+            return GsonUtil.getErrorJson();
+        } else {
+            return GsonUtil.getSuccessJson(userBeans);
+        }
+    }
 
     /**
      * 用户登录
@@ -169,12 +206,12 @@ public class UserController {
      * @author chen
      */
     @ResponseBody
-    @RequestMapping(value = "validate",method = RequestMethod.POST,produces = "text/html;charset=UTF-8")
-    public String validate(@RequestParam(value = "checkcode") String checkcode,HttpSession session){
-        User user = (User)session.getAttribute("user");
-        String code=(String) session.getAttribute("emailCode");
+    @RequestMapping(value = "validate", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
+    public String validate(@RequestParam(value = "checkcode") String checkcode, HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        String code = (String) session.getAttribute("emailCode");
         session.removeAttribute("emailCode");
-        return userService.validate(checkcode,code,user);
+        return userService.validate(checkcode, code, user);
     }
 
 
@@ -216,9 +253,9 @@ public class UserController {
      * @author chen
      */
     @ResponseBody
-    @RequestMapping(value="forgetPassword",method = RequestMethod.POST,produces = "text/html;charset=UTF-8")
-    public String forgetPassword(String email,HttpSession session){
-        return userService.forgetPassword(email,session);
+    @RequestMapping(value = "forgetPassword", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
+    public String forgetPassword(String email, HttpSession session) {
+        return userService.forgetPassword(email, session);
     }
 
     /**
@@ -230,8 +267,8 @@ public class UserController {
      */
     @ResponseBody
     @RequestMapping(value = "validateEmail/{checkcode}", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
-    public String validateEmail( @PathVariable String checkcode,HttpSession session) {
-        String code = (String)session.getAttribute("emailCode");
+    public String validateEmail(@PathVariable String checkcode, HttpSession session) {
+        String code = (String) session.getAttribute("emailCode");
         return userService.validateEmail(checkcode, code);
     }
 
@@ -244,8 +281,8 @@ public class UserController {
      */
     @ResponseBody
     @RequestMapping(value = "resetPassword", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
-    public String resetPassword( String password, String confirmPassword,HttpSession session) {
-        String email = (String)session.getAttribute("email");
+    public String resetPassword(String password, String confirmPassword, HttpSession session) {
+        String email = (String) session.getAttribute("email");
         return userService.resetPassword(password, email, confirmPassword);
     }
 
@@ -282,10 +319,10 @@ public class UserController {
      * @param user_id
      * @return
      * @author chen
-     * */
+     */
     @ResponseBody
-    @RequestMapping(value = "getNews",method = RequestMethod.GET,produces = "text/html;charset=UTF-8")
-    public String getNews(int user_id){
+    @RequestMapping(value = "getNews", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
+    public String getNews(int user_id) {
         return newsService.getNews(user_id);
     }
 
@@ -295,30 +332,45 @@ public class UserController {
      *
      * @param id
      * @param type
-     * @author chen
      * @return
+     * @author chen
      */
     @ResponseBody
-    @RequestMapping(value = "newsRead",method = RequestMethod.GET,produces = "text/html;charset=UTF-8")
-    public String newsRead(int id,String type){
-        if(newsService.readNews(id, type)){
+    @RequestMapping(value = "newsRead", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
+    public String newsRead(int id, String type) {
+        if (newsService.readNews(id, type)) {
             return GsonUtil.getSuccessJson();
-        }else return GsonUtil.getErrorJson();
+        } else return GsonUtil.getErrorJson();
     }
 
     /**
      * 发送信息
+     *
      * @param from_user_id
      * @param to_user_id
      * @param content
-     * @author chen
      * @return
+     * @author chen
      */
     @ResponseBody
-    @RequestMapping(value = "postMessage",method = RequestMethod.POST,produces = "text/html;charset=UTF-8")
-    public String postMessage(int from_user_id,int to_user_id,String content){
-        if(messageService.postMessage(from_user_id,to_user_id,content))
+    @RequestMapping(value = "postMessage", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
+    public String postMessage(int from_user_id, int to_user_id, String content) {
+        if (messageService.postMessage(from_user_id, to_user_id, content))
             return GsonUtil.getSuccessJson();
         else return GsonUtil.getErrorJson();
+    }
+
+    /**
+     * 退出登录
+     *
+     * @param session
+     * @return
+     * @author chen
+     */
+    @ResponseBody
+    @RequestMapping(value = "exit", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
+    public String Exit(HttpSession session) {
+        session.removeAttribute("user");
+        return GsonUtil.getSuccessJson();
     }
 }
