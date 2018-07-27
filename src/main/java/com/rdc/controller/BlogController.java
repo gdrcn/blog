@@ -89,7 +89,6 @@ public class BlogController {
 
 		return GsonUtil.getSuccessJson(blogBeans);
 	}
-
 	/**
 	 * Asce 2018/7/25
 	 * 封装BlogBean，通用方法
@@ -114,7 +113,6 @@ public class BlogController {
 		}
 		return blogBeans;
 	}
-
 	/**
 	 * Asce 2018/7/25
 	 * 搜索结果
@@ -130,7 +128,6 @@ public class BlogController {
 		User user = (User) session.getAttribute("user");
 		return GsonUtil.getSuccessJson(getBlogBean(blogs,user.getId()));
 	}
-
 	/**
 	 * Asce 2018/7/25
 	 * 搜索提示
@@ -146,7 +143,6 @@ public class BlogController {
 		}
 		return GsonUtil.getSuccessJson(map);
 	}
-
 	/**
 	 * Asce 2018/7/25
 	 * 评论点赞
@@ -163,7 +159,6 @@ public class BlogController {
 		}
 		return GsonUtil.getErrorJson();
 	}
-
 	/**
 	 * Asce 2018/7/25
 	 * 回复点赞
@@ -180,7 +175,6 @@ public class BlogController {
 		}
 		return GsonUtil.getErrorJson();
 	}
-
 	/**
 	 * 回复评论
 	 * Asce 2018-07-23
@@ -198,7 +192,6 @@ public class BlogController {
 		}
 		return GsonUtil.getErrorJson();
 	}
-
 	/**
 	 * 发表评论
 	 * Asce 2018-07-23
@@ -217,7 +210,6 @@ public class BlogController {
 		}
 		return GsonUtil.getErrorJson();
 	}
-
 	/**
 	 * Asce 2018-07-22
 	 * 收藏博客
@@ -310,7 +302,6 @@ public class BlogController {
 		User user = (User) session.getAttribute("user");
 		return GsonUtil.getSuccessJson(commentService.getReply(commentId,user.getId()));
 	}
-
 	/**
 	 * Asce 2018/7/25
 	 * 根据取得博客
@@ -415,7 +406,6 @@ public class BlogController {
 
 		return gson.toJson(new Msg("error","发表失败"));
 	}
-
 	/**
 	 * Asce 2018-07-20
 	 * 上传图片

@@ -61,7 +61,7 @@
     </resultMap>
 
     <select id="getUserInfo" parameterType="java.lang.Integer" resultMap="user">
-        SELECT * FROM (SELECT user.*, permission.* FROM USER LEFT JOIN permission ON user.id = permission.user_id) temp WHERE id = #{id};
+        SELECT * FROM (SELECT user.*, permission.* FROM user LEFT JOIN permission ON user.id = permission.user_id) temp WHERE id = #{id};
     </select>
 
     <select id="scanOtherMsg" parameterType="java.lang.Integer" resultMap="user">

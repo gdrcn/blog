@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.util.HtmlUtils;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -30,6 +31,8 @@ public class BlogService {
 					if(!category.equals("前端")){
 						if(category.equals("最新")){
 							return blogDao.findNewBlog(begin);
+						}else if(category.equals("热门")){
+								return blogDao.findHotBlog();
 						}
 						return null;
 					}
@@ -76,7 +79,7 @@ public class BlogService {
 	}
 	/**
 	 * Asce 2018/7/25
-	 * 搜索提示
+	 * 搜索
 	 * @param input
 	 * @return
 	 */

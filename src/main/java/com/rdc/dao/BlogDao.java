@@ -28,4 +28,6 @@ public interface BlogDao {
 	ArrayList<Blog> findBlogByCategory(Map<String,Object> map);
 	//最新博客
 	ArrayList<Blog> findNewBlog(int begin);
+	//最热博客
+	ArrayList<Blog> findHotBlog();
 }
