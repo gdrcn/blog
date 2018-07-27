@@ -39,7 +39,7 @@ public class AlbumController {
             return GsonUtil.getSuccessJson(hashName);
         }
     }
-    
+
 
     /**
      * Created by Ning
@@ -174,4 +174,5 @@ public class AlbumController {
     public String showPhotoComments(@PathVariable Integer photoId, @PathVariable Integer pageId) {
         return GsonUtil.getSuccessJson(albumService.getPhotoComment(photoId, pageId));
     }
+
 }

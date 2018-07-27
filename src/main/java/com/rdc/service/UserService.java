@@ -453,4 +453,20 @@ public class UserService {
         ArrayList<UserBean> userBeans = userDao.getUserIdols(userId);
         return userBeans;
     }
+
+    /**
+     * 得到热门照片
+     * Created by Ning
+     * time 2018/7/27 19:54
+     *
+     * @return
+     */
+    public ArrayList<Photo> getHotPhoto() {
+        ArrayList<Photo> photoArrayList = new ArrayList<>();
+        photoArrayList = photoDao.getHotPhoto();
+        for (Photo photo : photoArrayList) {
+            photo.setCommentsNum(photoDao.getPhotoCommentsNum(photo.getId()));
+        }
+        return photoArrayList;
+    }
 }

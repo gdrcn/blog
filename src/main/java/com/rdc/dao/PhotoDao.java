@@ -74,4 +74,19 @@ public interface PhotoDao {
      * @param map
      */
     ArrayList<Comment> getPhotoComments(Map<String, Integer> map);
+
+    /**
+     * 得到热门照片
+     *
+     * @return
+     */
+    ArrayList<Photo> getHotPhoto();
+
+    /**
+     * 得到相片的评论数
+     *
+     * @param photoId
+     * @return
+     */
+    Integer getPhotoCommentsNum(int photoId);
 }
