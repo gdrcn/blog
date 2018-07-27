@@ -39,6 +39,7 @@ public class AlbumController {
             return GsonUtil.getSuccessJson(hashName);
         }
     }
+    
 
     /**
      * Created by Ning
