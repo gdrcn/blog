@@ -221,12 +221,13 @@ public class UserController {
      * @author chen
      */
     @ResponseBody
-    @RequestMapping(value = "validate", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
-    public String validate(@RequestParam(value = "checkcode") String checkcode, HttpSession session) {
-        User user = (User) session.getAttribute("user");
-        String code = (String) session.getAttribute("emailCode");
+    @RequestMapping(value = "validate",method = RequestMethod.POST,produces = "text/html;charset=UTF-8")
+    public String validate(@RequestParam(value = "checkcode") String checkcode,HttpSession session){
+        User user = (User)session.getAttribute("user");
+        String code=(String) session.getAttribute("emailCode");
         session.removeAttribute("emailCode");
-        return userService.validate(checkcode, code, user);
+        session.removeAttribute("user");
+        return userService.validate(checkcode,code,user);
     }
 
 
@@ -334,7 +335,7 @@ public class UserController {
      * @param user_id
      * @return
      * @author chen
-     */
+     * */
     @ResponseBody
     @RequestMapping(value = "getNews", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
     public String getNews(int user_id) {
@@ -347,8 +348,8 @@ public class UserController {
      *
      * @param id
      * @param type
-     * @return
      * @author chen
+     * @return
      */
     @ResponseBody
     @RequestMapping(value = "newsRead", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
