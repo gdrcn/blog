@@ -1,0 +1,167 @@
+*{
+    font-family: 微软雅黑;
+}
+/* 信息栏 */
+.b_personalInf{
+    box-sizing: border-box;
+    display: inline-block;
+    font-size: 14px;
+    text-align: center;
+    vertical-align: top;
+    margin-left: 60px;
+    border-radius: 2px;
+    height: 100%;
+    width: 25%!important;
+} 
+#b_personal_InfName{
+    margin: 45px 0 16px 0;
+}
+/* 关系栏 */
+.b_relative{
+    margin-bottom: 16px;
+    background-color:white; 
+    border-radius: 5px;
+}
+.tb_counter{
+    width: 100%;
+    padding: 10px 0;
+    line-height: 14px;
+    text-align: center;
+    table-layout: fixed;
+}
+.S_line1{
+    cursor: pointer;
+    border-left-width: 1px;
+    border-left-style: solid;
+    border-color: #d9d9d9;
+}
+.S_txt1{
+    color: #333;
+    text-decoration: none;
+}
+.W_f12{
+    font-size: 18px;
+    display: block;
+    margin: 2px 0 6px 0;
+    font-weight: 400;
+    font-family: Tahoma, Geneva, Verdana, sans-serif;
+}
+.S_txt2{
+    color: #808080;
+    text-decoration: none;
+}
+.b_si_counter{
+    border-radius: 4px;
+    width:100%;
+    margin-bottom: 30px;
+    background: white;
+}
+.b_simpleInfo{
+    padding: 10px;
+    text-align: left;
+}
+.b_infos{
+    padding: 8px 8px 5px 8px;
+    border-bottom: solid 1px #f2f2f5;
+    margin-top: 1px;
+    line-height: 26px;
+    word-wrap: break-word;
+    letter-spacing: 1px;
+    color: #706f6f;
+
+}
+.b_infoEdit{
+    text-align: center;
+    color: #333;
+    text-decoration: none;
+}
+.b_change_name{
+    cursor: pointer;
+}
+.b_more_txt{
+    font-size: 16px;
+    padding: 10px 0 5px 0;
+}
+.b_more_txt:hover{
+    cursor: pointer;
+}
+/* 个人详细信息 */
+.b_personalAbout{
+    box-sizing: border-box;
+    display: inline-block;
+    font-size: 14px;
+    vertical-align: top;
+    border-radius: 2px;
+    height: 100%;
+    color: rgb(68, 68, 68);
+    background-color: white;
+    padding: 10px 20px 0 20px;
+}
+.b_aboutWipe{
+    position: relative;
+    display: inline-block;
+    width: 60%!important;
+    box-sizing: border-box;
+    margin-left: 30px;
+    margin-top: 110px;
+    margin-bottom: 50px;
+}
+.b_aboutWipe:before{
+    right: 100%;
+    position: absolute;
+    top: 20%;
+    border: 10px solid transparent;
+    border-right-color: #fff;
+    content: "";
+}
+.b_aboutWipe:after{
+    border-right-color: #fff;
+    border-right-width: 4px;
+    right: 100%;
+    position: absolute;
+    top: 40%;
+    border: 10px solid transparent;
+    content: " ";
+}
+.b_personal{
+    margin: 20px 10px 10px 20px;
+    border-bottom:1px solid rgba(189, 188, 188, 0.479); 
+    padding-bottom: 30px;
+    text-align: left;
+    line-height: 45px;
+}
+.b_personal p{
+    font-size: 16px;
+    font-weight: bold;
+    padding-bottom: 10px;
+}
+.b_personal label{
+    color: #707070;
+    display: inline-block;
+    font-size: 14px;
+    margin-right: 10px;
+}
+.b_personal .b_personalIfmt{
+    color: #838282;
+    display: inline-block;
+    font-size: 12px;
+    margin-right: 60px;
+}
+.b_personals{
+    display: inline-block;
+}
+
+
+.b_personal .b_personalSign{
+    display: inline-block;
+    border: rgb(113, 155, 194) 1px solid;
+    padding: 6px 10px;
+    border-radius: 5%;
+    background-color: #c0ecfa;
+    box-shadow:2px 2px 3px rgba(209, 213, 226, 0.5);
+    margin-right: 20px;
+}
+.b_personal .b_personalSign:hover{
+    cursor: pointer;
+    background-color: #a7e4f7;
+}

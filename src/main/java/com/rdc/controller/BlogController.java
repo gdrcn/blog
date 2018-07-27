@@ -1,6 +1,5 @@
 package com.rdc.controller;
 
-import com.baidu.ueditor.ActionEnter;
 import com.google.gson.Gson;
 import com.rdc.bean.BlogBean;
 import com.rdc.bean.Msg;
@@ -20,12 +19,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -250,7 +244,7 @@ public class BlogController {
 	 */
 	@ResponseBody
 	@RequestMapping(value="/blogByAndroid/{blogId}",method = RequestMethod.GET,produces = "text/html;charset=UTF-8")
-	public String showBlogWithReply(@PathVariable int blogId,HttpSession session) throws ParseException {
+    public String showBlogWithReply(@PathVariable int blogId, HttpSession session) {
 		Blog blog = blogService.showBlogById(blogId);
 		if (blog==null){
 			return GsonUtil.getErrorJson();		//没有此博客
@@ -424,18 +418,18 @@ public class BlogController {
 		}
 		return gson.toJson(msg);
 	}
-	/**
-	 * 百度富文本编辑器：图片上传
-	 * @param request
-	 * @param response
-	 */
-	@RequestMapping("/upload")
-	public void imgUploadByUeditor(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		request.setCharacterEncoding( "utf-8" );
-		response.setHeader("Content-Type" , "text/html");
-		ServletContext application=request.getServletContext();
-		String rootPath = application.getRealPath( "/" );
-		PrintWriter out = response.getWriter();
-		out.write( new ActionEnter( request, rootPath ).exec() );
-	}
+//	/**
+//	 * 百度富文本编辑器：图片上传
+//	 * @param request
+//	 * @param response
+//	 */
+//	@RequestMapping("/upload")
+//	public void imgUploadByUeditor(HttpServletRequest request, HttpServletResponse response) throws IOException {
+//		request.setCharacterEncoding( "utf-8" );
+//		response.setHeader("Content-Type" , "text/html");
+//		ServletContext application=request.getServletContext();
+//		String rootPath = application.getRealPath( "/" );
+//		PrintWriter out = response.getWriter();
+//		out.write( new ActionEnter( request, rootPath ).exec() );
+//	}
 }

@@ -40,6 +40,7 @@ public class AlbumController {
         }
     }
 
+
     /**
      * Created by Ning
      * time 2018/7/22 20:39
@@ -173,4 +174,5 @@ public class AlbumController {
     public String showPhotoComments(@PathVariable Integer photoId, @PathVariable Integer pageId) {
         return GsonUtil.getSuccessJson(albumService.getPhotoComment(photoId, pageId));
     }
+
 }
