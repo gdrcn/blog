@@ -1,7 +1,7 @@
 $(function () {
   var a = {
     UserID: localStorage.getItem("IDuser"),
-    leadAddress: "http://192.168.43.186:8080/rdc/",
+    leadAddress: "http://www.onepi.top:8080/blog/",
 
     //初始化用户信息
     init: function () {
@@ -35,13 +35,13 @@ $(function () {
 
     fn1: function () {
       $("#b_RDClogo").click(function () {
-        window.location.replace('file:///F:/gittes/rdc/blog/src/main/webapp/WEB-INF/html/home.html')
+        window.location.replace('http://www.onepi.top:8080/blog/html/home.html')
       })
       $(".header_list").eq(3).click(function(){
-        window.location.replace('file:///F:/gittes/rdc/blog/src/main/webapp/WEB-INF/html/myInfo.html')
+        window.location.replace('http://www.onepi.top:8080/blog/html/myInfo.html')
       })
       $(".header_list").eq(0).click(function(){
-        window.location.replace('file:///F:/gittes/rdc/blog/src/main/webapp/WEB-INF/html/mypage.html')
+        window.location.replace('http://www.onepi.top:8080/blog/html/mypage.html')
       })
     },
 

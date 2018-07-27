@@ -26,7 +26,7 @@ window.onload = function () {
 
   //登录接口
   var a = {
-    leadAddress: "http://192.168.43.186:8080/rdc/",
+    leadAddress: "http://www.onepi.top:8080/blog/",
     b: new Array(4),//用户注册信息
     // 设置cookie  
     setCookie: function (c_name, value, expiremMinutes) {
@@ -133,7 +133,7 @@ window.onload = function () {
               if (result == "success") {
                 setTimeout("finishLoadingRender1()", 100);
                 localStorage.setItem("IDuser", message.id);//记录登录状态
-                window.location.replace('file:///F:/gittes/rdc/blog/src/main/webapp/WEB-INF/html/mypage.html')
+                window.location.replace('http://www.onepi.top:8080/blog/html/mypage.html')
               }
               if (result == "error") {
                 $(".lose .dec_txt").text(data.message);
@@ -298,7 +298,7 @@ window.onload = function () {
       $(".b_return").show();
       //返回个人主页
       $(".b_return").click(function () {
-        window.location.replace('file:///F:/gittes/rdc/blog/src/main/webapp/WEB-INF/html/mypage.html');
+        window.location.replace('http://www.onepi.top:8080/blog/html/mypage.html');
       })
       //退出登录
       $("#w_welcomeStart").click(function () {
