@@ -51,6 +51,10 @@
     </select>
 
     <select id="findBlogByCategory" parameterType="map" resultMap="blogMap">
-         select user_id,title,cover_img,article,finish_time,username,face_img,category,t1.id as blog_id from blog as t1,user as t2 where t1.category=#{category} order by finish_time limit #{begin},10
+         select user_id,title,cover_img,article,finish_time,username,face_img,category,t1.id as blog_id from blog as t1,user as t2 where t1.category=#{category} order by finish_time desc limit #{begin},10
+    </select>
+
+    <select id="findNewBlog" parameterType="int" resultMap="blogMap">
+        select user_id,title,cover_img,article,finish_time,username,face_img,category,t1.id as blog_id from blog as t1,user as t2 order by finish_time desc limit #{begin},10
     </select>
 </mapper>

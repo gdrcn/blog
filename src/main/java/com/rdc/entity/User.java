@@ -23,6 +23,7 @@ public class User implements Serializable {
     private String phone;
     private String email;
     private String realname;
+    private String school;
     private String signature;
     private String faceImg;
     private String address;
@@ -208,6 +209,14 @@ public class User implements Serializable {
         this.birthday = birthday;
     }
 
+    public String getSchool() {
+        return school;
+    }
+
+    public void setSchool(String school) {
+        this.school = school;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -219,6 +228,7 @@ public class User implements Serializable {
                 ", phone='" + phone + '\'' +
                 ", email='" + email + '\'' +
                 ", realname='" + realname + '\'' +
+                ", school='" + school + '\'' +
                 ", signature='" + signature + '\'' +
                 ", faceImg='" + faceImg + '\'' +
                 ", address='" + address + '\'' +

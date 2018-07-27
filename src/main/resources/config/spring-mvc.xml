@@ -38,17 +38,18 @@
     </bean>
 
     <mvc:resources mapping="/img/**" location="/WEB-INF/img/" />
+    <mvc:resources mapping="/imges/**" location="/WEB-INF/imges/" />
+    <mvc:resources mapping="/pics/**" location="/WEB-INF/pics/" />
     <mvc:resources mapping="/html/**" location="/WEB-INF/html/" />
     <mvc:resources mapping="/js/**" location="/WEB-INF/js/" />
-    <!--<mvc:resources mapping="/fonts/**" location="/WEB-INF/fonts/" />-->
+    <mvc:resources mapping="/font-awesome-4.7.0/**" location="/WEB-INF/font-awesome-4.7.0/"/>
     <mvc:resources mapping="/css/**" location="/WEB-INF/css/"/>
     <!--<mvc:resources mapping="/doc/**" location="/WEB-INF/doc/"/>-->
 
-    <!--<mvc:interceptors>-->
+    <mvc:interceptors>
         <!--&lt;!&ndash; 配置自定义的拦截器&ndash;&gt;-->
-        <!--<bean class="com.rdc.filter.PermissionFilter"></bean>-->
+        <bean class="com.rdc.filter.PermissionFilter"></bean>
         <!--&lt;!&ndash; 配置拦截器(不)作用的路径&ndash;&gt;-->
-
-    <!--</mvc:interceptors>-->
+    </mvc:interceptors>
 
 </beans>

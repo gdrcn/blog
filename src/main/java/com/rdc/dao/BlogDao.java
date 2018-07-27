@@ -26,4 +26,6 @@ public interface BlogDao {
 	ArrayList<Blog> findBlogByUser(Map<String,Integer> map);
 	//分类查看博客
 	ArrayList<Blog> findBlogByCategory(Map<String,Object> map);
+	//最新博客
+	ArrayList<Blog> findNewBlog(int begin);
 }

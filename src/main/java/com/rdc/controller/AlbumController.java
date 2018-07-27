@@ -1,6 +1,5 @@
 package com.rdc.controller;
 
-import com.rdc.bean.Msg;
 import com.rdc.entity.Album;
 import com.rdc.entity.User;
 import com.rdc.service.AlbumService;
@@ -13,7 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
 
-@CrossOrigin
+
 @Controller
 @RequestMapping("/blog")
 public class AlbumController {
@@ -31,18 +30,13 @@ public class AlbumController {
     public String uploadPhotos(@RequestParam("file") MultipartFile file, Album album, HttpSession session) {
         User user = (User) session.getAttribute("user");
         album.setUserId(user.getId());
-        Msg message = new Msg();
         if (!UploadUtil.suffixMatch(file.getOriginalFilename())) {
-            message.setResult("error");
-            message.setMessage("不支持此文件类型");
-            return GsonUtil.getErrorJson(message);
+            return GsonUtil.getErrorJson("不支持此文件类型");
         } else {
             String hashName = UploadUtil.getFileHash(file.getOriginalFilename());
             UploadUtil.imgUpload(hashName, file);
             albumService.uploadPhotos(album, hashName);
-            message.setResult("success");
-            message.setMessage("/img/" +hashName);
-            return GsonUtil.getSuccessJson(message);
+            return GsonUtil.getSuccessJson(hashName);
         }
     }
 
@@ -120,6 +114,22 @@ public class AlbumController {
         } else {
             return GsonUtil.getErrorJson(msg);
         }
+    }
+
+    /**
+     * 点赞相册
+     * Created by Ning
+     * time 2018/7/27 16:20
+     *
+     * @param albumId
+     * @param session
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/likeThisAlbum", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
+    public String upAlbum(@RequestParam("albumId") Integer albumId, HttpSession session) {
+        User realUser = (User) session.getAttribute("user");
+        return GsonUtil.getSuccessJson(albumService.upAlbum(realUser.getId(), albumId));
     }
 
     /**

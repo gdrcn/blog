@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-@CrossOrigin
+
 @RequestMapping("/blog")
 @Controller
 public class BlogController {
@@ -42,6 +42,11 @@ public class BlogController {
 	private Gson gson=new Gson();
 	private Msg msg;
 
+	@RequestMapping(value="testEncoding",method = RequestMethod.POST,produces = "text/html;charset=UTF-8")
+	public String testEncoding(@RequestParam("input") String input){
+		System.out.println(input);
+		return "";
+	}
 	/**
 	 * 分类加载博客
 	 * @param category
@@ -247,8 +252,16 @@ public class BlogController {
 	 */
 	@ResponseBody
 	@RequestMapping(value="/blogByAndroid/{blogId}",method = RequestMethod.GET,produces = "text/html;charset=UTF-8")
-	public String showBlogWithReply(@PathVariable int blogId,HttpSession session) throws ParseException {
-		return showBlogById(blogId,1,0,session);
+    public String showBlogWithReply(@PathVariable int blogId, HttpSession session) {
+		Blog blog = blogService.showBlogById(blogId);
+		if (blog==null){
+			return GsonUtil.getErrorJson();		//没有此博客
+		}
+		User user = (User) session.getAttribute("user");
+		ArrayList<Blog> blogs = new ArrayList<>();	//为使用getBlogBean妥协
+		blogs.add(blog);
+		ArrayList<BlogBean> blogBean = getBlogBean(blogs,user.getId());
+		return GsonUtil.getSuccessJson(blogBean.get(0));
 	}
 	/**
 	 * 获取评论
@@ -318,7 +331,6 @@ public class BlogController {
 		map.put("comments",comments);
 		return GsonUtil.getSuccessJson(map);
 	}
-
 	/**
 	 * 获取博客评论，通用方法
 	 * @param blogId
@@ -357,7 +369,6 @@ public class BlogController {
 		}
 		return gson.toJson(new Msg("error","修改失败"));
 	}
-
 	/**
 	 * Asce 2018-07-21
 	 * 删除博客
@@ -375,7 +386,6 @@ public class BlogController {
 		}
 		return null;
 	}
-
 	/**
 	 * Asce 2018-07-21
 	 * 发表博客
@@ -389,7 +399,7 @@ public class BlogController {
 
 		User user=(User)session.getAttribute("user");
 		UserBean userBean = new UserBean();
-		userBean.setId(1);
+		userBean.setId(user.getId());
 		blog.setUserBean(userBean);
 
 		int result = blogService.add(blog);
@@ -418,5 +428,18 @@ public class BlogController {
 		}
 		return gson.toJson(msg);
 	}
-
+//	/**
+//	 * 百度富文本编辑器：图片上传
+//	 * @param request
+//	 * @param response
+//	 */
+//	@RequestMapping("/upload")
+//	public void imgUploadByUeditor(HttpServletRequest request, HttpServletResponse response) throws IOException {
+//		request.setCharacterEncoding( "utf-8" );
+//		response.setHeader("Content-Type" , "text/html");
+//		ServletContext application=request.getServletContext();
+//		String rootPath = application.getRealPath( "/" );
+//		PrintWriter out = response.getWriter();
+//		out.write( new ActionEnter( request, rootPath ).exec() );
+//	}
 }

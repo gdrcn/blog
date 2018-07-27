@@ -22,16 +22,20 @@ public class BlogService {
 	private final int PAGE_SIZE=10;
 
 	public ArrayList<Blog> getBlogByCategory(String category,int page){
+		int begin = page*PAGE_SIZE;
+
 		if(!category.equals("后台")){
 			if(!category.equals("安卓")){
 				if(!category.equals("大数据")){
 					if(!category.equals("前端")){
+						if(category.equals("最新")){
+							return blogDao.findNewBlog(begin);
+						}
 						return null;
 					}
 				}
 			}
 		}
-		int begin = page*PAGE_SIZE;
 		Map<String,Object> map = new HashMap<>();
 		map.put("category",category);
 		map.put("begin",begin);
@@ -70,7 +74,6 @@ public class BlogService {
 		ArrayList<Blog> blogs = blogDao.search(map);
 		return blogs;
 	}
-
 	/**
 	 * Asce 2018/7/25
 	 * 搜索提示

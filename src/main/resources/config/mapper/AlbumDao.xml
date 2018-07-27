@@ -91,4 +91,25 @@
     <select id="getAlbumCover" parameterType="java.lang.Integer" resultType="java.lang.String">
         SELECT photo.`photo_hash` FROM photo WHERE album_id = #{albumId} ORDER BY push_time DESC LIMIT 0, 1;
     </select>
+
+    <select id="getAlbumUpStatus" parameterType="map" resultType="java.lang.Integer">
+        SELECT id FROM up WHERE album_id = #{albumId} AND user_id=#{userId};
+    </select>
+
+    <select id="isUpAlbum" parameterType="map" resultType="java.lang.Integer">
+                select * from up where user_id = #{userId} and album_id = #{albumId};
+    </select>
+
+    <delete id="cancelUp" parameterType="map">
+        delete from up where user_id=#{userId} and album_id = #{albumId};
+    </delete>
+
+    <select id="getUserIdByAlbum" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+       select user_id from album where id = #{albumId} ;
+    </select>
+
+    <insert id="upAlbum" parameterType="map">
+        insert into up(user_id, beuser_id, album_id) values (#{userId}, #{beUserId}, #{albumId});
+    </insert>
+
 </mapper>
