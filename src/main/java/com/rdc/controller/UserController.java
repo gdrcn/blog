@@ -48,6 +48,7 @@ public class UserController {
     @RequestMapping(value = "/myhomepage", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
     public String getUserInfo(HttpSession session) {
         User user = (User) session.getAttribute("user");
+        System.out.println(user.getId());
         return GsonUtil.getSuccessJson(userService.getUserInfo(user.getId()));
     }
 
@@ -73,6 +74,20 @@ public class UserController {
                 return GsonUtil.getSuccessJson(new GsonBuilder().serializeNulls().create(), message.getMessage());
             }
         }
+    }
+
+    /**
+     * Created by Ning
+     * time 2018/7/27 19:54
+     * <p>
+     * 得到昨天热门的6张照片
+     *
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/getHotNews", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
+    public String getHotNews() {
+        return GsonUtil.getSuccessJson(userService.getHotPhoto());
     }
 
     /**
@@ -206,12 +221,13 @@ public class UserController {
      * @author chen
      */
     @ResponseBody
-    @RequestMapping(value = "validate", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
-    public String validate(@RequestParam(value = "checkcode") String checkcode, HttpSession session) {
-        User user = (User) session.getAttribute("user");
-        String code = (String) session.getAttribute("emailCode");
+    @RequestMapping(value = "validate",method = RequestMethod.POST,produces = "text/html;charset=UTF-8")
+    public String validate(@RequestParam(value = "checkcode") String checkcode,HttpSession session){
+        User user = (User)session.getAttribute("user");
+        String code=(String) session.getAttribute("emailCode");
         session.removeAttribute("emailCode");
-        return userService.validate(checkcode, code, user);
+        session.removeAttribute("user");
+        return userService.validate(checkcode,code,user);
     }
 
 
@@ -319,7 +335,7 @@ public class UserController {
      * @param user_id
      * @return
      * @author chen
-     */
+     * */
     @ResponseBody
     @RequestMapping(value = "getNews", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
     public String getNews(int user_id) {
@@ -332,8 +348,8 @@ public class UserController {
      *
      * @param id
      * @param type
-     * @return
      * @author chen
+     * @return
      */
     @ResponseBody
     @RequestMapping(value = "newsRead", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")

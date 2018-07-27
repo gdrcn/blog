@@ -7,7 +7,7 @@ import java.io.IOException;
 
 public class UploadUtil {
 
-	public final static String[] allowFile = {"jpg","bmp","gif","png"};
+	public final static String[] allowFile = {"jpg", "bmp", "gif", "png", "jpeg"};
 
 	/**
 	 * Asce 2018/7/25

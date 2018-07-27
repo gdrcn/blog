@@ -10,6 +10,7 @@ public class Photo {
     private String  pushTime;
     private ArrayList<Comment> commentArrayList;
     private Integer beUpNum;
+    private Integer commentsNum;
 
     public Photo() {
     }
@@ -62,6 +63,14 @@ public class Photo {
         this.beUpNum = beUpNum;
     }
 
+    public Integer getCommentsNum() {
+        return commentsNum;
+    }
+
+    public void setCommentsNum(Integer commentsNum) {
+        this.commentsNum = commentsNum;
+    }
+
     @Override
     public String toString() {
         return "Photo{" +
@@ -71,6 +80,7 @@ public class Photo {
                 ", pushTime='" + pushTime + '\'' +
                 ", commentArrayList=" + commentArrayList +
                 ", beUpNum=" + beUpNum +
+                ", commentsNum=" + commentsNum +
                 '}';
     }
 }
