@@ -1,15 +1,12 @@
 package com.rdc.entity;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.Past;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
-public class User implements Serializable {
+public class User {
 
     private int id;
     private String username;
