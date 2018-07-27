@@ -250,11 +250,11 @@
       <artifactId>json</artifactId>
       <version>20160810</version>
     </dependency>
-    <dependency>
-      <groupId>com.baidu</groupId>
-      <artifactId>ueditor</artifactId>
-      <version>1.1.2</version>
-    </dependency>
+      <!--<dependency>-->
+      <!--<groupId>com.baidu</groupId>-->
+      <!--<artifactId>ueditor</artifactId>-->
+      <!--<version>1.1.2</version>-->
+      <!--</dependency>-->
     <!--  什么鬼   -->
     <dependency>
       <groupId>org.codehaus.jackson</groupId>
