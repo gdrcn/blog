@@ -1,0 +1,157 @@
+Html{
+    height: 100%;
+    width: 100%;
+    background:#e6ecf0;
+}
+body{
+    margin: 0px;
+    padding: 0px;
+    letter-spacing: 1px;
+    font-family:Microsoft YaHei,\\5FAE\8F6F\96C5\9ED1,Arial,sans-serif;
+}
+a{
+    text-decoration: none;
+}
+body, dd, dl, fieldset, h1, h2, h3, h4, h5, h6,p, ol, textarea, ul {margin: 0;}
+.wallpaper{
+    background: url(../pics/微信图片_20180722145323.jpg) no-repeat;
+    width: 100%;
+    background-position: 50% 50%;
+    background-size: cover;
+    background-attachment: fixed;
+    max-height:80vh ;
+    min-height:30vh ;
+    height: 40vh;
+}
+#underWall{
+    box-shadow:0 0 30px rgba(0,0,0,0.5);
+}
+ul, menu, dir {
+    -webkit-margin-before: 0px;
+    -webkit-margin-after: 0px;
+    -webkit-margin-start: 0px;
+    -webkit-margin-end: 0px;
+    -webkit-padding-start: 40px;
+}
+ol, ul,li {
+    padding-left: 0;
+    list-style-type: none;
+}
+.b_wide{
+    max-width: 1200px;
+    margin: 0 auto;
+    box-sizing: border-box;
+    padding: 0 20px;
+}
+/* 导航栏 */
+.header{
+    background: white;
+    width:100%;
+    max-height: 20vh;
+    zoom: 1;
+    z-index: 5;
+    border-bottom: #d9e1ec 1px solid;
+}
+@media (max-height: 300px){
+    .header {
+        font-size: 25px;
+    }}
+.header:after{
+      display: block;
+      content: '';
+      clear:both;
+      line-height: 0;
+      visibility: hidden;
+}
+.header ul{
+    float: right;
+}
+.header ul .header_list{
+    display: inline-block;
+    line-height: 60px;
+    padding: 0 35px;
+    font-size: 15px;
+    font-weight: bold;
+    color: #66757f;
+    cursor: pointer;
+}
+.header_list{
+    position: relative;
+}
+.header_list a{
+    position: relative;
+}
+.header ul .header_list:hover{
+    color: #3479d8; 
+}
+.header_list_active{
+    color: #3479d8!important;
+}
+.list_underline{
+    border-bottom: #3479d8 2px solid;
+    display: none;
+    position: absolute;
+    top: 20px;
+    width: 100%;
+}
+.b_block{
+    display: block!important;
+}
+.b_none{
+    display: none;
+}
+.b_fa{
+    padding-right: 5px;
+    padding-top: -5px;
+}
+div#w_myHead{
+	box-shadow:0 0 1px black;
+	display:inline-block;
+	position: absolute;;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+	background:url(../pics/微信图片_20180722145323.jpg);
+	background-size:100% 100%;
+	border:4px solid rgb(255, 255, 255);
+    left: 10%;
+    top: -120px;
+    bottom:150px;
+    z-index: 3;
+}
+div#w_myHeadName{
+	position:absolute;
+	text-align:center;
+	bottom:-50px;
+	font-size:1.3rem;
+    font-weight:bold;
+    white-space: nowrap;
+	left:50%;
+	transform:translateX(-50%);
+}
+div#b_myHead{
+    display:inline-block;
+	position: absolute;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+	background:url(../pics/微信图片_20180722145323.jpg);
+    background-size:100% 100%;
+    top:10px;
+    left: 10%;
+    z-index: 3;
+}
+div#b_myName{
+    display:inline-block;
+	position: absolute;
+    top:18px;
+    letter-spacing: 0.75px;
+    cursor: pointer;
+    font-weight: 600;
+    left: 14%;
+    z-index: 3;
+}
