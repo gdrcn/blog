@@ -8,6 +8,7 @@ public class Album {
     private String albumName;
     private String coverHash;
     private ArrayList<Comment> commentList;
+    private Integer upStatus;
 
     public Album() {
     }
@@ -52,6 +53,14 @@ public class Album {
         this.commentList = commentList;
     }
 
+    public Integer getUpStatus() {
+        return upStatus;
+    }
+
+    public void setUpStatus(Integer upStatus) {
+        this.upStatus = upStatus;
+    }
+
     @Override
     public String toString() {
         return "Album{" +
@@ -60,7 +69,7 @@ public class Album {
                 ", albumName='" + albumName + '\'' +
                 ", coverHash='" + coverHash + '\'' +
                 ", commentList=" + commentList +
+                ", upStatus=" + upStatus +
                 '}';
     }
-
 }

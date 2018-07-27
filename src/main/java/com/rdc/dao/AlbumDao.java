@@ -5,6 +5,7 @@ import com.rdc.entity.Photo;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 @Mapper
 public interface AlbumDao {
@@ -114,4 +115,43 @@ public interface AlbumDao {
      * @return
      */
     String getAlbumCover(Integer id);
+
+    /**
+     * 得到点赞状况
+     *
+     * @param map
+     * @return
+     */
+    Integer getAlbumUpStatus(Map<String, Integer> map);
+
+    /**
+     * 得到相册点赞状况
+     *
+     * @param map
+     * @return
+     */
+    Integer isUpAlbum(Map<String, Integer> map);
+
+    /**
+     * 取消点赞
+     *
+     * @param map
+     */
+    Integer cancelUp(Map<String, Integer> map);
+
+    /**
+     * 得到点赞人id
+     *
+     * @param albumId
+     * @return
+     */
+    Integer getUserIdByAlbum(Integer albumId);
+
+    /**
+     * 点赞相册
+     *
+     * @param map
+     * @return
+     */
+    Integer upAlbum(Map<String, Integer> map);
 }

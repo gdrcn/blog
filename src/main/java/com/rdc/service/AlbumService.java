@@ -180,5 +180,32 @@ public class AlbumService {
         System.out.println(photoDao.getPhotoComments(map));
         return photoDao.getPhotoComments(map);
     }
+
+    /**
+     * 点赞相册
+     * Created by Ning
+     * time 2018/7/27 16:20
+     *
+     * @param userId
+     * @param albumId
+     * @return
+     */
+    public String upAlbum(int userId, Integer albumId) {
+        Map<String, Integer> map = new HashMap();
+        map.put("userId", userId);
+        map.put("albumId", albumId);
+        Integer isUpAlbum = albumDao.isUpAlbum(map);
+        System.out.println(isUpAlbum);
+        if (isUpAlbum != null) {
+            albumDao.cancelUp(map);
+            return "已取消";
+        } else {
+            Integer beUserId = albumDao.getUserIdByAlbum(albumId);
+            System.out.println(beUserId);
+            map.put("beUserId", beUserId);
+            albumDao.upAlbum(map);
+            return "已点赞";
+        }
+    }
 }
 
