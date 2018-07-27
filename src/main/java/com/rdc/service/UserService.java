@@ -296,7 +296,7 @@ public class UserService {
             return GsonUtil.getErrorJson("两次输入密码不一致");
         }
         else {
-            ConvertUtil.encryptMd5(password);
+            password = ConvertUtil.encryptMd5(password);
             if(userDao.resetPassword(password, email) > 0)
             return GsonUtil.getSuccessJson();
         }
