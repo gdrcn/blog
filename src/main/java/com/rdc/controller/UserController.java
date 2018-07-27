@@ -174,6 +174,7 @@ public class UserController {
         User user = (User)session.getAttribute("user");
         String code=(String) session.getAttribute("emailCode");
         session.removeAttribute("emailCode");
+        session.removeAttribute("user");
         return userService.validate(checkcode,code,user);
     }
 
