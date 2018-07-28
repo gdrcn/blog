@@ -266,7 +266,7 @@ public class BlogController {
 	 * @return
 	 */
 	@ResponseBody
-	@RequestMapping(value="/blogComment/{blogId}/{page}",method = RequestMethod.GET,produces = "text/html;charset=UTF-8")
+	@RequestMapping(value="/getBlogComment/{blogId}/{page}",method = RequestMethod.GET,produces = "text/html;charset=UTF-8")
 	public String showComment(@PathVariable int blogId,@PathVariable int page,HttpSession session) throws ParseException {
 		User user = (User) session.getAttribute("user");
 		ArrayList<Comment> comments = getCommentByBlog(blogId,1,page,user.getId());
