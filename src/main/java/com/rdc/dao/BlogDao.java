@@ -30,4 +30,8 @@ public interface BlogDao {
 	ArrayList<Blog> findNewBlog(int begin);
 	//最热博客
 	ArrayList<Blog> findHotBlog();
+	//得到某类博客总数
+	int getCategoryCount(String category);
+	//得到用户发表的博客数
+	int getUserBlogCount(int userId);
 }

@@ -22,6 +22,14 @@ public class BlogService {
 	private BlogDao blogDao;
 	private final int PAGE_SIZE=10;
 
+	public int getUserBlogCount(int userId){
+		return blogDao.getUserBlogCount(userId);
+	}
+
+	public int getCategoryCount(String category){
+		return blogDao.getCategoryCount(category);
+	}
+
 	public ArrayList<Blog> getBlogByCategory(String category,int page){
 		int begin = page*PAGE_SIZE;
 
@@ -42,7 +50,11 @@ public class BlogService {
 		Map<String,Object> map = new HashMap<>();
 		map.put("category",category);
 		map.put("begin",begin);
-		return blogDao.findBlogByCategory(map);
+		ArrayList<Blog> blogs = blogDao.findBlogByCategory(map);;
+		for (int i=0;i < blogs.size();i++){
+			blogs.get(i).setFinishTime(ConvertUtil.msecToMinutes(blogs.get(i).getFinishTime()));
+		}
+		return blogs;
 	}
 	/**
 	 * Asce 2018/7/25
@@ -57,6 +69,9 @@ public class BlogService {
 		int begin = page*PAGE_SIZE;
 		map.put("begin",begin);
 		ArrayList<Blog> blogs = blogDao.findBlogByUser(map);
+		for (int i=0;i < blogs.size();i++){
+			blogs.get(i).setFinishTime(ConvertUtil.msecToMinutes(blogs.get(i).getFinishTime()));
+		}
 		return blogs;
 	}
 	/**
@@ -75,6 +90,9 @@ public class BlogService {
 		map.put("input",input);
 		map.put("begin",begin);
 		ArrayList<Blog> blogs = blogDao.search(map);
+		for (int i=0;i < blogs.size();i++){
+			blogs.get(i).setFinishTime(ConvertUtil.msecToMinutes(blogs.get(i).getFinishTime()));
+		}
 		return blogs;
 	}
 	/**

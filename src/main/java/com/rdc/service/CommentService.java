@@ -175,7 +175,9 @@ public class CommentService {
 		if(comment==null){
 			return 0;
 		}
-		comment.setFromId(userId);
+		UserBean userBean = new UserBean();
+		userBean.setId(userId);
+		comment.setFromUserBean(userBean);
 		int result = commentDao.addBlogComment(comment);
 
 		if(result==1){
@@ -183,7 +185,6 @@ public class CommentService {
 		}
 		return 0;
 	}
-
 	/**
 	 * Asce 2018-07-22
 	 * 得到评论数

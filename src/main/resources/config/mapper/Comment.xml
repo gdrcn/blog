@@ -41,7 +41,7 @@
         <selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">
             SELECT LAST_INSERT_ID() AS ID
         </selectKey>
-        insert into first_comments(commentser_id,comments,blog_id,time) values(#{fromUserId},#{comments},#{fromId},#{time})
+        insert into first_comments(commentser_id,comments,blog_id,time) values(#{fromUserBean.id},#{comments},#{fromId},#{time})
     </insert>
 
     <insert id="addCommentReply" parameterType="com.rdc.entity.Reply">

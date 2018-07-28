@@ -62,4 +62,11 @@
         select t4.user_id,t4.title,t4.cover_img,t4.article,t4.finish_time,t5.username,t5.face_img,t4.category,t4.id as blog_id from blog as t4,user as t5 where t4.id in(select t3.id from (select t1.id,count(blog_id) as up_count from (select id from blog where to_days(NOW())-to_days(finish_time)=1) as t1 left join up on up.blog_id=t1.id group by t1.id order by up_count desc limit 6) as t3) and t4.user_id=t5.id
     </select>
 
+    <select id="getCategoryCount" parameterType="String" resultType="int">
+        select count(id) from blog where category=#{category}
+    </select>
+
+    <select id="getUserBlogCount" parameterType="int" resultType="int">
+        select count(id) from blog where user_id=#{userId}
+    </select>
 </mapper>

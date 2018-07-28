@@ -14,6 +14,7 @@ import com.rdc.service.CommentService;
 import com.rdc.service.UpService;
 import com.rdc.util.GsonUtil;
 import com.rdc.util.UploadUtil;
+import org.apache.commons.collections.map.HashedMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -41,12 +42,6 @@ public class BlogController {
 
 	private Gson gson=new Gson();
 	private Msg msg;
-
-	@RequestMapping(value="testEncoding",method = RequestMethod.POST,produces = "text/html;charset=UTF-8")
-	public String testEncoding(@RequestParam("input") String input){
-		System.out.println(input);
-		return "";
-	}
 	/**
 	 * 分类加载博客
 	 * @param category
@@ -63,7 +58,11 @@ public class BlogController {
 			return GsonUtil.getErrorJson();
 		}
 		ArrayList<BlogBean> blogBeans = getBlogBean(blogs,user.getId());
-		return GsonUtil.getSuccessJson(blogBeans);
+		int blogCount = blogService.getCategoryCount(category);
+		Map<String,Object> map = new HashMap<>();
+		map.put("blogBeans",blogBeans);
+		map.put("blogCount",blogCount);
+		return GsonUtil.getSuccessJson(map);
 	}
 	/**
 	 * Asce 2018/7/25
@@ -80,8 +79,12 @@ public class BlogController {
 
 		User user = (User) session.getAttribute("user");
 		ArrayList<BlogBean> blogBeans = getBlogBean(blogs,user.getId());
+		int blogCount = blogService.getUserBlogCount(userId);
+		Map<String,Object> map = new HashMap<>();
+		map.put("blogBeans",blogBeans);
+		map.put("blogCount",blogCount);
 
-		return GsonUtil.getSuccessJson(blogBeans);
+		return GsonUtil.getSuccessJson(map);
 	}
 	/**
 	 * Asce 2018/7/25
