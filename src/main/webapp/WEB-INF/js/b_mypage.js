@@ -37,7 +37,14 @@ $(function () {
       $("#b_RDClogo").click(function () {
         window.location.replace('http://www.onepi.top:8080/blog/html/home.html')
       })
+      $(".header_list").eq(3).click(function(){
+        window.location.replace('http://www.onepi.top:8080/blog/html/myInfo.html')
+      })
+      $(".header_list").eq(0).click(function(){
+        window.location.replace('http://www.onepi.top:8080/blog/html/mypage.html')
+      })
     },
+
 
   }
   a.init();

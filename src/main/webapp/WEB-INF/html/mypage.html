@@ -7,6 +7,7 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <link rel="stylesheet" href="../css/mypage.css" type="text/css">
   <link rel="stylesheet" href="../css/walkpaper.css" type="text/css">
+  <link rel="stylesheet" href="../css/personalEdit.css" type="text/css">
   <link rel="stylesheet" href="../font-awesome-4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" type="text/css" href="../css/changealert.css">
   <script type="text/javascript" src="../js/jquery-1.10.2.min.js"></script>
@@ -18,11 +19,19 @@
   <div class="wallpaper"></div>
   <div id="underWall">
     <!-- 导航栏 -->
+    <div class="page_outer">
+        <div class="page_container">
+      <div class="over_content none"></div>
     <div class="header">
       <div class="b_wide" style="position: relative;">
         <div id="b_RDClogo" style="cursor: pointer; float: left;line-height: 60px;;font-size: 30px;color:#3479d8;font-weight: bold;user-select: none;">RDC</div>
         <div id=w_wordPressLine>
-          <div id=w_myHead></div>
+          <div id=w_myHead>
+            <button class="none hChange_button">
+              <i class="fa fa-picture-o fa-3x" style="color: #fff; margin-top: 30px;" aria-hidden="true"></i>
+              <p>Change your profile photo</p>
+            </button>
+          </div>
         </div>
         <div id="b_wordPressLine" class="b_none">
           <div id="b_myHead"></div>
@@ -317,6 +326,22 @@
       </div>
     </div>
   </div>
+</div>
+</div>
+<!-- 修改个人信息框 -->
+<div class="over_wallpaper none">
+    <div class="wallpaperChange">
+      <button class="wChange_button">
+        <i class="fa fa-picture-o fa-4x" style="color: #fff;" aria-hidden="true"></i>
+        <p>Change your header photo</p>
+      </button>
+    </div>
+  </div>
+  <!-- 更改确认、取消按钮 -->
+<div class="b_UserActions none">
+    <button class="UserAction_save">保存</button>
+    <button class="UserAction_cancel">取消</button>
+  </div>
   <!--自定义提示弹出框-->
   <div class="box_overlay tips none"></div>
   <div id="animationTipBox" class=" tips none">
@@ -367,6 +392,7 @@
   </div>
   <script type="text/javascript" src="../js/b_walkpaper.js"></script>
   <script type="text/javascript" src="../js/b_mypage.js"></script>
+  <script type="text/javascript" src="../js/personalEdit.js"></script>
   <script type="text/javascript" src="../js/changalert.js"></script>
 </body>
 
