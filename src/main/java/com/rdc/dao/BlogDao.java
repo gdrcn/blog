@@ -34,4 +34,6 @@ public interface BlogDao {
 	int getCategoryCount(String category);
 	//得到用户发表的博客数
 	int getUserBlogCount(int userId);
+	//得到搜索结果总数
+	int getSearchCount(String input);
 }

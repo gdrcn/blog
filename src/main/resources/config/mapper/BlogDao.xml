@@ -69,4 +69,9 @@
     <select id="getUserBlogCount" parameterType="int" resultType="int">
         select count(id) from blog where user_id=#{userId}
     </select>
+
+    <select id="getSearchCount" parameterType="String" resultType="int">
+         select count(id) from blog where locate(#{input},title)>0
+    </select>
+
 </mapper>

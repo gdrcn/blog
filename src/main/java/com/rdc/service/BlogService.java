@@ -22,6 +22,10 @@ public class BlogService {
 	private BlogDao blogDao;
 	private final int PAGE_SIZE=10;
 
+	public int getSearchCount(String input){
+		return blogDao.getSearchCount(input);
+	}
+
 	public int getUserBlogCount(int userId){
 		return blogDao.getUserBlogCount(userId);
 	}

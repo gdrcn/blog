@@ -122,8 +122,15 @@ public class BlogController {
 	@RequestMapping(value="/blogSearch/{input}/{page}",method = RequestMethod.GET,produces = "text/html;charset=UTF-8")
 	public String blogSearch(@PathVariable String input,@PathVariable int page,HttpSession session){
 		ArrayList<Blog> blogs = blogService.search(input,page);
+		if (blogs == null)
+			return GsonUtil.getErrorJson();
 		User user = (User) session.getAttribute("user");
-		return GsonUtil.getSuccessJson(getBlogBean(blogs,user.getId()));
+		ArrayList<BlogBean> blogBeans = getBlogBean(blogs,user.getId());
+		int blogCount = blogService.getSearchCount(input);
+		Map<String,Object> map = new HashMap<>();
+		map.put("blogBeans",blogBeans);
+		map.put("blogCount",blogCount);
+		return GsonUtil.getSuccessJson(map);
 	}
 	/**
 	 * Asce 2018/7/25
