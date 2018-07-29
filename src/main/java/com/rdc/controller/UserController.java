@@ -391,4 +391,51 @@ public class UserController {
     }
 
 
+    /**
+     * 获取关注新消息
+     * @param userId
+     * @author chen
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "getLikeNews",method = RequestMethod.GET,produces = "text/html;charset=UTF-8")
+    public String getLikeNews(int userId){
+        return GsonUtil.getSuccessJson(newsService.getLikeNews(userId));
+    }
+
+    /**
+     * 获取点赞新消息
+     * @param userId
+     * @author chen
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "getUpNews",method = RequestMethod.GET,produces = "text/html;charset=UTF-8")
+    public String getUpNews(int userId){
+        return GsonUtil.getSuccessJson(newsService.getUpNews(userId));
+    }
+
+    /**
+     * 获取评论新消息
+     * @param userId
+     * @author chen
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "getCommentNews",method = RequestMethod.GET,produces = "text/html;charset=UTF-8")
+    public String getCommentNews(int userId){
+        return GsonUtil.getSuccessJson(newsService.getCommentNews(userId));
+    }
+
+    /**
+     * 获取收藏新消息
+     * @param userId
+     * @author chen
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "getCollectNews",method = RequestMethod.GET,produces = "text/html;charset=UTF-8")
+    public String getCollectNews(int userId){
+        return GsonUtil.getSuccessJson(newsService.getCollectNews(userId));
+    }
 }

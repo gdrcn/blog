@@ -113,15 +113,15 @@
     </update>
 
     <select id="findUserWatch" parameterType="int" resultType="java.lang.Integer">
-        select count(id) from relation where user_id=#{user_id} and beliked_id=#{beliked_id}
+        select count(id) from relation where user_id=#{userId} and beliked_id=#{belikedId}
     </select>
 
     <insert id="watch" parameterType="int">
-        insert into relation(user_id,beliked_id) values(#{user_id},#{beliked_id})
+        insert into relation(userId,belikedId) values(#{userId},#{belikedId})
     </insert>
 
     <delete id="offWatch" parameterType="int">
-        delete from relation where user_id=#{user_id} and beliked_id=#{beliked_id}
+        delete from relation where user_id=#{userId} and beliked_id=#{belikedId}
     </delete>
 
     <update id="updateUserInfo" parameterType="com.rdc.entity.User">
@@ -169,7 +169,7 @@
 
 
     <select id="userLikeNews" parameterType="int" resultMap="userNewsBean">
-        select relation.id,user.username from relation,user where relation.beliked_id = #{user_id} and+
+        select relation.id,user.username from relation,user where relation.beliked_id = #{userId} and+
         user.id = relation.user_id and relation.status = 1
     </select>
 
