@@ -152,10 +152,10 @@ public class UserController {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/showUserFans", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
-    public String showUserFans(HttpSession session) {
+    @RequestMapping(value = "/showUserFans/{userId}", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
+    public String showUserFans(@PathVariable Integer userId, HttpSession session) {
         User user = (User) session.getAttribute("user");
-        ArrayList<UserBean> userBeans = userService.showUserFans(user.getId());
+        ArrayList<UserBean> userBeans = userService.showUserFans(user.getId(), userId);
         if (userBeans.size() < 1) {
             return GsonUtil.getErrorJson();
         } else {
@@ -172,10 +172,10 @@ public class UserController {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/showUserIdols", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
-    public String showUserIdols(HttpSession session) {
+    @RequestMapping(value = "/showUserIdols/{userId}", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
+    public String showUserIdols(@PathVariable Integer userId, HttpSession session) {
         User user = (User) session.getAttribute("user");
-        ArrayList<UserBean> userBeans = userService.showUserIdols(user.getId());
+        ArrayList<UserBean> userBeans = userService.showUserIdols(user.getId(), userId);
         if (userBeans.size() < 1) {
             return GsonUtil.getErrorJson();
         } else {
@@ -255,9 +255,14 @@ public class UserController {
      * time 2018/7/23 11:53
      */
     @ResponseBody
-    @RequestMapping(value = "photoSign/{albumId}", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
-    public String pickPhotoSign(@PathVariable Integer albumId) {
-        return GsonUtil.getSuccessJson(userService.pickPhotoSign(albumId));
+    @RequestMapping(value = "photoSign/{albumId}/{userId}", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
+    public String pickPhotoSign(@PathVariable Integer albumId, @PathVariable Integer userId, HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        if (user.getId() == userId) {
+            return GsonUtil.getMsgJson(userService.pickPhotoSign(albumId), "myPhoto");
+        } else {
+            return GsonUtil.getMsgJson(userService.pickPhotoSign(albumId, userId), "otherPhoto");
+        }
     }
 
 

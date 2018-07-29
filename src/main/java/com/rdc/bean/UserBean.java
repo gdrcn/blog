@@ -5,6 +5,7 @@ public class UserBean {
 	private int id;
 	private String username;
 	private String face;
+    private Integer beUpStatus;
 
 	public int getId() {
 		return id;
@@ -30,12 +31,21 @@ public class UserBean {
 		this.face = face;
 	}
 
+    public Integer getBeUpStatus() {
+        return beUpStatus;
+    }
+
+    public void setBeUpStatus(Integer beUpStatus) {
+        this.beUpStatus = beUpStatus;
+    }
+
     @Override
     public String toString() {
         return "UserBean{" +
                 "id=" + id +
                 ", username='" + username + '\'' +
                 ", face='" + face + '\'' +
+                ", beUpStatus=" + beUpStatus +
                 '}';
     }
 }

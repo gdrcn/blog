@@ -115,7 +115,7 @@ public interface UserDao {
     int resetPassword(@Param("password") String password,@Param("email") String email);
 
     /**
-     * 查看播客
+     * 查看资料
      * @param userId
      * @return
      */
@@ -190,4 +190,12 @@ public interface UserDao {
      * @return
      */
     ArrayList<UserBean> getUserIdols(int userId);
+
+    /**
+     * 得到用户是否关注情况
+     *
+     * @param map
+     * @return
+     */
+    Integer getUserFansUpStatus(Map<String, Integer> map);
 }

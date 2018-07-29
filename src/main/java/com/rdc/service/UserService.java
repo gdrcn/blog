@@ -336,6 +336,8 @@ public class UserService {
     public Msg scanOtherHomepage(Integer userId) {
         Msg msg = new Msg();
         User user = userDao.scanOtherMsg(userId);
+        user.setFans(userDao.getFansNum(userId).length);
+        user.setIdols(userDao.getIdolsNum(userId).length);
         user.setBlogList(userDao.getUserBlogInfo(user.getId()));
         if (user.getVisible() == 0) {
             user = null;
@@ -344,8 +346,6 @@ public class UserService {
             return msg;
         }
         msg.setMessage(user);
-        System.out.println(user.getBirthday());
-        System.out.println(user.getBorn());
         msg.setResult("success");
         return msg;
     }
@@ -403,13 +403,43 @@ public class UserService {
     /**
      * Created by Ning
      * time 2018/7/23 12:01
-     * 得到相应类别照片
+     * 得到自己相应类别照片
      *
      * @param albumId
      */
     public ArrayList<Photo> pickPhotoSign(Integer albumId) {
-        return albumDao.getSpecificPhoto(albumId);
+        ArrayList<Photo> photoArrayList = albumDao.getSpecificPhoto(albumId);
+        for (Photo photo : photoArrayList) {
+            photo.setBeUpNum(photoDao.getPhotoUp(photo.getId()));
+            photo.setCommentsNum(photoDao.getPhotoCommentsNum(photo.getId()));
+        }
+        return photoArrayList;
     }
+
+    /**
+     * Created by Ning
+     * time 2018/7/23 12:01
+     * 得到自己相应类别照片
+     *
+     * @param albumId
+     */
+    public ArrayList<Photo> pickPhotoSign(Integer albumId, Integer userId) {
+        ArrayList<Photo> photoArrayList = albumDao.getSpecificPhoto(albumId);
+        for (Photo photo : photoArrayList) {
+            photo.setBeUpNum(photoDao.getPhotoUp(photo.getId()));
+            photo.setCommentsNum(photoDao.getPhotoCommentsNum(photo.getId()));
+            Map<String, Integer> map = new HashMap<>();
+            map.put("photoId", photo.getId());
+            map.put("userId", userId);
+            if (photoDao.isUpPhoto(map) != null) {
+                photo.setUpStatus(0);
+            } else {
+                photo.setUpStatus(1);
+            }
+        }
+        return photoArrayList;
+    }
+
 
     /**
      * 搜索好友
@@ -432,10 +462,23 @@ public class UserService {
      * 得到粉丝列表
      *
      * @param userId
+     * @param beUserId
      */
-    public ArrayList<UserBean> showUserFans(int userId) {
-        userDao.readNewFans(userId);
-        ArrayList<UserBean> userBeans = userDao.getUserFans(userId);
+    public ArrayList<UserBean> showUserFans(int userId, Integer beUserId) {
+        ArrayList<UserBean> userBeans = userDao.getUserFans(beUserId);
+        if (userId == beUserId) {
+            userDao.readNewFans(userId);
+        }
+        for (UserBean userBean : userBeans) {
+            Map<String, Integer> map = new HashMap();
+            map.put("userId", userId);
+            map.put("beUserId", userBean.getId());
+            if (userDao.getUserFansUpStatus(map) != null) {
+                userBean.setBeUpStatus(0);
+            } else {
+                userBean.setBeUpStatus(1);
+            }
+        }
         return userBeans;
     }
 
@@ -446,10 +489,21 @@ public class UserService {
      * 得到关注列表
      *
      * @param userId
+     * @param beUserId
      * @return
      */
-    public ArrayList<UserBean> showUserIdols(int userId) {
-        ArrayList<UserBean> userBeans = userDao.getUserIdols(userId);
+    public ArrayList<UserBean> showUserIdols(int userId, Integer beUserId) {
+        ArrayList<UserBean> userBeans = userDao.getUserIdols(beUserId);
+        for (UserBean userBean : userBeans) {
+            Map<String, Integer> map = new HashMap();
+            map.put("beUserId", userBean.getId());
+            map.put("userId", userId);
+            if (userDao.getUserFansUpStatus(map) != null) {
+                userBean.setBeUpStatus(0);
+            } else {
+                userBean.setBeUpStatus(1);
+            }
+        }
         return userBeans;
     }
 
