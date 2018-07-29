@@ -330,15 +330,24 @@ public class UserService {
      * time 2018/7/22 16:04
      * 返回查看的用户资料
      *
+     * @param beUserId
      * @param userId
      * @return
      */
-    public Msg scanOtherHomepage(Integer userId) {
+    public Msg scanOtherHomepage(Integer beUserId, Integer userId) {
+        Map<String, Integer> map = new HashMap<>();
+        map.put("userId", userId);
+        map.put("beUserId", beUserId);
         Msg msg = new Msg();
-        User user = userDao.scanOtherMsg(userId);
-        user.setFans(userDao.getFansNum(userId).length);
-        user.setIdols(userDao.getIdolsNum(userId).length);
+        User user = userDao.scanOtherMsg(beUserId);
+        user.setFans(userDao.getFansNum(beUserId).length);
+        user.setIdols(userDao.getIdolsNum(beUserId).length);
         user.setBlogList(userDao.getUserBlogInfo(user.getId()));
+        if (userDao.getUserFansUpStatus(map) != null) {
+            user.setBeLikedStatus(0);
+        } else {
+            user.setBeLikedStatus(1);
+        }
         if (user.getVisible() == 0) {
             user = null;
             msg.setMessage(user);

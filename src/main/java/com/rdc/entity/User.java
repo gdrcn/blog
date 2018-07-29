@@ -34,6 +34,7 @@ public class User {
     private ArrayList<Blog> blogList;
     private ArrayList<User> niceFriendsList;
     private ArrayList<Photo> photoWallList;
+    private Integer beLikedStatus;
 
     public User() {
     }
@@ -214,6 +215,14 @@ public class User {
         this.school = school;
     }
 
+    public Integer getBeLikedStatus() {
+        return beLikedStatus;
+    }
+
+    public void setBeLikedStatus(Integer beLikedStatus) {
+        this.beLikedStatus = beLikedStatus;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -239,6 +248,7 @@ public class User {
                 ", blogList=" + blogList +
                 ", niceFriendsList=" + niceFriendsList +
                 ", photoWallList=" + photoWallList +
+                ", beLikedStatus=" + beLikedStatus +
                 '}';
     }
 }

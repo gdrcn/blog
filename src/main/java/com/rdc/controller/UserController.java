@@ -67,7 +67,7 @@ public class UserController {
         if (id != null && id == user.getId()) {
             return GsonUtil.getSuccessJson(userService.getUserInfo(user.getId()));
         } else {
-            Msg message = userService.scanOtherHomepage(id);
+            Msg message = userService.scanOtherHomepage(id, user.getId());
             if ("fail".equals(message.getResult())) {
                 return GsonUtil.getErrorJson(new GsonBuilder().serializeNulls().create(), message.getMessage());
             } else {
