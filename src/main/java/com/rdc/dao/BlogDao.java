@@ -36,4 +36,8 @@ public interface BlogDao {
 	int getUserBlogCount(int userId);
 	//得到搜索结果总数
 	int getSearchCount(String input);
+	//得到用户收藏的博客数
+	int getCollectBlogCount(int userId);
+	//得到用户收藏列表
+	ArrayList<Blog> findBlogByCollect(Map<String,Integer> map);
 }

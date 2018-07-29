@@ -42,6 +42,21 @@ public class BlogController {
 
 	private Gson gson=new Gson();
 	private Msg msg;
+
+	@ResponseBody
+	@RequestMapping(value="blogByCollect/{userId}/{page}",method = RequestMethod.GET,produces = "text/html;charset=UTF-8" )
+	public String blogByCollect(@PathVariable int userId,@PathVariable int page, HttpSession session){
+		ArrayList<Blog> blogs = blogService.getBlogByCollect(userId,page);
+
+		User user = (User) session.getAttribute("user");
+		ArrayList<BlogBean> blogBeans = getBlogBean(blogs,user.getId());
+		int blogCount = blogService.getCollectBlogCount(userId);
+		Map<String,Object> map = new HashMap<>();
+		map.put("blogBeans",blogBeans);
+		map.put("blogCount",blogCount);
+
+		return GsonUtil.getSuccessJson(map);
+	}
 	/**
 	 * 分类加载博客
 	 * @param category
@@ -385,7 +400,7 @@ public class BlogController {
 		if(!blogService.delete(user.getId(),blogId)){
 			return gson.toJson(new Msg("error","删除失败"));
 		}
-		return null;
+		return GsonUtil.getSuccessJson();
 	}
 	/**
 	 * Asce 2018-07-21
@@ -407,7 +422,6 @@ public class BlogController {
 		if(result!=0){
 			return gson.toJson(new Msg("success",result));
 		}
-
 		return gson.toJson(new Msg("error","发表失败"));
 	}
 	/**
@@ -428,18 +442,4 @@ public class BlogController {
 		}
 		return gson.toJson(msg);
 	}
-//	/**
-//	 * 百度富文本编辑器：图片上传
-//	 * @param request
-//	 * @param response
-//	 */
-//	@RequestMapping("/upload")
-//	public void imgUploadByUeditor(HttpServletRequest request, HttpServletResponse response) throws IOException {
-//		request.setCharacterEncoding( "utf-8" );
-//		response.setHeader("Content-Type" , "text/html");
-//		ServletContext application=request.getServletContext();
-//		String rootPath = application.getRealPath( "/" );
-//		PrintWriter out = response.getWriter();
-//		out.write( new ActionEnter( request, rootPath ).exec() );
-//	}
 }

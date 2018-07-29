@@ -22,6 +22,22 @@ public class BlogService {
 	private BlogDao blogDao;
 	private final int PAGE_SIZE=10;
 
+	public ArrayList<Blog> getBlogByCollect(int userId,int page){
+		int begin = page*PAGE_SIZE;
+		Map<String,Integer> map = new HashMap<>();
+		map.put("userId",userId);
+		map.put("begin",begin);
+		ArrayList<Blog> blogs = blogDao.findBlogByCollect(map);;
+		for (int i=0;i < blogs.size();i++){
+			blogs.get(i).setFinishTime(ConvertUtil.msecToMinutes(blogs.get(i).getFinishTime()));
+		}
+		return blogs;
+	}
+
+	public int getCollectBlogCount(int userId){
+		return blogDao.getCollectBlogCount(userId);
+	}
+
 	public int getSearchCount(String input){
 		return blogDao.getSearchCount(input);
 	}

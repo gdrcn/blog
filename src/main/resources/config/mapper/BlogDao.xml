@@ -74,4 +74,12 @@
          select count(id) from blog where locate(#{input},title)>0
     </select>
 
+    <select id="getCollectBlogCount" parameterType="int" resultType="int">
+        select count(id) from collection where user_id=#{userId}
+    </select>
+
+    <select id="findBlogByCollect" parameterType="map" resultMap="blogMap">
+        select user_id,title,cover_img,article,finish_time,username,face_img,category,blog.id as blog_id from blog,user where blog.id in(select id from collection where user_id=#{userId}) and user.id=#{userId} order by finish_time desc limit #{begin},10;
+    </select>
+
 </mapper>
