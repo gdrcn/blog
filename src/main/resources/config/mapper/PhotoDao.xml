@@ -21,6 +21,12 @@
         </association>
     </resultMap>
 
+    <resultMap id="hotPhoto" type="com.rdc.entity.Photo">
+        <id property="id" column="id"/>
+        <result property="photoHash" column="photo_hash"/>
+        <result property="beUpNum" column="up_count"/>
+    </resultMap>
+
     <select id="isUpPhoto" parameterType="map" resultType="java.lang.Integer">
                 select * from up where user_id = #{userId} and photo_id =#{photoId};
     </select>
@@ -51,5 +57,13 @@
 
     <select id="getPhotoComments" parameterType="map" resultMap="photoComment">
       SELECT user.id, user.username, user.face_img, photo_comments.comments, photo_comments.id as p_id, photo_comments.time FROM photo_comments LEFT JOIN USER ON user.id = photo_comments.from_user_id WHERE photo_id = #{photoId} ORDER BY photo_comments.`time` DESC LIMIT #{pageId}, 10;
+    </select>
+
+    <select id="getHotPhoto" resultMap="hotPhoto">
+    SELECT t1.id, t1.photo_hash,COUNT(photo_id) AS up_count FROM (SELECT id, photo_hash FROM photo WHERE TO_DAYS(NOW())-TO_DAYS(push_time)=1) AS t1 LEFT JOIN up ON up.photo_id=t1.id GROUP BY t1.id ORDER BY up_count DESC LIMIT 0, 6;
+    </select>
+
+    <select id="getPhotoCommentsNum" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+         SELECT COUNT(id) FROM photo_comments WHERE photo_id = #{photoId};
     </select>
 </mapper>

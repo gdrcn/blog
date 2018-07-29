@@ -1,6 +1,6 @@
 $(function () {
   //滚动效果
-  var at = document.getElementsByClassName('header')[0].offsetTop;//元素离页面顶部的高度
+  var at = document.getElementsByClassName('header')[0].getBoundingClientRect().top;//元素离页面顶部的高度
   $(window).scroll(function (event) {
     var st = document.documentElement.scrollTop;//滚去的高度
     var ht = $('.header').height();

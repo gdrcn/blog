@@ -51,10 +51,35 @@
     </select>
 
     <select id="findBlogByCategory" parameterType="map" resultMap="blogMap">
-         select user_id,title,cover_img,article,finish_time,username,face_img,category,t1.id as blog_id from blog as t1,user as t2 where t1.category=#{category} order by finish_time desc limit #{begin},10
+         select user_id,title,cover_img,article,finish_time,username,face_img,category,t1.id as blog_id from blog as t1,user as t2 where t1.category=#{category} and t1.user_id=t2.id order by finish_time desc limit #{begin},10
     </select>
 
     <select id="findNewBlog" parameterType="int" resultMap="blogMap">
-        select user_id,title,cover_img,article,finish_time,username,face_img,category,t1.id as blog_id from blog as t1,user as t2 order by finish_time desc limit #{begin},10
+        select user_id,title,cover_img,article,finish_time,username,face_img,category,t1.id as blog_id from blog as t1,user as t2 where t1.user_id=t2.id order by finish_time desc limit #{begin},10
     </select>
+
+    <select id="findHotBlog" resultMap="blogMap">
+        select t4.user_id,t4.title,t4.cover_img,t4.article,t4.finish_time,t5.username,t5.face_img,t4.category,t4.id as blog_id from blog as t4,user as t5 where t4.id in(select t3.id from (select t1.id,count(blog_id) as up_count from (select id from blog where to_days(NOW())-to_days(finish_time)=1) as t1 left join up on up.blog_id=t1.id group by t1.id order by up_count desc limit 6) as t3) and t4.user_id=t5.id
+    </select>
+
+    <select id="getCategoryCount" parameterType="String" resultType="int">
+        select count(id) from blog where category=#{category}
+    </select>
+
+    <select id="getUserBlogCount" parameterType="int" resultType="int">
+        select count(id) from blog where user_id=#{userId}
+    </select>
+
+    <select id="getSearchCount" parameterType="String" resultType="int">
+         select count(id) from blog where locate(#{input},title)>0
+    </select>
+
+    <select id="getCollectBlogCount" parameterType="int" resultType="int">
+        select count(id) from collection where user_id=#{userId}
+    </select>
+
+    <select id="findBlogByCollect" parameterType="map" resultMap="blogMap">
+        select user_id,title,cover_img,article,finish_time,username,face_img,category,blog.id as blog_id from blog,user where blog.id in(select id from collection where user_id=#{userId}) and user.id=#{userId} order by finish_time desc limit #{begin},10;
+    </select>
+
 </mapper>

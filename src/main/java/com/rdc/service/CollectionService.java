@@ -57,7 +57,7 @@ public class CollectionService {
 	 * @param userId
 	 * @return
 	 */
-	public Boolean isCollect(int blogId,int userId){
+	public Boolean isCollect(int userId,int blogId){
 		Map<String,Integer> map=new HashMap<>();
 		map.put("blogId",blogId);
 		map.put("userId",userId);

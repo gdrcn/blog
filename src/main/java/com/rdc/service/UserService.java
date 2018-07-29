@@ -296,8 +296,7 @@ public class UserService {
             return GsonUtil.getErrorJson("两次输入密码不一致");
         }
         else {
-            password = ConvertUtil.encryptMd5(password);
-            if(userDao.resetPassword(password, email) > 0)
+            if(userDao.resetPassword(ConvertUtil.encryptMd5(password), email) > 0)
             return GsonUtil.getSuccessJson();
         }
         return GsonUtil.getErrorJson();
@@ -452,5 +451,21 @@ public class UserService {
     public ArrayList<UserBean> showUserIdols(int userId) {
         ArrayList<UserBean> userBeans = userDao.getUserIdols(userId);
         return userBeans;
+    }
+
+    /**
+     * 得到热门照片
+     * Created by Ning
+     * time 2018/7/27 19:54
+     *
+     * @return
+     */
+    public ArrayList<Photo> getHotPhoto() {
+        ArrayList<Photo> photoArrayList = new ArrayList<>();
+        photoArrayList = photoDao.getHotPhoto();
+        for (Photo photo : photoArrayList) {
+            photo.setCommentsNum(photoDao.getPhotoCommentsNum(photo.getId()));
+        }
+        return photoArrayList;
     }
 }

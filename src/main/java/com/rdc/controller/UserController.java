@@ -48,6 +48,7 @@ public class UserController {
     @RequestMapping(value = "/myhomepage", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
     public String getUserInfo(HttpSession session) {
         User user = (User) session.getAttribute("user");
+        System.out.println(user.getId());
         return GsonUtil.getSuccessJson(userService.getUserInfo(user.getId()));
     }
 
@@ -73,6 +74,20 @@ public class UserController {
                 return GsonUtil.getSuccessJson(new GsonBuilder().serializeNulls().create(), message.getMessage());
             }
         }
+    }
+
+    /**
+     * Created by Ning
+     * time 2018/7/27 19:54
+     * <p>
+     * 得到昨天热门的6张照片
+     *
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/getHotNews", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
+    public String getHotNews() {
+        return GsonUtil.getSuccessJson(userService.getHotPhoto());
     }
 
     /**

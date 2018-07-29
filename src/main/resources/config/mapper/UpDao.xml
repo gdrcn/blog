@@ -45,12 +45,12 @@
         select id from up where user_id=#{userId} and blog_second_id=#{replyId} limit 1;
     </select>
 
-    <select id="getReplyUpCount" parameterType="map" resultType="int">
-        select count(id) from up where user_id=#{userId} and blog_second_id=#{ReplyId}
+    <select id="getReplyUpCount" parameterType="int" resultType="int">
+        select count(id) from up where blog_second_id=#{replyId}
     </select>
 
     <select id="getCommentUpCount" parameterType="int" resultType="int">
-        select count(id) from up where user_id=#{userId} and blog_first_id=#{commentId}
+        select count(id) from up where blog_first_id=#{commentId}
     </select>
 
     <select id="blogUpNews" parameterType="int" resultMap="blogNewsBean">

@@ -28,4 +28,16 @@ public interface BlogDao {
 	ArrayList<Blog> findBlogByCategory(Map<String,Object> map);
 	//最新博客
 	ArrayList<Blog> findNewBlog(int begin);
+	//最热博客
+	ArrayList<Blog> findHotBlog();
+	//得到某类博客总数
+	int getCategoryCount(String category);
+	//得到用户发表的博客数
+	int getUserBlogCount(int userId);
+	//得到搜索结果总数
+	int getSearchCount(String input);
+	//得到用户收藏的博客数
+	int getCollectBlogCount(int userId);
+	//得到用户收藏列表
+	ArrayList<Blog> findBlogByCollect(Map<String,Integer> map);
 }
