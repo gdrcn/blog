@@ -113,7 +113,7 @@
     </update>
 
     <select id="findUserWatch" parameterType="int" resultType="java.lang.Integer">
-        select id from relation where user_id=#{user_id} and beliked_id=#{beliked_id}
+        select count(id) from relation where user_id=#{user_id} and beliked_id=#{beliked_id}
     </select>
 
     <insert id="watch" parameterType="int">
@@ -160,7 +160,7 @@
     </update>
 
     <select id="getNiceFriends" resultType="java.lang.Integer" resultMap="friends">
-      SELECT user.`id` , user.`face_img`, user.`username` FROM USER WHERE id IN (SELECT relation.`user_id` FROM relation WHERE user_id IN  (SELECT relation.`beliked_id` FROM relation WHERE user_id = #{userId} AND STATUS = 0) AND STATUS = 0 AND beliked_id = #{userId});
+      SELECT user.`id` , user.`face_img`, user.`username` FROM user WHERE id IN (SELECT relation.`user_id` FROM relation WHERE user_id IN  (SELECT relation.`beliked_id` FROM relation WHERE user_id = #{userId} AND STATUS = 0) AND STATUS = 0 AND beliked_id = #{userId});
     </select>
 
     <select id="getUserPWInfo" parameterType="java.lang.Integer" resultMap="userPWInfo">

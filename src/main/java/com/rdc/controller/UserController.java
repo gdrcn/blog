@@ -374,4 +374,6 @@ public class UserController {
         session.removeAttribute("user");
         return GsonUtil.getSuccessJson();
     }
+
+
 }
