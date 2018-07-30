@@ -11,8 +11,11 @@
         <result property="phone" column="phone"/>
         <result property="email" column="email"/>
         <result property="realname" column="realname"/>
+        <result property="sex" column="sex"/>
+        <result property="direction" column="direction"/>
         <result property="faceImg" column="face_img"/>
         <result property="school" column="school"/>
+        <result property="backgroundPhoto" column="background"/>
         <result property="phone" column="phone"/>
         <result property="birthday" column="birthday"/>
         <result property="signature" column="signature"/>
@@ -65,7 +68,7 @@
     </select>
 
     <select id="scanOtherMsg" parameterType="java.lang.Integer" resultMap="user">
-        select user.id ,user.username, user.birthday, user.phone, user.email, user.realname, user.face_img, user.signature, user.address, user.visible from user where id=#{id}
+        select user.id ,user.background, user.username, user.sex, user.direction, user.birthday, user.phone, user.email, user.realname, user.face_img, user.signature, user.address, user.visible from user where id=#{id}
     </select>
 
     <select id="getFansNum" parameterType="java.lang.Integer" resultType="java.lang.Integer">
@@ -146,7 +149,13 @@
                 u.signature = #{signature},
             </if>
             <if test="school != null and school != ''">
-                u.school = #{school}
+                u.school = #{school},
+            </if>
+            <if test="sex != null and sex != ''">
+                u.sex = #{sex},
+            </if>
+            <if test="direction != null and direction != ''">
+                u.direction = #{direction},
             </if>
             <if test="visible != null and visible != ''">
                 u.visible = #{visible},
@@ -160,13 +169,12 @@
     </update>
 
     <select id="getNiceFriends" resultType="java.lang.Integer" resultMap="friends">
-      SELECT user.`id` , user.`face_img`, user.`username` FROM user WHERE id IN (SELECT relation.`user_id` FROM relation WHERE user_id IN  (SELECT relation.`beliked_id` FROM relation WHERE user_id = #{userId} AND STATUS = 0) AND STATUS = 0 AND beliked_id = #{userId});
+      SELECT user.`id` ,user.`face_img`, user.`username` FROM user WHERE id IN (SELECT relation.`user_id` FROM relation WHERE user_id IN  (SELECT relation.`beliked_id` FROM relation WHERE user_id = #{userId} AND STATUS = 0) AND STATUS = 0 AND beliked_id = #{userId});
     </select>
 
     <select id="getUserPWInfo" parameterType="java.lang.Integer" resultMap="userPWInfo">
       select * from user where id = #{userId};
     </select>
-
 
     <select id="userLikeNews" parameterType="int" resultMap="userNewsBean">
         select relation.id,user.username from relation,user where relation.beliked_id = #{userId} and+
@@ -188,6 +196,10 @@
 
     <update id="updateFaceImg" parameterType="map">
         update user set face_img = #{hashName} where id = #{userId};
+    </update>
+
+    <update id="updateBackgroundPhoto" parameterType="map">
+        update user set background = #{hashName} where id = #{userId};
     </update>
 
     <update id="readNewFans" parameterType="java.lang.Integer">

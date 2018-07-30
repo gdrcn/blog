@@ -169,6 +169,14 @@ public interface UserDao {
     Integer updateFaceImg(Map<String, String> map);
 
     /**
+     * 修改背景墙
+     *
+     * @param map
+     * @return
+     */
+    Integer updateBackgroundPhoto(Map<String, String> map);
+
+    /**
      * 更新已读粉丝通知
      *
      * @param userId

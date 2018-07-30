@@ -68,6 +68,6 @@
     </select>
 
     <select id="isPhotoByUp" parameterType="map" resultType="java.lang.Integer">
-        select count(id) from up where user_id = #{userId} and photo_id = #{photoId};
+        select count(id) from up where beuser_id = #{beUserId} and photo_id = #{photoId};
     </select>
 </mapper>
