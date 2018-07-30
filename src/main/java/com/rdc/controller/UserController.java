@@ -142,6 +142,31 @@ public class UserController {
         }
     }
 
+    /**
+     * Created by Ning
+     * time 2018/7/30 15:53
+     * 上传照片到背景墙
+     *
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/backgroundPhoto", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
+    public String backgroundPhoto(@RequestParam("file") MultipartFile backgroundPhoto, HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        Map<String, String> map = new HashMap<>();
+        Msg message = new Msg();
+        if (!UploadUtil.suffixMatch(backgroundPhoto.getOriginalFilename())) {
+            return GsonUtil.getErrorJson("不支持此文件类型");
+        } else {
+            String hashName = UploadUtil.getFileHash(backgroundPhoto.getOriginalFilename());
+            UploadUtil.imgUpload(hashName, backgroundPhoto);
+            map.put("hashName", hashName);
+            map.put("userId", user.getId() + "");
+            userDao.updateBackgroundPhoto(map);
+            message.setResult("success");
+            return GsonUtil.getSuccessJson(hashName);
+        }
+    }
 
     /**
      * 展示粉丝数量
