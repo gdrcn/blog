@@ -2,6 +2,8 @@ package com.rdc.controller;
 
 import com.rdc.dao.AlbumDao;
 import com.rdc.dao.UserDao;
+import com.rdc.service.NewsService;
+import com.rdc.service.UserService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,10 @@ public class UserControllerTest {
     private UserDao userDao;
     @Autowired
     private AlbumDao albumDao;
+    @Autowired
+    private NewsService newsService;
+    @Autowired
+    private UserService userService;
     @Test
     public void test(){
         Logger.getGlobal().info("File->Open menu item selected");
@@ -26,5 +32,6 @@ public class UserControllerTest {
 //        photo.setAlbumId(1);
 //        photo.setPushTime("1111-11-11");
 //        albumDao.insertPhotoToAlbum(photo);
+        System.out.println(userService.userWatch(1,2));
     }
 }
