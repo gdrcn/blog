@@ -43,11 +43,11 @@
     </select>
 
     <select id="search" parameterType="map" resultMap="blogMap">
-        select user_id,title,cover_img,article,finish_time,username,face_img,category,t1.id as blog_id from blog as t1,user as t2 where locate(#{input},title)>0 and t2.id=t1.user_id limit #{begin},10
+        select user_id,title,cover_img,article,finish_time,username,face_img,category,t1.id as blog_id from blog as t1,user as t2 where locate(#{input},title)>0 and t2.id=t1.user_id order by finish_time desc limit #{begin},10
     </select>
 
     <select id="findBlogByUser" parameterType="map" resultMap="blogMap">
-        select user_id,title,cover_img,article,finish_time,username,face_img,category,t1.id as blog_id from blog as t1,user as t2 where user_id=#{userId} and t2.id=t1.user_id limit #{begin},10
+        select user_id,title,cover_img,article,finish_time,username,face_img,category,t1.id as blog_id from blog as t1,user as t2 where user_id=#{userId} and t2.id=t1.user_id order by finish_time desc limit #{begin},10
     </select>
 
     <select id="findBlogByCategory" parameterType="map" resultMap="blogMap">
@@ -79,7 +79,8 @@
     </select>
 
     <select id="findBlogByCollect" parameterType="map" resultMap="blogMap">
-        select user_id,title,cover_img,article,finish_time,username,face_img,category,blog.id as blog_id from blog,user where blog.id in(select id from collection where user_id=#{userId}) and user.id=#{userId} order by finish_time desc limit #{begin},10;
+        select user_id,title,cover_img,article,finish_time,username,fa
+        ce_img,category,blog.id as blog_id from blog,user where blog.id in(select id from collection where user_id=#{userId}) and user.id=#{userId} order by finish_time desc limit #{begin},10;
     </select>
 
 </mapper>

@@ -214,7 +214,7 @@ public class BlogService {
 	 */
 	public Blog blogConvert(Blog blog){
 
-		if(blog.getTitle().length()>50||blog.getTitle().length()<5){
+		if(blog.getTitle().length()>200||blog.getTitle().length()<5){
 			return null;
 		}
 		if(!blog.getCategory().equals("后台")){
