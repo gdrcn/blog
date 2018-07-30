@@ -79,18 +79,18 @@ public interface UserDao {
 
     /**
      * 查询是否已关注
-     * @param user_id
-     * @param beliked_id
+     * @param userId
+     * @param belikedId
      * @return
      */
-    int findUserWatch(@Param("user_id") int user_id,@Param("beliked_id") int beliked_id);
+    int findUserWatch(@Param("userId") int userId,@Param("belikedId") int belikedId);
 
     /**
      * 关注用户
-     * @param user_id
-     * @param beliked_id
+     * @param userId
+     * @param belikedId
      */
-     int watch(@Param("user_id") int user_id,@Param("beliked_id") int beliked_id);
+     int watch(@Param("userId") int userId,@Param("belikedId") int belikedId);
 
     /**
      * 搜索好友
@@ -115,7 +115,7 @@ public interface UserDao {
     int resetPassword(@Param("password") String password,@Param("email") String email);
 
     /**
-     * 查看播客
+     * 查看资料
      * @param userId
      * @return
      */
@@ -134,10 +134,10 @@ public interface UserDao {
 
     /**
      * 得到用户关注的新消息
-     * @param user_id
+     * @param userId
      * @return
      */
-    List<NewsBean> userLikeNews(int user_id);
+    List<NewsBean> userLikeNews(int userId);
 
     /**
      * 读用户关注新消息
@@ -148,11 +148,11 @@ public interface UserDao {
     UserBean getUserBean(int userId);
     /**
      * 取消关注
-     * @param user_id
-     * @param beliked_id
+     * @param userId
+     * @param belikedId
      * @return
      */
-    int offWatch(@Param("user_id") int user_id,@Param("beliked_id") int beliked_id);
+    int offWatch(@Param("userId") int userId,@Param("belikedId") int belikedId);
 
     /**
      * 获取博客信息
@@ -190,4 +190,12 @@ public interface UserDao {
      * @return
      */
     ArrayList<UserBean> getUserIdols(int userId);
+
+    /**
+     * 得到用户是否关注情况
+     *
+     * @param map
+     * @return
+     */
+    Integer getUserFansUpStatus(Map<String, Integer> map);
 }

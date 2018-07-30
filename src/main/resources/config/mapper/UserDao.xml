@@ -69,11 +69,11 @@
     </select>
 
     <select id="getFansNum" parameterType="java.lang.Integer" resultType="java.lang.Integer">
-        select status from relation where beliked_id = #{id} and status = 0
+        select * from relation where beliked_id = #{id};
     </select>
 
     <select id="getIdolsNum" parameterType="java.lang.Integer" resultType="java.lang.Integer">
-        select * from relation where user_id = #{id} and status = 0
+        select * from relation where user_id = #{id};
     </select>
 
     <select id="findUserByUsername" parameterType="com.rdc.entity.User" resultMap="user">
@@ -113,15 +113,15 @@
     </update>
 
     <select id="findUserWatch" parameterType="int" resultType="java.lang.Integer">
-        select count(id) from relation where user_id=#{user_id} and beliked_id=#{beliked_id}
+        select count(id) from relation where user_id=#{userId} and beliked_id=#{belikedId}
     </select>
 
     <insert id="watch" parameterType="int">
-        insert into relation(user_id,beliked_id) values(#{user_id},#{beliked_id})
+        insert into relation(user_id,beliked_id) values(#{userId},#{belikedId})
     </insert>
 
     <delete id="offWatch" parameterType="int">
-        delete from relation where user_id=#{user_id} and beliked_id=#{beliked_id}
+        delete from relation where user_id=#{userId} and beliked_id=#{belikedId}
     </delete>
 
     <update id="updateUserInfo" parameterType="com.rdc.entity.User">
@@ -169,7 +169,7 @@
 
 
     <select id="userLikeNews" parameterType="int" resultMap="userNewsBean">
-        select relation.id,user.username from relation,user where relation.beliked_id = #{user_id} and+
+        select relation.id,user.username from relation,user where relation.beliked_id = #{userId} and+
         user.id = relation.user_id and relation.status = 1
     </select>
 
@@ -200,5 +200,9 @@
 
     <select id="getUserIdols" parameterType="java.lang.Integer" resultMap="userBean">
         SELECT user.id, user.`username`, user.`face_img` FROM user WHERE id IN (SELECT relation.beliked_id FROM relation WHERE user_id = #{userId});
+    </select>
+
+    <select id="getUserFansUpStatus" parameterType="map" resultType="java.lang.Integer">
+        SELECT status FROM relation WHERE user_id = #{userId} AND beliked_id = #{beUserId};
     </select>
 </mapper>

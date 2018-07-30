@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.logging.Logger;
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath*:config/spring-mybatis.xml"})
 public class UserControllerTest {
@@ -18,7 +20,8 @@ public class UserControllerTest {
     private AlbumDao albumDao;
     @Test
     public void test(){
-        System.out.println("1111111111");
+        Logger.getGlobal().info("File->Open menu item selected");
+//        System.out.println("1111111111");
 //        Photo photo = new Photo();
 //        photo.setAlbumId(1);
 //        photo.setPushTime("1111-11-11");

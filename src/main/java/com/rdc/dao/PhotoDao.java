@@ -89,4 +89,12 @@ public interface PhotoDao {
      * @return
      */
     Integer getPhotoCommentsNum(int photoId);
+
+    /**
+     * 照片是否被点赞
+     *
+     * @param map
+     * @return
+     */
+    Integer isPhotoByUp(Map<String, Integer> map);
 }

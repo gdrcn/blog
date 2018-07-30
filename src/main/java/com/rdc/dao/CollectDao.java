@@ -1,5 +1,6 @@
 package com.rdc.dao;
 
+import java.util.List;
 import java.util.Map;
 
 public interface CollectDao {
@@ -11,4 +12,8 @@ public interface CollectDao {
 	Integer getCollectionId(Map<String,Integer> map);
 	//博客收藏数
 	Integer getCollectionCount(int blogId);
+
+	List getCollectNews(int userId);
+
+	void collectNewsRead(int id);
 }
