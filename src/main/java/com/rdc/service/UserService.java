@@ -77,6 +77,7 @@ public class UserService {
         String addressRegularExpression = "^[a-zA-Z0-9\u4E00-\u9FA5]{0,20}$";
         String phoneRegularExpression = "^[0-9]{0,12}$";
         String schoolRegularExpression = "^[a-zA-Z0-9\u4E00-\u9FA5]{0,20}$";
+        String directionRegularExpression = "^[\u4E00-\u9FA5]{0,5}$";
         Msg msg = new Msg();
 
         if (user.getUsername() == null) {
@@ -119,6 +120,23 @@ public class UserService {
                 return msg;
             }
         }
+        if (user.getSex() != null) {
+            System.out.println(user.getSex());
+            if ((!("男".equals(user.getSex()))) && (!("女".equals(user.getSex())))) {
+                user = userService.reservedUser(user);
+                msg.setMessage(user);
+                msg.setResult("sexError");
+                return msg;
+            }
+        }
+        if (user.getDirection() != null) {
+            if (!(user.getDirection().matches(directionRegularExpression))) {
+                user = userService.reservedUser(user);
+                msg.setMessage(user);
+                msg.setResult("directionError");
+                return msg;
+            }
+        }
         if (user.getPhone() != null) {
             if (!(user.getPhone().matches(phoneRegularExpression))) {
                 user = userService.reservedUser(user);
@@ -158,6 +176,8 @@ public class UserService {
         if (user.getBorn() != null) {
             user.setBirthday(simpleDateFormat.format(user.getBorn()));
         }
+        user.setSex(newUser.getSex());
+        user.setDirection(newUser.getDirection());
         user.setSchool(newUser.getSchool());
         user.setPhone(newUser.getPhone());
         user.setAddress(newUser.getAddress());
@@ -439,7 +459,7 @@ public class UserService {
             photo.setCommentsNum(photoDao.getPhotoCommentsNum(photo.getId()));
             Map<String, Integer> map = new HashMap<>();
             map.put("photoId", photo.getId());
-            map.put("userId", userId);
+            map.put("beUserId", userId);
             if (photoDao.isPhotoByUp(map) != 0) {
                 photo.setUpStatus(0);
             } else {
