@@ -139,8 +139,8 @@ public class AlbumController {
      * time 2018/7/23 19:08
      */
     @ResponseBody
-    @RequestMapping(value = "/likeThisPhoto", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
-    public String upPhoto(@RequestParam("photoId") Integer photoId, HttpSession session) {
+    @RequestMapping(value = "/likeThisPhoto/{photoId}", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
+    public String upPhoto(@PathVariable Integer photoId, HttpSession session) {
         User realUser = (User) session.getAttribute("user");
         return GsonUtil.getSuccessJson(albumService.upPhoto(realUser.getId(), photoId));
     }

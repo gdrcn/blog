@@ -440,7 +440,7 @@ public class UserService {
             Map<String, Integer> map = new HashMap<>();
             map.put("photoId", photo.getId());
             map.put("userId", userId);
-            if (photoDao.isUpPhoto(map) != null) {
+            if (photoDao.isPhotoByUp(map) != 0) {
                 photo.setUpStatus(0);
             } else {
                 photo.setUpStatus(1);
