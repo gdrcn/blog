@@ -15,6 +15,9 @@
         <result property="direction" column="direction"/>
         <result property="faceImg" column="face_img"/>
         <result property="school" column="school"/>
+        <result property="qq" column="qq"/>
+        <result property="wechat" column="wechat"/>
+        <result property="myblog" column="myblog"/>
         <result property="backgroundPhoto" column="background"/>
         <result property="phone" column="phone"/>
         <result property="birthday" column="birthday"/>
@@ -68,7 +71,7 @@
     </select>
 
     <select id="scanOtherMsg" parameterType="java.lang.Integer" resultMap="user">
-        select user.id ,user.background, user.username, user.sex, user.direction, user.birthday, user.phone, user.email, user.realname, user.face_img, user.signature, user.address, user.visible from user where id=#{id}
+        select user.id ,user.background, user.qq, user.wechat, user.myblog, user.username, user.sex, user.direction, user.birthday, user.phone, user.email, user.realname, user.face_img, user.signature, user.address, user.visible from user where id=#{id}
     </select>
 
     <select id="getFansNum" parameterType="java.lang.Integer" resultType="java.lang.Integer">
@@ -150,6 +153,15 @@
             </if>
             <if test="school != null and school != ''">
                 u.school = #{school},
+            </if>
+            <if test="qq != null and qq != ''">
+                u.qq = #{qq},
+            </if>
+            <if test="wechat != null and wechat != ''">
+                u.wechat = #{wechat},
+            </if>
+            <if test="myblog != null and myblog != ''">
+                u.myblog = #{myblog},
             </if>
             <if test="sex != null and sex != ''">
                 u.sex = #{sex},
