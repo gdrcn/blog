@@ -117,7 +117,7 @@
     </select>
 
     <insert id="watch" parameterType="int">
-        insert into relation(userId,belikedId) values(#{userId},#{belikedId})
+        insert into relation(user_id,beliked_id) values(#{userId},#{belikedId})
     </insert>
 
     <delete id="offWatch" parameterType="int">
