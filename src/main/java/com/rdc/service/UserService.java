@@ -78,6 +78,10 @@ public class UserService {
         String phoneRegularExpression = "^[0-9]{0,12}$";
         String schoolRegularExpression = "^[a-zA-Z0-9\u4E00-\u9FA5]{0,20}$";
         String directionRegularExpression = "^[\u4E00-\u9FA5]{0,5}$";
+        String qqRegularExpression = "^[0-9]{6,15}$";
+        String wechatRegularExpression = "^[a-zA-Z0-9\u4E00-\u9FA5]{3,10}$";
+        String myblogRegularExpression = "^[a-zA-Z0-9\u4E00-\u9FA5]{0,10}$";
+
         Msg msg = new Msg();
 
         if (user.getUsername() == null) {
@@ -117,6 +121,30 @@ public class UserService {
                 user = userService.reservedUser(user);
                 msg.setMessage(user);
                 msg.setResult("addressError");
+                return msg;
+            }
+        }
+        if (user.getQq() != null) {
+            if (!(user.getQq()).matches(qqRegularExpression)) {
+                user = userService.reservedUser(user);
+                msg.setMessage(user);
+                msg.setResult("qqError");
+                return msg;
+            }
+        }
+        if (user.getWechat() != null) {
+            if (!(user.getWechat()).matches(wechatRegularExpression)) {
+                user = userService.reservedUser(user);
+                msg.setMessage(user);
+                msg.setResult("wechatError");
+                return msg;
+            }
+        }
+        if (user.getMyblog() != null) {
+            if (!(user.getMyblog()).matches(myblogRegularExpression)) {
+                user = userService.reservedUser(user);
+                msg.setMessage(user);
+                msg.setResult("myblogError");
                 return msg;
             }
         }
@@ -176,6 +204,9 @@ public class UserService {
         if (user.getBorn() != null) {
             user.setBirthday(simpleDateFormat.format(user.getBorn()));
         }
+        user.setQq(newUser.getQq());
+        user.setWechat(newUser.getWechat());
+        user.setMyblog(newUser.getMyblog());
         user.setSex(newUser.getSex());
         user.setDirection(newUser.getDirection());
         user.setSchool(newUser.getSchool());

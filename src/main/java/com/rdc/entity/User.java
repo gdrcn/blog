@@ -32,6 +32,9 @@ public class User {
     private Integer beLikedStatus;
     private String sex;
     private String direction;
+    private String qq;
+    private String wechat;
+    private String myblog;
     private String backgroundPhoto;
     private Permission permission;
     private ArrayList<Album> albumList;
@@ -251,6 +254,30 @@ public class User {
         this.backgroundPhoto = backgroundPhoto;
     }
 
+    public String getQq() {
+        return qq;
+    }
+
+    public void setQq(String qq) {
+        this.qq = qq;
+    }
+
+    public String getWechat() {
+        return wechat;
+    }
+
+    public void setWechat(String wechat) {
+        this.wechat = wechat;
+    }
+
+    public String getMyblog() {
+        return myblog;
+    }
+
+    public void setMyblog(String myblog) {
+        this.myblog = myblog;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -274,6 +301,9 @@ public class User {
                 ", beLikedStatus=" + beLikedStatus +
                 ", sex='" + sex + '\'' +
                 ", direction='" + direction + '\'' +
+                ", qq='" + qq + '\'' +
+                ", wechat='" + wechat + '\'' +
+                ", myblog='" + myblog + '\'' +
                 ", backgroundPhoto='" + backgroundPhoto + '\'' +
                 ", permission=" + permission +
                 ", albumList=" + albumList +
