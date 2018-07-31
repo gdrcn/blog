@@ -137,4 +137,5 @@
     <select id="getCommentReplyCount" parameterType="int" resultType="int">
         select count(id) from second_comments where first_comments_id=#{commentId}
     </select>
+
 </mapper>
