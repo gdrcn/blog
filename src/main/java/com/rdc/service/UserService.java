@@ -100,7 +100,7 @@ public class UserService {
             msg.setMessage(user);
             return msg;
         }
-        if ((user.getEmail() != null)) {
+        if (!("".equals(user.getEmail())) && (user.getEmail() != null)) {
             if (!(user.getEmail().matches(emailRegularExpression))) {
                 user = userService.reservedUser(user);
                 msg.setMessage(user);
@@ -108,7 +108,7 @@ public class UserService {
                 return msg;
             }
         }
-        if (user.getSchool() != null) {
+        if (!("".equals(user.getSchool())) && user.getSchool() != null) {
             if (!(user.getSchool().matches(schoolRegularExpression))) {
                 user = userService.reservedUser(user);
                 msg.setMessage(user);
@@ -116,7 +116,7 @@ public class UserService {
                 return msg;
             }
         }
-        if (user.getAddress() != null) {
+        if (!("".equals(user.getAddress())) && user.getAddress() != null) {
             if (!(user.getAddress()).matches(addressRegularExpression)) {
                 user = userService.reservedUser(user);
                 msg.setMessage(user);
@@ -124,7 +124,7 @@ public class UserService {
                 return msg;
             }
         }
-        if (user.getQq() != null) {
+        if (!("".equals(user.getQq())) && user.getQq() != null) {
             if (!(user.getQq()).matches(qqRegularExpression)) {
                 user = userService.reservedUser(user);
                 msg.setMessage(user);
@@ -132,7 +132,7 @@ public class UserService {
                 return msg;
             }
         }
-        if (user.getWechat() != null) {
+        if (!("".equals(user.getWechat())) && user.getWechat() != null) {
             if (!(user.getWechat()).matches(wechatRegularExpression)) {
                 user = userService.reservedUser(user);
                 msg.setMessage(user);
@@ -140,7 +140,7 @@ public class UserService {
                 return msg;
             }
         }
-        if (user.getMyblog() != null) {
+        if (!("".equals(user.getMyblog())) && user.getMyblog() != null) {
             if (!(user.getMyblog()).matches(myblogRegularExpression)) {
                 user = userService.reservedUser(user);
                 msg.setMessage(user);
@@ -148,7 +148,7 @@ public class UserService {
                 return msg;
             }
         }
-        if (user.getSex() != null) {
+        if (!("".equals(user.getSex())) && user.getSex() != null) {
             System.out.println(user.getSex());
             if ((!("男".equals(user.getSex()))) && (!("女".equals(user.getSex())))) {
                 user = userService.reservedUser(user);
@@ -157,7 +157,7 @@ public class UserService {
                 return msg;
             }
         }
-        if (user.getDirection() != null) {
+        if (!("".equals(user.getDirection())) && user.getDirection() != null) {
             if (!(user.getDirection().matches(directionRegularExpression))) {
                 user = userService.reservedUser(user);
                 msg.setMessage(user);
@@ -165,7 +165,7 @@ public class UserService {
                 return msg;
             }
         }
-        if (user.getPhone() != null) {
+        if (!("".equals(user.getPhone())) && user.getPhone() != null) {
             if (!(user.getPhone().matches(phoneRegularExpression))) {
                 user = userService.reservedUser(user);
                 msg.setMessage(user);

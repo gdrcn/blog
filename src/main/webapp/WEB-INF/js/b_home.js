@@ -133,7 +133,7 @@ window.onload = function () {
               if (result == "success") {
                 setTimeout("finishLoadingRender1()", 100);
                 localStorage.setItem("IDuser", message.id);//记录登录状态
-                window.location.replace('http://www.onepi.top:8080/blog/html/mypage.html')
+                window.location.replace('file:///F:/gittes/rdc/blog/src/main/webapp/WEB-INF/html/mypage.html')
               }
               if (result == "error") {
                 $(".lose .dec_txt").text(data.message);
@@ -298,7 +298,7 @@ window.onload = function () {
       $(".b_return").show();
       //返回个人主页
       $(".b_return").click(function () {
-        window.location.replace('http://www.onepi.top:8080/blog/html/mypage.html');
+        window.location.replace('file:///F:/gittes/rdc/blog/src/main/webapp/WEB-INF/html/mypage.html');
       })
       //退出登录
       $("#w_welcomeStart").click(function () {
