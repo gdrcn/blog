@@ -14,7 +14,7 @@ public class PermissionFilter implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o) {
         HttpSession session = httpServletRequest.getSession();
         User user = new User();
-        user.setId(2);
+        user.setId(1);
         session.setAttribute("user", user);
 		return true;
 	}
