@@ -84,7 +84,7 @@ public class UserService {
 
         Msg msg = new Msg();
 
-        if (user.getUsername() == null) {
+        if ("".equals(user.getUsername()) || user.getUsername() == null) {
             user = userService.reservedUser(user);
             msg.setResult("用户名不能为空");
             msg.setMessage(user);
@@ -173,7 +173,7 @@ public class UserService {
                 return msg;
             }
         }
-        if (user.getSignature() != null) {
+        if (!("".equals(user.getSignature())) && user.getSignature() != null) {
             if (((user.getSignature()).length() > 60)) {
                 user = userService.reservedUser(user);
                 msg.setMessage(user);
