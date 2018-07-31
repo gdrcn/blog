@@ -41,7 +41,6 @@ div#w_myHead{
 	position:relative;
 	height:200px;
 	width:200px;
-	background:url(../pic/myHead.jpg);
 	background-size:100% 100%;
 	border:3px solid rgb(255, 255, 255);
 	left:5%;
