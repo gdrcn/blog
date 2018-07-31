@@ -11,8 +11,14 @@
         <result property="phone" column="phone"/>
         <result property="email" column="email"/>
         <result property="realname" column="realname"/>
+        <result property="sex" column="sex"/>
+        <result property="direction" column="direction"/>
         <result property="faceImg" column="face_img"/>
         <result property="school" column="school"/>
+        <result property="qq" column="qq"/>
+        <result property="wechat" column="wechat"/>
+        <result property="myblog" column="myblog"/>
+        <result property="backgroundPhoto" column="background"/>
         <result property="phone" column="phone"/>
         <result property="birthday" column="birthday"/>
         <result property="signature" column="signature"/>
@@ -65,15 +71,15 @@
     </select>
 
     <select id="scanOtherMsg" parameterType="java.lang.Integer" resultMap="user">
-        select user.id ,user.username, user.birthday, user.phone, user.email, user.realname, user.face_img, user.signature, user.address, user.visible from user where id=#{id}
+        select user.id ,user.background, user.qq, user.wechat, user.myblog, user.username, user.sex, user.direction, user.birthday, user.phone, user.email, user.realname, user.face_img, user.signature, user.address, user.visible from user where id=#{id}
     </select>
 
     <select id="getFansNum" parameterType="java.lang.Integer" resultType="java.lang.Integer">
-        select status from relation where beliked_id = #{id} and status = 0
+        select * from relation where beliked_id = #{id};
     </select>
 
     <select id="getIdolsNum" parameterType="java.lang.Integer" resultType="java.lang.Integer">
-        select * from relation where user_id = #{id} and status = 0
+        select * from relation where user_id = #{id};
     </select>
 
     <select id="findUserByUsername" parameterType="com.rdc.entity.User" resultMap="user">
@@ -113,15 +119,15 @@
     </update>
 
     <select id="findUserWatch" parameterType="int" resultType="java.lang.Integer">
-        select id from relation where user_id=#{user_id} and beliked_id=#{beliked_id}
+        select count(id) from relation where user_id=#{userId} and beliked_id=#{belikedId}
     </select>
 
     <insert id="watch" parameterType="int">
-        insert into relation(user_id,beliked_id) values(#{user_id},#{beliked_id})
+        insert into relation(user_id,beliked_id) values(#{userId},#{belikedId})
     </insert>
 
     <delete id="offWatch" parameterType="int">
-        delete from relation where user_id=#{user_id} and beliked_id=#{beliked_id}
+        delete from relation where user_id=#{userId} and beliked_id=#{belikedId}
     </delete>
 
     <update id="updateUserInfo" parameterType="com.rdc.entity.User">
@@ -146,7 +152,22 @@
                 u.signature = #{signature},
             </if>
             <if test="school != null and school != ''">
-                u.school = #{school}
+                u.school = #{school},
+            </if>
+            <if test="qq != null and qq != ''">
+                u.qq = #{qq},
+            </if>
+            <if test="wechat != null and wechat != ''">
+                u.wechat = #{wechat},
+            </if>
+            <if test="myblog != null and myblog != ''">
+                u.myblog = #{myblog},
+            </if>
+            <if test="sex != null and sex != ''">
+                u.sex = #{sex},
+            </if>
+            <if test="direction != null and direction != ''">
+                u.direction = #{direction},
             </if>
             <if test="visible != null and visible != ''">
                 u.visible = #{visible},
@@ -160,16 +181,15 @@
     </update>
 
     <select id="getNiceFriends" resultType="java.lang.Integer" resultMap="friends">
-      SELECT user.`id` , user.`face_img`, user.`username` FROM user WHERE id IN (SELECT relation.`user_id` FROM relation WHERE user_id IN  (SELECT relation.`beliked_id` FROM relation WHERE user_id = #{userId} AND STATUS = 0) AND STATUS = 0 AND beliked_id = #{userId});
+      SELECT user.`id` ,user.`face_img`, user.`username` FROM user WHERE id IN (SELECT relation.`user_id` FROM relation WHERE user_id IN  (SELECT relation.`beliked_id` FROM relation WHERE user_id = #{userId} AND STATUS = 0) AND STATUS = 0 AND beliked_id = #{userId});
     </select>
 
     <select id="getUserPWInfo" parameterType="java.lang.Integer" resultMap="userPWInfo">
       select * from user where id = #{userId};
     </select>
 
-
     <select id="userLikeNews" parameterType="int" resultMap="userNewsBean">
-        select relation.id,user.username from relation,user where relation.beliked_id = #{user_id} and+
+        select relation.id,user.username from relation,user where relation.beliked_id = #{userId} and+
         user.id = relation.user_id and relation.status = 1
     </select>
 
@@ -190,6 +210,10 @@
         update user set face_img = #{hashName} where id = #{userId};
     </update>
 
+    <update id="updateBackgroundPhoto" parameterType="map">
+        update user set background = #{hashName} where id = #{userId};
+    </update>
+
     <update id="readNewFans" parameterType="java.lang.Integer">
         UPDATE relation SET STATUS = 0 WHERE beliked_id = #{userId};
     </update>
@@ -200,5 +224,9 @@
 
     <select id="getUserIdols" parameterType="java.lang.Integer" resultMap="userBean">
         SELECT user.id, user.`username`, user.`face_img` FROM user WHERE id IN (SELECT relation.beliked_id FROM relation WHERE user_id = #{userId});
+    </select>
+
+    <select id="getUserFansUpStatus" parameterType="map" resultType="java.lang.Integer">
+        SELECT status FROM relation WHERE user_id = #{userId} AND beliked_id = #{beUserId};
     </select>
 </mapper>

@@ -40,64 +40,55 @@ public interface CommentDao {
     //发表回复
     int addCommentReply(Reply reply);
     //得到评论者id，防止自己回复自己
-    int getFirstReplyUserId(int CommentId);
+    Integer getFirstReplyUserId(int CommentId);
     //得到回复者id，防止自己回复自己
-    int getOtherReplyUserId(int replyId);
+    Integer getOtherReplyUserId(int replyId);
     //找到回复对象id
-    int findReplyUserId(int replyId);
+    Integer findReplyUserId(int replyId);
     //找到一级评论用户id（评论的第一条回复）
-    int findCommentUserId(int commentId);
-
+    Integer findCommentUserId(int commentId);
     /**
      * 博客评论新消息
      * @param user_id
      * @return
      */
     List<NewsBean> blogCommentsNews(int user_id);
-
     /**
      * 图片评论新消息
      * @param user_id
      * @return
      */
     List<NewsBean> photoCommentsNews(int user_id);
-
     /**
      * 相册评论新消息
      * @param user_id
      * @return
      */
     List<NewsBean> albumCommentsNews(int user_id);
-
     /**
      * 二级评论新消息
      * @param user_id
      * @return
      */
     List<NewsBean> commentCommentsNews(int user_id);
-
-
     /**
      * 读博客评论新消息
      * @param id
      * @return
      */
     int blogCommentsNewsRead(int id);
-
     /**
      * 读二级评论新消息
      * @param id
      * @return
      */
     int commentCommentsNewsRead(int id);
-
     /**
      * 读相册评论新消息
      * @param id
      * @return
      */
     int albumCommentsNewsRead(int id);
-
     /**
      * 读照片评论新消息
      * @param id

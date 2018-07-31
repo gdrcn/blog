@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.util.HtmlUtils;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -21,6 +22,34 @@ public class BlogService {
 	private BlogDao blogDao;
 	private final int PAGE_SIZE=10;
 
+	public ArrayList<Blog> getBlogByCollect(int userId,int page){
+		int begin = page*PAGE_SIZE;
+		Map<String,Integer> map = new HashMap<>();
+		map.put("userId",userId);
+		map.put("begin",begin);
+		ArrayList<Blog> blogs = blogDao.findBlogByCollect(map);;
+		for (int i=0;i < blogs.size();i++){
+			blogs.get(i).setFinishTime(ConvertUtil.msecToMinutes(blogs.get(i).getFinishTime()));
+		}
+		return blogs;
+	}
+
+	public int getCollectBlogCount(int userId){
+		return blogDao.getCollectBlogCount(userId);
+	}
+
+	public int getSearchCount(String input){
+		return blogDao.getSearchCount(input);
+	}
+
+	public int getUserBlogCount(int userId){
+		return blogDao.getUserBlogCount(userId);
+	}
+
+	public int getCategoryCount(String category){
+		return blogDao.getCategoryCount(category);
+	}
+
 	public ArrayList<Blog> getBlogByCategory(String category,int page){
 		int begin = page*PAGE_SIZE;
 
@@ -30,6 +59,8 @@ public class BlogService {
 					if(!category.equals("前端")){
 						if(category.equals("最新")){
 							return blogDao.findNewBlog(begin);
+						}else if(category.equals("热门")){
+								return blogDao.findHotBlog();
 						}
 						return null;
 					}
@@ -39,7 +70,11 @@ public class BlogService {
 		Map<String,Object> map = new HashMap<>();
 		map.put("category",category);
 		map.put("begin",begin);
-		return blogDao.findBlogByCategory(map);
+		ArrayList<Blog> blogs = blogDao.findBlogByCategory(map);;
+		for (int i=0;i < blogs.size();i++){
+			blogs.get(i).setFinishTime(ConvertUtil.msecToMinutes(blogs.get(i).getFinishTime()));
+		}
+		return blogs;
 	}
 	/**
 	 * Asce 2018/7/25
@@ -54,6 +89,9 @@ public class BlogService {
 		int begin = page*PAGE_SIZE;
 		map.put("begin",begin);
 		ArrayList<Blog> blogs = blogDao.findBlogByUser(map);
+		for (int i=0;i < blogs.size();i++){
+			blogs.get(i).setFinishTime(ConvertUtil.msecToMinutes(blogs.get(i).getFinishTime()));
+		}
 		return blogs;
 	}
 	/**
@@ -72,11 +110,14 @@ public class BlogService {
 		map.put("input",input);
 		map.put("begin",begin);
 		ArrayList<Blog> blogs = blogDao.search(map);
+		for (int i=0;i < blogs.size();i++){
+			blogs.get(i).setFinishTime(ConvertUtil.msecToMinutes(blogs.get(i).getFinishTime()));
+		}
 		return blogs;
 	}
 	/**
 	 * Asce 2018/7/25
-	 * 搜索提示
+	 * 搜索
 	 * @param input
 	 * @return
 	 */
@@ -173,7 +214,7 @@ public class BlogService {
 	 */
 	public Blog blogConvert(Blog blog){
 
-		if(blog.getTitle().length()>50||blog.getTitle().length()<5){
+		if(blog.getTitle().length()>200||blog.getTitle().length()<5){
 			return null;
 		}
 		if(!blog.getCategory().equals("后台")){

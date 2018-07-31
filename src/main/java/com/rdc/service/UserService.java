@@ -77,6 +77,11 @@ public class UserService {
         String addressRegularExpression = "^[a-zA-Z0-9\u4E00-\u9FA5]{0,20}$";
         String phoneRegularExpression = "^[0-9]{0,12}$";
         String schoolRegularExpression = "^[a-zA-Z0-9\u4E00-\u9FA5]{0,20}$";
+        String directionRegularExpression = "^[\u4E00-\u9FA5]{0,5}$";
+        String qqRegularExpression = "^[0-9]{6,15}$";
+        String wechatRegularExpression = "^[a-zA-Z0-9\u4E00-\u9FA5]{3,10}$";
+        String myblogRegularExpression = "^[a-zA-Z0-9\u4E00-\u9FA5]{0,10}$";
+
         Msg msg = new Msg();
 
         if (user.getUsername() == null) {
@@ -119,6 +124,47 @@ public class UserService {
                 return msg;
             }
         }
+        if (user.getQq() != null) {
+            if (!(user.getQq()).matches(qqRegularExpression)) {
+                user = userService.reservedUser(user);
+                msg.setMessage(user);
+                msg.setResult("qqError");
+                return msg;
+            }
+        }
+        if (user.getWechat() != null) {
+            if (!(user.getWechat()).matches(wechatRegularExpression)) {
+                user = userService.reservedUser(user);
+                msg.setMessage(user);
+                msg.setResult("wechatError");
+                return msg;
+            }
+        }
+        if (user.getMyblog() != null) {
+            if (!(user.getMyblog()).matches(myblogRegularExpression)) {
+                user = userService.reservedUser(user);
+                msg.setMessage(user);
+                msg.setResult("myblogError");
+                return msg;
+            }
+        }
+        if (user.getSex() != null) {
+            System.out.println(user.getSex());
+            if ((!("男".equals(user.getSex()))) && (!("女".equals(user.getSex())))) {
+                user = userService.reservedUser(user);
+                msg.setMessage(user);
+                msg.setResult("sexError");
+                return msg;
+            }
+        }
+        if (user.getDirection() != null) {
+            if (!(user.getDirection().matches(directionRegularExpression))) {
+                user = userService.reservedUser(user);
+                msg.setMessage(user);
+                msg.setResult("directionError");
+                return msg;
+            }
+        }
         if (user.getPhone() != null) {
             if (!(user.getPhone().matches(phoneRegularExpression))) {
                 user = userService.reservedUser(user);
@@ -158,6 +204,11 @@ public class UserService {
         if (user.getBorn() != null) {
             user.setBirthday(simpleDateFormat.format(user.getBorn()));
         }
+        user.setQq(newUser.getQq());
+        user.setWechat(newUser.getWechat());
+        user.setMyblog(newUser.getMyblog());
+        user.setSex(newUser.getSex());
+        user.setDirection(newUser.getDirection());
         user.setSchool(newUser.getSchool());
         user.setPhone(newUser.getPhone());
         user.setAddress(newUser.getAddress());
@@ -296,8 +347,7 @@ public class UserService {
             return GsonUtil.getErrorJson("两次输入密码不一致");
         }
         else {
-            password = ConvertUtil.encryptMd5(password);
-            if(userDao.resetPassword(password, email) > 0)
+            if(userDao.resetPassword(ConvertUtil.encryptMd5(password), email) > 0)
             return GsonUtil.getSuccessJson();
         }
         return GsonUtil.getErrorJson();
@@ -331,13 +381,24 @@ public class UserService {
      * time 2018/7/22 16:04
      * 返回查看的用户资料
      *
+     * @param beUserId
      * @param userId
      * @return
      */
-    public Msg scanOtherHomepage(Integer userId) {
+    public Msg scanOtherHomepage(Integer beUserId, Integer userId) {
+        Map<String, Integer> map = new HashMap<>();
+        map.put("userId", userId);
+        map.put("beUserId", beUserId);
         Msg msg = new Msg();
-        User user = userDao.scanOtherMsg(userId);
+        User user = userDao.scanOtherMsg(beUserId);
+        user.setFans(userDao.getFansNum(beUserId).length);
+        user.setIdols(userDao.getIdolsNum(beUserId).length);
         user.setBlogList(userDao.getUserBlogInfo(user.getId()));
+        if (userDao.getUserFansUpStatus(map) != null) {
+            user.setBeLikedStatus(0);
+        } else {
+            user.setBeLikedStatus(1);
+        }
         if (user.getVisible() == 0) {
             user = null;
             msg.setMessage(user);
@@ -345,8 +406,6 @@ public class UserService {
             return msg;
         }
         msg.setMessage(user);
-        System.out.println(user.getBirthday());
-        System.out.println(user.getBorn());
         msg.setResult("success");
         return msg;
     }
@@ -404,13 +463,43 @@ public class UserService {
     /**
      * Created by Ning
      * time 2018/7/23 12:01
-     * 得到相应类别照片
+     * 得到自己相应类别照片
      *
      * @param albumId
      */
     public ArrayList<Photo> pickPhotoSign(Integer albumId) {
-        return albumDao.getSpecificPhoto(albumId);
+        ArrayList<Photo> photoArrayList = albumDao.getSpecificPhoto(albumId);
+        for (Photo photo : photoArrayList) {
+            photo.setBeUpNum(photoDao.getPhotoUp(photo.getId()));
+            photo.setCommentsNum(photoDao.getPhotoCommentsNum(photo.getId()));
+        }
+        return photoArrayList;
     }
+
+    /**
+     * Created by Ning
+     * time 2018/7/23 12:01
+     * 得到自己相应类别照片
+     *
+     * @param albumId
+     */
+    public ArrayList<Photo> pickPhotoSign(Integer albumId, Integer userId) {
+        ArrayList<Photo> photoArrayList = albumDao.getSpecificPhoto(albumId);
+        for (Photo photo : photoArrayList) {
+            photo.setBeUpNum(photoDao.getPhotoUp(photo.getId()));
+            photo.setCommentsNum(photoDao.getPhotoCommentsNum(photo.getId()));
+            Map<String, Integer> map = new HashMap<>();
+            map.put("photoId", photo.getId());
+            map.put("beUserId", userId);
+            if (photoDao.isPhotoByUp(map) != 0) {
+                photo.setUpStatus(0);
+            } else {
+                photo.setUpStatus(1);
+            }
+        }
+        return photoArrayList;
+    }
+
 
     /**
      * 搜索好友
@@ -433,10 +522,23 @@ public class UserService {
      * 得到粉丝列表
      *
      * @param userId
+     * @param beUserId
      */
-    public ArrayList<UserBean> showUserFans(int userId) {
-        userDao.readNewFans(userId);
-        ArrayList<UserBean> userBeans = userDao.getUserFans(userId);
+    public ArrayList<UserBean> showUserFans(int userId, Integer beUserId) {
+        ArrayList<UserBean> userBeans = userDao.getUserFans(beUserId);
+        if (userId == beUserId) {
+            userDao.readNewFans(userId);
+        }
+        for (UserBean userBean : userBeans) {
+            Map<String, Integer> map = new HashMap();
+            map.put("userId", userId);
+            map.put("beUserId", userBean.getId());
+            if (userDao.getUserFansUpStatus(map) != null) {
+                userBean.setBeUpStatus(0);
+            } else {
+                userBean.setBeUpStatus(1);
+            }
+        }
         return userBeans;
     }
 
@@ -447,10 +549,21 @@ public class UserService {
      * 得到关注列表
      *
      * @param userId
+     * @param beUserId
      * @return
      */
-    public ArrayList<UserBean> showUserIdols(int userId) {
-        ArrayList<UserBean> userBeans = userDao.getUserIdols(userId);
+    public ArrayList<UserBean> showUserIdols(int userId, Integer beUserId) {
+        ArrayList<UserBean> userBeans = userDao.getUserIdols(beUserId);
+        for (UserBean userBean : userBeans) {
+            Map<String, Integer> map = new HashMap();
+            map.put("beUserId", userBean.getId());
+            map.put("userId", userId);
+            if (userDao.getUserFansUpStatus(map) != null) {
+                userBean.setBeUpStatus(0);
+            } else {
+                userBean.setBeUpStatus(1);
+            }
+        }
         return userBeans;
     }
 

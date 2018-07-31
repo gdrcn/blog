@@ -20,4 +20,17 @@
     <select id="getCollectionCount" parameterType="int" resultType="int">
         select count(id) from collection where blog_id=#{blogId}
     </select>
+
+    <select id="getCollectNews" parameterType="int" resultMap="NewsBean">
+        select collection.id,username,title from user,blog,collection where collection.blog_id in (select blog.id from blog where user_id = #{userId}) and user.id=collection.user_id and blog.id=collection.blog_id and status=1
+    </select>
+
+    <update id="collectNewsRead" parameterType="int">
+        update collection set status = 0 where id = #{id}
+    </update>
+    <resultMap id="NewsBean" type="com.rdc.bean.NewsBean">
+        <id property="id" column="id"/>
+        <result property="username" column="username"/>
+        <result property="content" column="title"/>
+    </resultMap>
 </mapper>

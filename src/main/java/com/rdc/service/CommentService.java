@@ -54,7 +54,7 @@ public class CommentService {
 			replies.get(j).setUpCount(upDao.getReplyUpCount(replies.get(j).getId()));	//获取回复点赞数
 
 			if(replies.get(j).getFromReplyId()!=0) {
-				replies.get(j).setToUserBean(userDao.getUserBean(replies.get(j).getFromReplyId()));        //获取回复对象信息
+				replies.get(j).setToUserBean(userDao.getUserBean(commentDao.findReplyUserId(replies.get(j).getFromReplyId())));        //获取回复对象信息
 			}else{
 				replies.get(j).setToUserBean(userDao.getUserBean(commentDao.findCommentUserId(replies.get(j).getFromCommentId())));		//第一条回复
 			}
@@ -175,7 +175,9 @@ public class CommentService {
 		if(comment==null){
 			return 0;
 		}
-		comment.setFromId(userId);
+		UserBean userBean = new UserBean();
+		userBean.setId(userId);
+		comment.setFromUserBean(userBean);
 		int result = commentDao.addBlogComment(comment);
 
 		if(result==1){
@@ -183,7 +185,6 @@ public class CommentService {
 		}
 		return 0;
 	}
-
 	/**
 	 * Asce 2018-07-22
 	 * 得到评论数

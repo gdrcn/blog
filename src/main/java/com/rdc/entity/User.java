@@ -29,11 +29,19 @@ public class User {
     private Integer newFans;
     private Integer idols;
     private Integer notReadComment;
+    private Integer beLikedStatus;
+    private String sex;
+    private String direction;
+    private String qq;
+    private String wechat;
+    private String myblog;
+    private String backgroundPhoto;
     private Permission permission;
     private ArrayList<Album> albumList;
     private ArrayList<Blog> blogList;
     private ArrayList<User> niceFriendsList;
     private ArrayList<Photo> photoWallList;
+
 
     public User() {
     }
@@ -214,6 +222,62 @@ public class User {
         this.school = school;
     }
 
+    public Integer getBeLikedStatus() {
+        return beLikedStatus;
+    }
+
+    public void setBeLikedStatus(Integer beLikedStatus) {
+        this.beLikedStatus = beLikedStatus;
+    }
+
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
+    }
+
+    public String getDirection() {
+        return direction;
+    }
+
+    public void setDirection(String direction) {
+        this.direction = direction;
+    }
+
+    public String getBackgroundPhoto() {
+        return backgroundPhoto;
+    }
+
+    public void setBackgroundPhoto(String backgroundPhoto) {
+        this.backgroundPhoto = backgroundPhoto;
+    }
+
+    public String getQq() {
+        return qq;
+    }
+
+    public void setQq(String qq) {
+        this.qq = qq;
+    }
+
+    public String getWechat() {
+        return wechat;
+    }
+
+    public void setWechat(String wechat) {
+        this.wechat = wechat;
+    }
+
+    public String getMyblog() {
+        return myblog;
+    }
+
+    public void setMyblog(String myblog) {
+        this.myblog = myblog;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -234,6 +298,13 @@ public class User {
                 ", newFans=" + newFans +
                 ", idols=" + idols +
                 ", notReadComment=" + notReadComment +
+                ", beLikedStatus=" + beLikedStatus +
+                ", sex='" + sex + '\'' +
+                ", direction='" + direction + '\'' +
+                ", qq='" + qq + '\'' +
+                ", wechat='" + wechat + '\'' +
+                ", myblog='" + myblog + '\'' +
+                ", backgroundPhoto='" + backgroundPhoto + '\'' +
                 ", permission=" + permission +
                 ", albumList=" + albumList +
                 ", blogList=" + blogList +
