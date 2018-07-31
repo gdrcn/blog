@@ -76,7 +76,7 @@
 
     <select id="blogCommentsNews" parameterType="int" resultMap="newsBean">
         select first_comments.id,user.username,blog.title from first_comments,user,blog where blog_id in(select blog.id from blog where user_id=#{user_id}) and+
-        user.id = first_comments.commentser_id and blog.id = first_comments.id and first_comments.status = 1
+        user.id = first_comments.commentser_id and blog.id = first_comments.blog_id and first_comments.status = 1
     </select>
 
     <select id="commentCommentsNews" parameterType="int" resultMap="newsBean">
