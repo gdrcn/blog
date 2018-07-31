@@ -14,7 +14,7 @@ a{
 }
 body, dd, dl, fieldset, h1, h2, h3, h4, h5, h6,p, ol, textarea, ul {margin: 0;}
 .wallpaper{
-    background: url(../pics/微信图片_20180722145323.jpg) no-repeat;
+    background:no-repeat;
     width: 100%;
     background-position: 50% 50%;
     background-size: cover;
@@ -113,7 +113,6 @@ div#w_myHead{
     border-radius: 50%;
     -moz-border-radius: 50%;
     -webkit-border-radius: 50%;
-	background:url(../pics/微信图片_20180722145323.jpg);
 	background-size:100% 100%;
 	border:4px solid rgb(255, 255, 255);
     left: 10%;

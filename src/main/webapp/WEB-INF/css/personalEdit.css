@@ -26,7 +26,7 @@
     background-size: cover;
     background-attachment: fixed;
     background-color: #fff;
-    opacity: 0.6;
+    opacity: 0.85;
     z-index: 201;
 }
 
@@ -89,6 +89,100 @@
 .hChange_button:hover{
     box-shadow: inset 0 0 0 5px #1DA1F2 !important;
 }
+
+.choose-header-container{
+    bottom: 0;
+    height: 0;
+    position: absolute;
+    width: 100%;
+    opacity: 1;
+}
+.choose-header{
+    float: right;
+    right: 50%;
+    position: relative;
+}
+.clearfix:before,.clearfix:after{
+    clear: both;
+    content: "";
+    display: table;
+}
+.wChange_choose{
+    min-width: 150px;
+    padding: 7px 0 6px 0;
+    float: right;
+    right: -50%;
+    position: relative;
+    top: -150px;
+    width: auto;
+    z-index: 900;
+    margin: 2px 0 0;
+    background: #fff;
+    border-radius: 4px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.25);
+    background-clip: padding-box;
+    text-align: center;
+}
+.wChange_choose:before{
+    right: 43%;
+    position: absolute;
+    top: -25%;
+    border: 12px solid transparent;
+    border-bottom-color: #fff;
+    content: "";
+}
+.wChange_list{
+    margin: 0;
+    list-style: none;
+    padding: 0;
+    cursor: pointer;
+    position: relative;
+}
+.wChange_list li{
+    position: relative;
+    padding:6px 22px;
+    font-size: 14px;
+    line-height: 26px;
+    color: #66757f;
+    white-space: nowrap;
+}
+.wChange_remove{
+    padding-bottom: 12px;
+    margin-bottom: 8.5px;
+}
+.wChange_remove:after{
+    content: "";
+    position: absolute;
+    bottom: -5px;
+    right: 15px;
+    width: 120px;
+    height: 0;
+    border-bottom: 1px solid #848b91;
+}
+.wChange_list li:hover{
+    background: #34a8f0;
+    color:#fff;
+}
+.wChange_input{
+    opacity: 0;
+    position: absolute;
+    height: 38px;
+    width: 150px;
+    top: 0;
+    left: 0;
+    cursor: pointer;
+}
+.hChange_input{
+    opacity: 0;
+    position: absolute;
+    height: 38px;
+    width: 150px;
+    top: 0;
+    left: 0;
+    cursor: pointer;
+}
+
+
 /* 确认、取消按钮 */
 .b_UserActions{
     -moz-box-sizing: border-box;
@@ -160,4 +254,106 @@
     box-shadow: 0 0 0 2px #fff, 0 0 0 4px #ccd6dd;
     color: #66757f;
     outline: none;
+}
+/* 更改个人资料 */
+.b_UserEdit{
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding-left:  2px;
+    position: absolute;
+    z-index: 205;
+    background-color: #E8F5FD !important;
+}
+.b_UserEdit1{
+    left: 170px;
+    width: 350px;
+    top: 430px;
+}
+.b_UserEdit_wrap{
+    padding: 0 5px;
+}
+.b_UserEdit_id{
+    color: #1DA1F2 !important;
+    font-size: 14px;
+    line-height: 10px;
+    margin-bottom: 4px;
+    margin-left: 20px;
+}
+.b_UserEdit_id b{
+    font-weight: normal;
+}
+.b_UserEdits{
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    width: 95%;
+    display: block;
+    margin: 20px 10px 20px 5px;
+    font-size: 14px;
+    line-height: 20px;
+    padding: 4px 7px;
+    color: #14171a;
+    border: thin;
+    line-height: 28px;
+    min-height: 20px;
+    box-shadow: 0 0 0 1px #A4D9F9;
+    outline: none;
+}   
+.b_UserEdits1{
+    margin-bottom: 13px;
+    font-size: 21px;
+    border-color: #A4D9F9 !important;
+    font-weight: bold;
+}
+.b_UserEdits2{
+    margin-top: 13px;
+}
+.b_UserEdits:focus{
+    box-shadow: inset 0 0 0 1px rgba(29, 160, 242, 0.76);
+}
+.b_UserEdits1:focus{
+    color: #66757f;
+}
+
+.b_UserEdit2{
+    left: 170px;
+    width: 350px;
+    top: 730px;
+}
+.b_UserEdit3{
+    left: 170px;
+    width: 350px;
+    top: 1020px;
+}
+.b_UserEdit4{
+    top: 500px;
+    left: 540px;
+    width: 50%;
+    height: 95%;
+    background-color: rgba(232, 245, 253, 0.938) !important;
+}
+.b_personal{
+    margin: 20px 10px 10px 20px;
+    border-bottom:1px solid rgba(189, 188, 188, 0.479); 
+    padding-bottom: 30px;
+    text-align: left;
+    line-height: 45px;
+}
+.b_personal p{
+    font-size: 16px;
+    font-weight: bold;
+    padding-bottom: 10px;
+}
+.b_personal .b_personalSign{
+    display: inline-block;
+    border: rgb(113, 155, 194) 1px solid;
+    padding: 6px 10px;
+    border-radius: 5%;
+    background-color: #c0ecfa;
+    box-shadow:2px 2px 3px rgba(209, 213, 226, 0.5);
+    margin-right: 20px;
+}
+.b_personal .b_personalSign:hover{
+    cursor: pointer;
+    background-color: #a7e4f7;
 }
