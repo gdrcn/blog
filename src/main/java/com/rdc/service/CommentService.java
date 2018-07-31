@@ -192,18 +192,12 @@ public class CommentService {
 	 * @return
 	 */
 	public int getBlogCommentCount(int blogId){
-		Integer firstCount = commentDao.getBlogFirstCommentCount(blogId);
-		Integer secondCount = commentDao.getBlogSecondCommentCount(blogId);
-		if(firstCount!=null){
-			if(secondCount!=null){
-				return firstCount+secondCount;
-			}else {
-				return firstCount;
-			}
+		Integer count = commentDao.getBlogFirstCommentCount(blogId);
+		if(count!=null){
+			return count;
 		}
 		return 0;
 	}
-
 	/**
 	 * Asce 2018/7/25
 	 * 校验评论
