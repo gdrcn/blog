@@ -6,13 +6,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <link rel="stylesheet" href="../css/walkpaper.css" type="text/css">
-  <link rel="stylesheet" href="../css/myInfo.css" type="text/css">
-  <link rel="stylesheet" href="../css/page.css" type="text/css">
   <link rel="stylesheet" href="../css/personalEdit.css" type="text/css">
+  <link rel="stylesheet" href="../css/myInfo.css" type="text/css">
+  <link rel="stylesheet" href="../css/mypage.css" type="text/css">
   <link rel="stylesheet" href="../font-awesome-4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" type="text/css" href="../css/changealert.css">
   <script type="text/javascript" src="../js/jquery-1.10.2.min.js"></script>
-  <title>myInfo</title>
+  <title>follow</title>
 </head>
 
 <body>
@@ -73,10 +73,17 @@
                   <div class="list_underline"></div>
                 </a>
               </li>
+              <li class="header_list">
+                <a>
+                  <i class="fa b_fa fa-info-circle fa-2x" aria-hidden="true"></i>
+                  <span>个人信息</span>
+                  <div class="list_underline"></div>
+                </a>
+              </li>
               <li class="header_list header_list_active">
                 <a>
                   <i class="fa b_fa fa-info-circle fa-2x" aria-hidden="true"></i>
-                  <span>我和RDC</span>
+                  <span>more</span>
                   <div class="list_underline b_block" style="top:35px"></div>
                 </a>
               </li>
@@ -91,7 +98,7 @@
               <div class="b_personalInfs">
                 <div id="b_personal_InfName">
                   <h2 style="letter-spacing: 2px;">
-                    <span class="b_initName"></span>
+                    <span class="b_initName">Bingo Chan</span>
                     <i class="fa fa-pencil b_change_name" aria-hidden="true" style="padding-left: 3px;"></i>
                   </h2>
                   <p style="font-size: 14px;line-height:20px;margin:5px 0 12px -25px;">@
@@ -103,13 +110,13 @@
                     <tbody>
                       <tr>
                         <td class="S_line1" style="border: none">
-                          <a class="S_txt1">
+                          <a class="S_txt1" style="color: #3479d8">
                             <strong class="W_f12">0</strong>
-                            <span class="S_txt2">关注</span>
+                            <span class="S_txt2" style="color: #3479d8;">关注</span>
                           </a>
                         </td>
                         <td class="S_line1">
-                          <a class="S_txt1">
+                          <a class="S_txt1" href="../follow">
                             <strong class="W_f12">0</strong>
                             <span class="S_txt2">粉丝</span>
                           </a>
@@ -158,90 +165,26 @@
                 </div>
               </div>
             </div>
-            <!-- 个人资料 -->
-            <div class="b_aboutWipe content_hide1">
-              <div class="b_personalAbout">
-                <div class="b_personal" style="margin-top: 5px;">
-                  <p class="b_personalTitle1">熟悉领域</p>
-                  <div class="b_personalSign">HTML页面重构</div>
-                  <div class="b_personalSign">Web UI设计</div>
-                </div>
-                <div class="b_personal">
-                  <p class="b_personalTitle2">个人信息</p>
-                  <div class="b_personals">
-                    <label class="b_personalLabel">用户名：</label>
-                    <div class="b_personalIfmt"></div>
-                  </div>
-                  <div class="b_personals">
-                    <label class="b_personalLabel">性别：</label>
-                    <div class="b_personalIfmt"></div>
-                  </div>
-                  <div class="b_personals">
-                    <label class="b_personalLabel">生日：</label>
-                    <div class="b_personalIfmt"></div>
-                  </div>
-                  <div class="b_personals">
-                    <label class="b_personalLabel">方向：</label>
-                    <div class="b_personalIfmt"></div>
-                  </div>
-                  <div class="b_personals">
-                    <label class="b_personalLabel">个人博客：</label>
-                    <div class="b_personalIfmt"></div>
-                  </div>
-                  <div class="b_personals">
-                    <label class="b_personalLabel">个性签名：</label>
-                    <div class="b_personalIfmt"></div>
-                  </div>
-                </div>
-                <div class="b_personal">
-                  <p class="b_personalTitle3">学校名称</p>
-                  <div class="b_personalIfmt"></div>
-                </div>
-                <div class="b_personal">
-                  <p class="b_personalTitle4">工作地点</p>
-                  <div class="b_personalIfmt"></div>
-                </div>
-                <div class="b_personal" style="border: none;">
-                  <p class="b_personalTitle5"></p>
-                  <div class="b_personals">
-                    <label class="b_personalLabel">email：</label>
-                    <div class="b_personalIfmt"></div>
-                  </div>
-                  <div class="b_personals">
-                    <label class="b_personalLabel">手机号码：</label>
-                    <div class="b_personalIfmt"></div>
-                  </div>
-                  <div class="b_personals">
-                    <label class="b_personalLabel">QQ号码：</label>
-                    <div class="b_personalIfmt">未公开</div>
-                  </div>
-                  <div class="b_personals">
-                    <label class="b_personalLabel">微信号码：</label>
-                    <div class="b_personalIfmt">未公开</div>
-                  </div>
-                </div>
-              </div>
-            </div>
             <!-- 关系页 -->
             <div class="relative_page_wide none">
               <h2 class="relative_title">全部关注</h2>
               <!-- 关注 -->
               <div class="follow_page_wide double_page_wide none">
-                <div class="b_follows b_doubles none">
+                <div class="b_follows b_doubles">
                   <div class="profileCard">
                     <a href="" class="profileCard_waller"></a>
                     <div class="profileCard-content">
                       <a href="" class="profileCard-header">
-                        <img src="" alt="" class="profileCard-avatar">
+                        <img src="../pics/24_236473_81cbfff4181563d.jpg" alt="" class="profileCard-avatar">
                       </a>
                       <div class="profileCard-action">
-                        <button class="relative_button">Follow</button>
+                        <button class="relative_button">follow</button>
                       </div>
                       <div class="profileCard-info">
                         <div class="profileCard-name">
-                          <a href=""></a>
+                          <a href="">123</a>
                         </div>
-                        <p class="profileCard-signature">...</p>
+                        <p class="profileCard-signature">巴拉巴拉巴拉巴拉巴拉巴巴拉巴拉巴拉巴拉巴拉巴拉巴拉</p>
                       </div>
                     </div>
                   </div>
@@ -249,21 +192,21 @@
               </div>
               <!-- 粉丝 -->
               <div class="fans_page_wide double_page none">
-                <div class="b_fanss b_doubles none">
+                <div class="b_fanss b_doubles">
                   <div class="profileCard">
                     <a href="" class="profileCard_waller"></a>
                     <div class="profileCard-content">
                       <a href="" class="profileCard-header">
-                        <img src="" alt="" class="profileCard-avatar">
+                        <img src="../pics/24_236473_81cbfff4181563d.jpg" alt="" class="profileCard-avatar">
                       </a>
                       <div class="profileCard-action">
-                        <button class="relative_button">Follow</button>
+                        <button class="relative_button">follow</button>
                       </div>
                       <div class="profileCard-info">
                         <div class="profileCard-name">
-                          <a href=""></a>
+                          <a href="">123</a>
                         </div>
-                        <p class="profileCard-signature">...</p>
+                        <p class="profileCard-signature">巴拉巴拉巴拉巴拉巴拉巴巴拉巴拉巴拉巴拉巴拉巴拉巴拉</p>
                       </div>
                     </div>
                   </div>
@@ -318,7 +261,7 @@
     </div>
   </div>
   <div class="b_UserEdit b_UserEdit2 none">
-    <input type="text" class="b_UserEdits" placeholder="个性签名">
+    <input type="text" class="b_UserEdits" value="只要你跑的够快，寂寞就追不上你">
     <input type="text" class="b_UserEdits" placeholder="方向">
     <input type="text" class="b_UserEdits" placeholder="学校">
     <input type="text" class="b_UserEdits" placeholder="工作地点">
@@ -385,9 +328,6 @@
     <button class="okoButton tips none">ok</button>
   </div>
   <script type="text/javascript" src="../js/b_walkpaper.js"></script>
-  <script type="text/javascript" src="../js/changalert.js"></script>
-  <script type="text/javascript" src="../js/personalEdit.js"></script>
-  <script type="text/javascript" src="../js/b_mypage.js"></script>
 </body>
 
 </html>
