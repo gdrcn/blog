@@ -26,7 +26,7 @@ window.onload = function () {
 
   //登录接口
   var a = {
-    leadAddress: "http://www.onepi.top:8080/blog/",
+    leadAddress: "http:/192.168.43.6:8080/blog/",
     b: new Array(4),//用户注册信息
     // 设置cookie  
     setCookie: function (c_name, value, expiremMinutes) {
