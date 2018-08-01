@@ -219,11 +219,11 @@
     </update>
 
     <select id="getUserFans" parameterType="java.lang.Integer" resultMap="userBean">
-      SELECT user.id, user.`username`, user.`face_img` FROM user WHERE id IN (SELECT relation.user_id FROM relation WHERE beliked_id = #{userId});
+      SELECT user.id, user.background, user.signature, user.`username`, user.`face_img` FROM user WHERE id IN (SELECT relation.user_id FROM relation WHERE beliked_id = #{userId});
     </select>
 
     <select id="getUserIdols" parameterType="java.lang.Integer" resultMap="userBean">
-        SELECT user.id, user.`username`, user.`face_img` FROM user WHERE id IN (SELECT relation.beliked_id FROM relation WHERE user_id = #{userId});
+        SELECT user.id, user.background, user.signature, user.`username`, user.`face_img` FROM user WHERE id IN (SELECT relation.beliked_id FROM relation WHERE user_id = #{userId});
     </select>
 
     <select id="getUserFansUpStatus" parameterType="map" resultType="java.lang.Integer">

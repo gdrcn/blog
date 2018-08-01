@@ -73,7 +73,12 @@ public class BlogController {
 			return GsonUtil.getErrorJson();
 		}
 		ArrayList<BlogBean> blogBeans = getBlogBean(blogs,user.getId());
-		int blogCount = blogService.getCategoryCount(category);
+		int blogCount;
+		if (category.equals("热门")) {
+			blogCount = 6;
+		}else {
+			blogCount = blogService.getCategoryCount(category);
+		}
 		Map<String,Object> map = new HashMap<>();
 		map.put("blogBeans",blogBeans);
 		map.put("blogCount",blogCount);
