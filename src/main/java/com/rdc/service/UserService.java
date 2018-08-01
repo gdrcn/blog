@@ -3,10 +3,7 @@ package com.rdc.service;
 import com.google.gson.Gson;
 import com.rdc.bean.Msg;
 import com.rdc.bean.UserBean;
-import com.rdc.dao.AlbumDao;
-import com.rdc.dao.CommentDao;
-import com.rdc.dao.PhotoDao;
-import com.rdc.dao.UserDao;
+import com.rdc.dao.*;
 import com.rdc.entity.Album;
 import com.rdc.entity.Photo;
 import com.rdc.entity.User;
@@ -45,6 +42,10 @@ public class UserService {
 
     @Autowired
     private JavaMailSender mailSender;
+
+    @Autowired
+    private BlogDao blogDao;
+
     /**
      * Created by Ning
      * time 2018/7/22 16:02
@@ -57,6 +58,7 @@ public class UserService {
         User user = userDao.getUserInfo(id);
         user.setFans((userDao.getFansNum(id)).length);
         user.setIdols((userDao.getIdolsNum(id)).length);
+        user.setBlogNum(blogDao.getUserBlogCount(user.getId()));
         user.setBlogList(userDao.getUserBlogInfo(user.getId()));
         user.setNotReadComment(commentDao.countNotReadAlbum(id) + commentDao.countNotReadFirst(id) + commentDao.countNotReadSecond(id));
         user.setPhotoWallList(photoDao.getSomePhoto(user.getId()));
@@ -392,6 +394,7 @@ public class UserService {
         Msg msg = new Msg();
         User user = userDao.scanOtherMsg(beUserId);
         user.setFans(userDao.getFansNum(beUserId).length);
+        user.setBlogNum(blogDao.getUserBlogCount(user.getId()));
         user.setPhotoWallList(photoDao.getSomePhoto(user.getId()));
         user.setIdols(userDao.getIdolsNum(beUserId).length);
         user.setBlogList(userDao.getUserBlogInfo(user.getId()));

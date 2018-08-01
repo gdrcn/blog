@@ -28,6 +28,7 @@ public class User {
     private Integer fans;
     private Integer newFans;
     private Integer idols;
+    private Integer blogNum;
     private Integer notReadComment;
     private Integer beLikedStatus;
     private String sex;
@@ -278,6 +279,14 @@ public class User {
         this.myblog = myblog;
     }
 
+    public Integer getBlogNum() {
+        return blogNum;
+    }
+
+    public void setBlogNum(Integer blogNum) {
+        this.blogNum = blogNum;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -297,6 +306,7 @@ public class User {
                 ", fans=" + fans +
                 ", newFans=" + newFans +
                 ", idols=" + idols +
+                ", blogNum=" + blogNum +
                 ", notReadComment=" + notReadComment +
                 ", beLikedStatus=" + beLikedStatus +
                 ", sex='" + sex + '\'' +
