@@ -392,6 +392,7 @@ public class UserService {
         Msg msg = new Msg();
         User user = userDao.scanOtherMsg(beUserId);
         user.setFans(userDao.getFansNum(beUserId).length);
+        user.setPhotoWallList(photoDao.getSomePhoto(user.getId()));
         user.setIdols(userDao.getIdolsNum(beUserId).length);
         user.setBlogList(userDao.getUserBlogInfo(user.getId()));
         if (userDao.getUserFansUpStatus(map) != null) {
