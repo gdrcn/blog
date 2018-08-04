@@ -4,6 +4,11 @@ window.onload = function () {
   new_element.setAttribute("src", "../js/changalert.js");// 在这里引入了changealert.js
   document.body.appendChild(new_element);
 
+  function Assignment(a, b) {
+    if (a != null) {
+      b.text(a);
+    }
+  }
 
   //页面登录框效果
   var w_homePage = {
@@ -26,7 +31,7 @@ window.onload = function () {
 
   //登录接口
   var a = {
-    leadAddress: "http:/192.168.43.6:8080/blog/",
+    leadAddress: "http://www.onepi.top:8080/blog/",
     b: new Array(4),//用户注册信息
     // 设置cookie  
     setCookie: function (c_name, value, expiremMinutes) {
@@ -133,7 +138,7 @@ window.onload = function () {
               if (result == "success") {
                 setTimeout("finishLoadingRender1()", 100);
                 localStorage.setItem("IDuser", message.id);//记录登录状态
-                window.location.replace('file:///F:/gittes/rdc/blog/src/main/webapp/WEB-INF/html/mypage.html')
+                window.location.replace('http://www.onepi.top:8080/blog/html/mypage.html')
               }
               if (result == "error") {
                 $(".lose .dec_txt").text(data.message);
@@ -298,7 +303,7 @@ window.onload = function () {
       $(".b_return").show();
       //返回个人主页
       $(".b_return").click(function () {
-        window.location.replace('file:///F:/gittes/rdc/blog/src/main/webapp/WEB-INF/html/mypage.html');
+        window.location.replace('http://www.onepi.top:8080/blog/html/mypage.html');
       })
       //退出登录
       $("#w_welcomeStart").click(function () {
@@ -322,6 +327,40 @@ window.onload = function () {
           }
         })
       })
+    },
+
+    //插入最新动态
+    
+    gn: function(){
+      var t = this;
+      //插入最新文章
+      $.ajax({
+        url: t.leadAddress + "blog/blogByCategory/最新/0" ,
+        dataType: "json",
+        type: "get",
+        error: function () {
+          $(".warning .dec_txt").text("服务器错误");
+          errorRender();
+        },
+        success: function (data) {
+          if (data.result == "success") {
+            var item = data.message.blogBeans;
+            var num = item.length;
+            for(var i = 0;i<3 && i<num ;i++){
+              $(".b_lists").eq(i).data("id","item[i].blog.title")
+              Assignment(item[i].blog.title,$(".b_lists .b_article-title-a").eq(i))
+              Assignment(item[i].blog.article,$(".b_lists .b_article-content").eq(i))
+              Assignment(item[i].blog.userBean.username,$(".b_lists .b_user-name").eq(i))
+              Assignment(item[i].blog.userBean.username,$(".b_lists .b_user-name").eq(i))
+              Assignment(item[i].upCount,$(".b_lists .b-eye").eq(i))
+              Assignment(item[i].commentCount,$(".b_lists .b-comment").eq(i))
+              Assignment(item[i].collectionCount,$(".b_lists .b-heart").eq(i))
+              var src = t.leadAddress + "img/" + item[i].blog.userBean.face;
+              $(".b_lists img").eq(i).attr("src",src);
+            }
+          }
+        }
+      })
     }
   }
 
@@ -333,8 +372,8 @@ window.onload = function () {
     w_homePage.signIn();
     a.fn1();
   }
+  a.gn();
 
-  //插入最新动态
 
 
 }

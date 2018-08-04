@@ -1,6 +1,12 @@
 body{
     min-width: 1100px;
 }
+.none {
+    display: none!important;
+}
+.b_article_jump{
+    cursor: pointer;
+}
 /* 信息栏 */
 .b_personalInf{
     box-sizing: border-box;
@@ -400,6 +406,7 @@ body{
     text-align: left;
 }
 .profileCard a.profileCard_waller{
+    cursor: pointer;
     background-position: 0 50%;
     background-size: 100%;
     display: block;
@@ -410,6 +417,7 @@ body{
     position: relative;
 }
 .profileCard-content a.profileCard-header{
+    cursor: pointer;
     background-color: #fff;
     border-radius: 50%;
     display: inline-block;
@@ -472,6 +480,7 @@ body{
     width: 100%;
 }
 .profileCard-name{
+    cursor: pointer;
     height: 22px;
     line-height: 1.5;
     white-space: nowrap;

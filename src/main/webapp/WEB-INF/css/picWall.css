@@ -2,10 +2,19 @@
 	margin:0;
 	padding:0;
 }
+html{
+	height:100%;
+}
+.pointer{
+	cursor:pointer;
+}
+i.fa-comments-o{
+	transform:translateY(-1px);
+}
 div.w_90line{
 	width:90%;
 	height:0;
-	border-top:1px solid rgba(156,156,156,0.39);
+	border-top:1px solid #e6e6e6;
 	margin:0 auto;
 }
 body{
@@ -23,6 +32,7 @@ div#w_wallPaper{
 	background-size:100% auto;
 }
 div#w_underWall{
+	background:rgba(156,156,156,0.15);
 	position:relative;
 	box-shadow:0 0 66px rgba(0,0,0,0.5);
 	min-height:100vh;
@@ -33,7 +43,8 @@ div#w_labelAndUp{
 div#w_wordPressLine{
 	padding-bottom:30px;
 	height:100px;
-	background:white;;
+	background:white;
+	border-bottom:1px solid #e6e6e6;
 }
 div#w_myHead{
 	box-shadow:0 0 10px black;
@@ -41,10 +52,14 @@ div#w_myHead{
 	position:relative;
 	height:200px;
 	width:200px;
-	background-size:100% 100%;
-	border:3px solid rgb(255, 255, 255);
+	background-image:url(../pic/myHead.jpg);
+	background-color:black;
+	background-size:100% auto;
+	background-repeat:no-repeat;
+	background-position:center center;
 	left:5%;
 	bottom:150px;
+	border:3px solid white;
 }
 div#w_myHeadName{
 	position:absolute;
@@ -56,12 +71,28 @@ div#w_myHeadName{
 	transform:translateX(-50%);
 }
 div#w_wordPress{
-	height:100px;
+	height:50px;
+	margin-top:10px;
 	vertical-align:top;
 	line-height:100px;
-	position:relative;
-	left:20%;
+	float:right;
+	padding-right:5px;
+	margin-right:25%;
+}
+a.w_wordPressButton{
+	font-size:1.1rem;
+	vertical-align:top;
+	padding-left:0.5rem;
+	padding-right:0.5rem;
 	display:inline-block;
+	height:70px;
+	line-height:50px;
+	font-weight:bold;
+	margin-left:100px;
+	border-bottom:3px solid rgba(37,78,129,0);
+}
+a.w_wordPressButton:hover{
+	border-bottom:3px solid rgb(37, 78, 129);
 }
 div#w_labelAndUp{
 	position:relative;
@@ -78,11 +109,12 @@ div#w_labelChose{
 	font-weight:bold;
 }
 div.w_label{
-	margin-right:5px;
+	margin-right:10px;
 	display:inline-block;
 	height:1.2rem;
 	line-height:1.2rem;
-	background:rgba(83,148,228,0.7);
+	background:rgb(83,148,228);
+	opacity:0.7;
 	border-radius:0.2rem;
 	font-size:0.8rem;
 	color:white;
@@ -92,66 +124,227 @@ div.w_label{
 	letter-spacing:2px;
 }
 div.w_label:hover{
-	background:rgb(61, 109, 167);
+	opacity:1;
+}
+div#w_newAlbum{
+	opacity:1;
+}
+div#w_newAlbum:hover{
+	transition:200ms;
 }
 div#w_upload{
 	letter-spacing:2px;
-	font-size:1.1rem;
+	font-size:1rem;
 	font-weight:bold;
 	position:absolute;
 	right:25%;
-	bottom:-1.1rem;
+	bottom:-1.5rem;
+}
+input#w_uploadPic{
+	display:none;
+	width:12rem;
+	border:0;
+	outline:none;
+	border-radius:3px;
+	background:white;
+	position:absolute;
+	top:-2rem;
+	right:0;
+}
+input#w_uploadPicButton{
+	display:none;
+	position:absolute;
+	top:-3.8rem;
+	width:3rem;
+	right:9rem;
 }
 div#w_upload>a:hover{
-	text-decoration:underline;
+	box-shadow:3px 3px 5px rgba(0,0,0,0.7);
+	transition:369ms;
+	background:white;
 }
 div#w_upload>a{
+	border-radius:3px;
+	border:5px solid rgba(0,0,0,0);
+	overflow:hidden;
+	display:inline-block;
 	margin-right:5px;
 	margin-left:5px;
 }
 div#w_albumFriends{
-	padding:15px;
+	font-size:0.9rem;
 	position:absolute;
-	top:130px;
+	top:150px;
 	right:5%;
-	width:18%;
-	height:200px;
-	
+	width:17.5%;
+}
+div.w_albumFriendFrame{
+	box-shadow:0 0 20px rgba(0,0,0,0.1);
+	width:auto;
+	position:relative;
+	border-radius:3px;
+	height:80px;
+	line-height:80px;
+	background:white;
+	margin:17px 0;
+	padding-left:80px;
+	font-size:1.1rem;
+	border:2px solid rgba(0,0,0,0);
+}
+div.w_albumFriendFrame:hover>div.w_albumFriendHead:after{
+	transition:256ms;
+	content:"";
+	width:66px;
+	height:66px;
+	position:absolute;
+	top:-6px;
+	left:-6px;
+	border-radius:39px;
+	border-left:3px solid rgba(156,156,156,0.39);
+	border-right:3px solid rgba(156,156,156,0.39);
+	border-color:inherit;
+	border-top:3px solid rgba(0,0,0,0);
+	border-bottom:3px solid rgba(0,0,0,0);
+	opacity:0.8;
+}
+div.w_albumFriendHead:after{
+	content:"";
+	width:100px;
+	height:100px;
+	border-radius:50px;
+	position:absolute;
+	top:-23px;
+	left:-23px;
+	border-top:3px solid rgba(0,0,0,0);
+	border-bottom:3px solid rgba(0,0,0,0);
+	/*
+		content:"";
+		width:60px;
+		height:60px;
+		position:absolute;
+		left:-3px;
+		top:-3px;
+		border:3px solid white;
+		border-radius:33px;
+		*/
+}
+div.w_albumFriendHead{
+	position:absolute;
+	top:10px;
+	left:10px;
+	display:inline-block;
+	background:url(../pic/friendHead.jpg);
+	background-size:60px 60px;
+	background-position:center center;
+	height:60px;
+	width:60px;
+	border-radius:36px;
 }
 div.w_album{
 	position:relative;
 	left:5%;
 	width:70%;
-	padding-top:30px;
+	padding-top:10px;
 	padding-bottom:30px;
 }
 div.w_album>div{
 	display:inline-block;
 }
 div.w_albumDate{
+	border-top:2px solid #e6e6e6;
 	padding-top:10px;
-	font-size:1.2rem;
-	height:1.2rem;
-	line-height:1.2rem;
+	height:1rem;
+	line-height:1rem;
 	vertical-align:top;
 	text-align:center;
-	width:200px;
+	width:160px;
 }
 div.w_albumPage{
 	max-width:80%;
+	position:relative;
 	white-space:normal;
 }
 div.w_albumPicFrame{
-	margin-left:17px;
-	margin-bottom:15px;
+	display:none;
+	position:relative;
+	float:left;
+	vertical-align:top;
+	margin-bottom:17px;
+	margin-left:20px;
 	width:150px;
-	height:170px;
-	box-shadow:0 0 10px black;
-	display:inline-block;
+	box-shadow:0 0 12px rgba(0,0,0,0.76);
+	background:white;
+}
+div.w_albumPicFrame:hover{
+	transform:scale(1.05,1.05) translate(-2px,-2px);
+	box-shadow:3px 3px 30px rgba(0,0,0,0.66);
+	transition:512ms;
+}
+div.w_albumPic:after{
+	opacity:0;
+	transition:500ms;
+	content:"";
+	width:134px;
+	height:20px;
+	position:absolute;
+	bottom:0px;
+	left:0px;
+	background:inherit;
+	background-position:center bottom;
+	background-size:100% auto;
+	filter: blur(3px);
+	-webkit-filter: blur(3px); /* Chrome, Opera */
+	-moz-filter: blur(3px);
+	-ms-filter: blur(3px);
+	z-index:1;
+}
+div.w_albumPicFrame:hover>div.w_albumPic:after{
+	opacity:1;
+	transition:500ms;
+	content:"";
+	width:134px;
+	height:20px;
+	position:absolute;
+	bottom:0px;
+	left:0px;
+	background:inherit;
+	background-position:center bottom;
+	background-size:100% auto;
+	filter: blur(3px);
+	-webkit-filter: blur(3px); /* Chrome, Opera */
+	-moz-filter: blur(3px);
+	-ms-filter: blur(3px);
+	z-index:1;
 }
 div.w_albumPic{
-	margin:7px;
-	height:136px;
-	width:136px;
-	background:black;
+	position:relative;
+	color:white;
+	margin:8px;
+	width:134px;
+	height:auto;
+	background-color:rgb(37, 78, 129);
+	background-image:url(../pic/albumPic.jpg);
+	background-size:contain;
+	min-height:25px;
+}
+img.w_albumPicImg{
+	width:134px;
+	display:inline-block;
+	vertical-align:top;
+}
+div.w_albumPicInfo{
+	white-space:nowrap;
+	text-shadow:1px 1px 3px rgba(0,0,0,0.39);
+	font-size:0.8rem;
+	word-spacing:5px;
+	color:white;
+	position:absolute;
+	right:0;
+	width:131px;
+	padding-right:3px;
+	bottom:0;
+	text-align:right;
+	height:20px;
+	line-height:20px;
+	z-index:2;
 }

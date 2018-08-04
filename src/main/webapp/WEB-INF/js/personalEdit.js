@@ -5,7 +5,7 @@ $(function () {
     var infoEdit = {
 
       UserID: localStorage.getItem("IDuser"),
-      leadAddress: "http://192.168.43.6:8080/blog/",
+      leadAddress: "http://www.onepi.top:8080/blog/",
 
       pre_header: $("#w_myHead,#b_myHead").attr("style"),
       pre_waller: $(".wallpaper").attr("style"),
@@ -137,7 +137,7 @@ $(function () {
           oMyForm.append("signature", $(".b_UserEdits").eq(4).val());
           oMyForm.append("direction", $(".b_UserEdits").eq(5).val());
           oMyForm.append("school", $(".b_UserEdits").eq(6).val());
-          oMyForm.append("adress", $(".b_UserEdits").eq(7).val());
+          oMyForm.append("address", $(".b_UserEdits").eq(7).val());
           oMyForm.append("email", $(".b_UserEdits").eq(8).val());
           oMyForm.append("phone", $(".b_UserEdits").eq(9).val());
           oMyForm.append("qq", $(".b_UserEdits").eq(10).val());

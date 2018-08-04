@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="../css/walkpaper.css" type="text/css">
   <link rel="stylesheet" href="../css/personalEdit.css" type="text/css">
   <link rel="stylesheet" href="../css/myInfo.css" type="text/css">
-  <link rel="stylesheet" href="../css/mypage.css" type="text/css">
+  <link rel="stylesheet" href="../css/page.css" type="text/css">
   <link rel="stylesheet" href="../font-awesome-4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" type="text/css" href="../css/changealert.css">
   <script type="text/javascript" src="../js/jquery-1.10.2.min.js"></script>
@@ -73,259 +73,112 @@
                   <div class="list_underline"></div>
                 </a>
               </li>
-              <li class="header_list">
-                <a>
-                  <i class="fa b_fa fa-info-circle fa-2x" aria-hidden="true"></i>
-                  <span>个人信息</span>
-                  <div class="list_underline"></div>
-                </a>
-              </li>
               <li class="header_list header_list_active">
                 <a>
                   <i class="fa b_fa fa-info-circle fa-2x" aria-hidden="true"></i>
-                  <span>more</span>
+                  <span>我和RDC</span>
                   <div class="list_underline b_block" style="top:35px"></div>
                 </a>
+              </li>
+              <li class="b_personalsetting">
+                <a>
+                  <i class="b_fa fa fa-bars fa-2x" aria-hidden="true"></i>
+                </a>
+                <div class="b_dropdown-menu none">
+                  <div class="b_dropdown-caret">
+                    <span class="b_caret-outer"></span>
+                    <span class="b_caret-inner"></span>
+                  </div>
+                  <ul class="b_dropdown_list">
+                    <li class="b_dropdown_name">
+                      <a>
+                        <b class="b_initName"></b>
+                        <div style="color: #657786;font-size: 14px;">@
+                          <b style="font-size: 14px;"></b>
+                        </div>
+                      </a>
+                    </li>
+                    <li class="b_dropdown-divider"></li>
+                    <li class="b_current-user">
+                      <a>
+                        <i class="fa fa-user fa-dropdown-list" aria-hidden="true" style="color: #66757f;margin-right: 12px;vertical-align: text-bottom;"></i>
+                        个人主页
+                      </a>
+                    </li>
+                    <li class="b_message_listen">
+                      <a>
+                        <i class="fa fa-envelope fa-dropdown-list" aria-hidden="true" style="color: #66757f;margin-right: 8px;vertical-align: text-bottom;"></i>
+                        消息通知
+                      </a>
+                    </li>
+                    <li class="b_dropdown-divider"></li>
+                    <li class="b_RDChome">
+                      <a>
+                        <i class="fa fa-home fa-dropdown-list" aria-hidden="true" style="color: #66757f;margin-right: 12px;vertical-align: text-bottom;"></i>
+                        博客首页
+                      </a>
+                    </li>
+                    <li class="b_user-list">
+                      <a>
+                        <i class="fa fa-list-ul fa-dropdown-list" aria-hidden="true" style="color: #66757f;margin-right: 12px;vertical-align: text-bottom;"></i>
+                        用户列表
+                      </a>
+                    </li>
+                    <li class="b_dropdown-divider"></li>
+                    <li class="sign-out">
+                      <a>
+                        <i class="fa fa-sign-out fa-dropdown-list" aria-hidden="true" style="color: #66757f;margin-right: 20px;vertical-align: text-bottom;"></i>
+                        注销
+                      </a>
+                    </li>
+                  </ul>
+                </div>
               </li>
             </ul>
           </div>
         </div>
-        <!-- 内容页 -->
-        <div class="b_personal_page">
-          <div class="b_wide">
-            <!--个人简介页  -->
-            <div class="b_personalInf">
-              <div class="b_personalInfs">
-                <div id="b_personal_InfName">
-                  <h2 style="letter-spacing: 2px;">
-                    <span class="b_initName">Bingo Chan</span>
-                    <i class="fa fa-pencil b_change_name" aria-hidden="true" style="padding-left: 3px;"></i>
-                  </h2>
-                  <p style="font-size: 14px;line-height:20px;margin:5px 0 12px -25px;">@
-                    <b></b>
-                  </p>
-                </div>
-                <div class="b_relative">
-                  <table class="tb_counter">
-                    <tbody>
-                      <tr>
-                        <td class="S_line1" style="border: none">
-                          <a class="S_txt1" style="color: #3479d8">
-                            <strong class="W_f12">0</strong>
-                            <span class="S_txt2" style="color: #3479d8;">关注</span>
-                          </a>
-                        </td>
-                        <td class="S_line1">
-                          <a class="S_txt1" href="../follow">
-                            <strong class="W_f12">0</strong>
-                            <span class="S_txt2">粉丝</span>
-                          </a>
-                        </td>
-                        <td class="S_line1">
-                          <a class="S_txt1">
-                            <strong class="W_f12">0</strong>
-                            <span class="S_txt2">文章</span>
-                          </a>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-                <div class="b_si_counter">
-                  <div class="b_simpleInfo">
-                    <ul class="b_detailInfo">
-                      <li class="b_infos">
-                        <i class="fa b_fa fa-graduation-cap" style="color: #5f5f5f;margin-left:-2px;padding-right:5px;" aria-hidden="true"></i>
-                        <span></span>
-                      </li>
-                      <li class="b_infos">
-                        <i class="fa b_fa fa-map-marker" style="color: #5f5f5f;padding-left: 2px;padding-right:7px;" aria-hidden="true"></i>
-                        <span></span>
-                      </li>
-                      <li class="b_infos">
-                        <i class="fa b_fa fa-birthday-cake" style="color: #5f5f5f;padding-right:8px;" aria-hidden="true"></i>
-                        <span></span>
-                      </li>
-                      <li class="b_infos">
-                        <i class="fa b_fa fa-id-card-o" style="color: #5f5f5f;padding-right:8px;" aria-hidden="true"></i>
-                        <span></span>
-                      </li>
-                      <li class="b_infos">
-                        <i class="fa b_fa fa-envelope" style="color: #5f5f5f;padding-right:8px;" aria-hidden="true"></i>
-                        <span></span>
-                      </li>
-                      <a class="b_infoEdit">
-                        <div class="b_more_txt">
-                          <i class="fa b_fa fa-pencil-square-o" style="color: #5f5f5f;padding-top:5px;margin-left:-20px;" aria-hidden="true"></i>
-                          <span>编辑</span>
-                        </div>
-                      </a>
-                    </ul>
-                  </div>
-                </div>
-              </div>
+      </div>
+    </div>
+    <!-- 消息页 -->
+    <div class="b_wide" style="height: 100%; padding-top: 100px;">
+      <div class="b_news_wipe">
+        <!-- 分类 -->
+        <ul class="b_news_ul">
+          <li>
+            <span>消息动态</span>
+          </li>
+          <li>
+            <span>用户列表</span>
+          </li>
+        </ul>
+        <!-- 动态 -->
+        <div class="b_recentNew_wipe none">
+          <ul>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+          </ul>
+          <ul class="b_recentNew">
+            <li></li>
+          </ul>
+          <div class="b_moreNews"></div>
+        </div>
+        <div class="b_nodeList_wipe">
+          <div class="b_memberLists">
+            <div class="b_memberHead">
+              成员列表
             </div>
-            <!-- 关系页 -->
-            <div class="relative_page_wide none">
-              <h2 class="relative_title">全部关注</h2>
-              <!-- 关注 -->
-              <div class="follow_page_wide double_page_wide none">
-                <div class="b_follows b_doubles">
-                  <div class="profileCard">
-                    <a href="" class="profileCard_waller"></a>
-                    <div class="profileCard-content">
-                      <a href="" class="profileCard-header">
-                        <img src="../pics/24_236473_81cbfff4181563d.jpg" alt="" class="profileCard-avatar">
-                      </a>
-                      <div class="profileCard-action">
-                        <button class="relative_button">follow</button>
-                      </div>
-                      <div class="profileCard-info">
-                        <div class="profileCard-name">
-                          <a href="">123</a>
-                        </div>
-                        <p class="profileCard-signature">巴拉巴拉巴拉巴拉巴拉巴巴拉巴拉巴拉巴拉巴拉巴拉巴拉</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <!-- 粉丝 -->
-              <div class="fans_page_wide double_page none">
-                <div class="b_fanss b_doubles">
-                  <div class="profileCard">
-                    <a href="" class="profileCard_waller"></a>
-                    <div class="profileCard-content">
-                      <a href="" class="profileCard-header">
-                        <img src="../pics/24_236473_81cbfff4181563d.jpg" alt="" class="profileCard-avatar">
-                      </a>
-                      <div class="profileCard-action">
-                        <button class="relative_button">follow</button>
-                      </div>
-                      <div class="profileCard-info">
-                        <div class="profileCard-name">
-                          <a href="">123</a>
-                        </div>
-                        <p class="profileCard-signature">巴拉巴拉巴拉巴拉巴拉巴巴拉巴拉巴拉巴拉巴拉巴拉巴拉</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+          </div>
+          <div class="b_memberList_content">
+            <div class="b_memberHead">
+              查看资料
+            </div> 
           </div>
         </div>
       </div>
     </div>
-  </div>
-  <!-- 修改个人信息框 -->
-  <!-- 更改背景 -->
-  <div class="over_wallpaper none">
-    <div class="wallpaperChange">
-      <button class="wChange_button stop" role="menuitem">
-        <i class="fa fa-picture-o fa-4x" style="color: #fff;" aria-hidden="true"></i>
-        <p>Change your header photo</p>
-      </button>
-      <div class="choose-header-container none">
-        <div class="choose-header">
-          <div class="clearfix">
-            <div class="wChange_choose">
-              <ul class="wChange_list">
-                <li class="wChange_remove wChange_remove1">更换背景</li>
-                <li class="wChange_cancel">取消</li>
-                <input type="file" id="wChange_input" class="wChange_input" accept="image/*">
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- 更改确认、取消按钮 -->
-  <div class="b_UserActions none">
-    <button class="UserAction_save">保存</button>
-    <button class="UserAction_cancel">取消</button>
-  </div>
-  <!-- 更改信息框 -->
-  <div class="b_UserEdit b_UserEdit1 none">
-    <div class="b_UserEdit_wrap">
-      <input type="text" class="b_UserEdits b_UserEdits1" value="Bingo Chan">
-      <div class="b_UserEdit_id">
-        <span>@
-          <b>123</b>
-        </span>
-      </div>
-      <input type="text" class="b_UserEdits b_UserEdits2" placeholder="性别">
-      <input type="text" class="b_UserEdits" placeholder="生日">
-      <input type="text" class="b_UserEdits" placeholder="个人博客">
-    </div>
-  </div>
-  <div class="b_UserEdit b_UserEdit2 none">
-    <input type="text" class="b_UserEdits" value="只要你跑的够快，寂寞就追不上你">
-    <input type="text" class="b_UserEdits" placeholder="方向">
-    <input type="text" class="b_UserEdits" placeholder="学校">
-    <input type="text" class="b_UserEdits" placeholder="工作地点">
-  </div>
-  <div class="b_UserEdit b_UserEdit3 none">
-    <input type="text" class="b_UserEdits" placeholder="e-mail">
-    <input type="text" class="b_UserEdits" placeholder="手机号码">
-    <input type="text" class="b_UserEdits" placeholder="qq号码">
-    <input type="text" class="b_UserEdits" placeholder="微信号码">
-  </div>
-  <div class="b_UserEdit b_UserEdit4 none">
-    <div class="b_personal" style="margin-top: 5px;">
-      <p class="b_personalTitle1">熟悉领域</p>
-      <div class="b_personalSign">HTML页面重构</div>
-      <div class="b_personalSign">Web UI设计</div>
-    </div>
-  </div>
-  <!--自定义提示弹出框-->
-  <div class="box_overlay tips none"></div>
-  <div id="animationTipBox" class=" tips none">
-    <div class="success tips none">
-      <div class="icon">
-        <div class="line_short"></div>
-        <div class="line_long"></div>
-      </div>
-      <div class="dec_txt">修改成功</div>
-    </div>
-    <div class="lose tips none">
-      <div class="icon">
-        <div class="icon_box">
-          <div class="line_left"></div>
-          <div class="line_right"></div>
-        </div>
-      </div>
-      <div class="dec_txt"></div>
-    </div>
-    <div class="warning tips none">
-      <div class="icon">i</div>
-      <div class="dec_txt">服务器错误</div>
-    </div>
-    <div class="load none">
-      <div class="icon_box">
-        <div class="cirBox1">
-          <div class="cir1"></div>
-          <div class="cir2"></div>
-          <div class="cir3"></div>
-          <div class="cir4"></div>
-        </div>
-        <div class="cirBox2">
-          <div class="cir1"></div>
-          <div class="cir2"></div>
-          <div class="cir3"></div>
-          <div class="cir4"></div>
-        </div>
-        <div class="cirBox3">
-          <div class="cir1"></div>
-          <div class="cir2"></div>
-          <div class="cir3"></div>
-          <div class="cir4"></div>
-        </div>
-      </div>
-      <div class="dec_txt">Loading..</div>
-    </div>
-    <button class="okoButton tips none">ok</button>
   </div>
   <script type="text/javascript" src="../js/b_walkpaper.js"></script>
 </body>

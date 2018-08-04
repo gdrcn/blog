@@ -1,7 +1,8 @@
 $(function () {
   //滚动效果
   var at = document.getElementsByClassName('header')[0].getBoundingClientRect().top;//元素离页面顶部的高度
-  if(at < $(".wallpaper").css("height")){at =$(".wallpaper").css("height");}
+  var ht = parseInt($(".wallpaper").css("height"))
+  if(at < ht){at =ht;}
   $(window).scroll(function (event) {
     var st = document.documentElement.scrollTop;//滚去的高度
     var ht = $('.header').height();
@@ -34,5 +35,17 @@ $(function () {
     $(".header_list").eq(idx).addClass("header_list_active");
     $(".header_list .list_underline").not($(".header_list .list_underline").eq(idx)).removeClass("b_block").hide().css({ top: "20px", color: "#66757f" });
     $(".header_list").not($(".header_list").eq(idx)).removeClass("header_list_active");
+  })
+
+  //下拉菜单
+  $(".b_personalsetting").click(function(event){
+    event.stopPropagation();
+    $(".b_dropdown-menu").toggleClass("none");
+  })
+  $(document).click(function () {
+    $(".b_dropdown-menu").addClass("none");
+  });
+  $(".b_dropdown-menu").click(function(event){
+    event.stopPropagation();
   })
 });

@@ -24,7 +24,7 @@
         <div class="over_content none"></div>
         <div class="header">
           <div class="b_wide" style="position: relative;">
-            <div id="b_RDClogo" style="cursor: pointer; float: left;line-height: 60px;;font-size: 30px;color:#3479d8;font-weight: bold;user-select: none;">RDC</div>
+            <div id="b_RDClogo">RDC</div>
             <div id=w_wordPressLine>
               <div id=w_myHead>
                 <button class="none hChange_button stop">
@@ -78,6 +78,66 @@
                   <span>我和RDC</span>
                   <div class="list_underline"></div>
                 </a>
+              </li>
+              <li class="b_personalsetting">
+                <a>
+                  <i class="b_fa fa fa-bars fa-2x" aria-hidden="true"></i>
+                </a>
+                <div class="b_dropdown-menu none">
+                  <div class="b_dropdown-caret">
+                    <span class="b_caret-outer"></span>
+                    <span class="b_caret-inner"></span>
+                  </div>
+                  <ul class="b_dropdown_list">
+                    <li class="b_dropdown_name">
+                      <a>
+                        <b class="b_initName"></b>
+                        <div style="color: #657786;font-size: 14px;">@
+                          <b style="font-size: 14px;"></b>
+                        </div>
+                      </a>
+                    </li>
+                    <li class="b_dropdown-divider"></li>
+                    <li class="b_current-user">
+                      <a>
+                        <i class="fa fa-user fa-dropdown-list" aria-hidden="true" style="color: #66757f;margin-right: 12px;vertical-align: text-bottom;"></i>
+                        个人主页
+                      </a>
+                    </li>
+                    <li class="b_message_listen">
+                      <a>
+                        <i class="fa fa-envelope fa-dropdown-list" aria-hidden="true" style="color: #66757f;margin-right: 8px;vertical-align: text-bottom;"></i>
+                        消息通知
+                      </a>
+                    </li>
+                    <li class="b_dropdown-divider"></li>
+                    <li class="b_RDChome">
+                      <a>
+                        <i class="fa fa-home fa-dropdown-list" aria-hidden="true" style="color: #66757f;margin-right: 12px;vertical-align: text-bottom;"></i>
+                        博客首页
+                      </a>
+                    </li>
+                    <li class="b_RDCblogs">
+                      <a>
+                        <i class="fa fa-home fa-list-alt" aria-hidden="true" style="color: #66757f;margin-right: 12px;vertical-align: text-bottom;"></i>
+                        博客列表
+                      </a>
+                    </li>
+                    <li class="b_user-list">
+                      <a>
+                        <i class="fa fa-list-ul fa-dropdown-list" aria-hidden="true" style="color: #66757f;margin-right: 12px;vertical-align: text-bottom;"></i>
+                        用户列表
+                      </a>
+                    </li>
+                    <li class="b_dropdown-divider"></li>
+                    <li class="sign-out">
+                      <a>
+                        <i class="fa fa-sign-out fa-dropdown-list" aria-hidden="true" style="color: #66757f;margin-right: 20px;vertical-align: text-bottom;"></i>
+                        注销
+                      </a>
+                    </li>
+                  </ul>
+                </div>
               </li>
             </ul>
           </div>
@@ -206,10 +266,10 @@
                 <!-- 文章篇 -->
                 <div class="b_new_article none">
                   <div class="b_new_article_sign">
-                    <div class="b_new_article_pic">
+                    <div class="b_new_article_pic b_article_jump">
                     </div>
                     <div class="b_new_sign_wrap">
-                      <div class="b_new_sign_title">
+                      <div class="b_new_sign_title b_article_jump">
                         <div class="b_new_title_content">未命名</div>
                       </div>
                       <div class="b_new_sign_bottom">
@@ -232,12 +292,12 @@
                   </div>
                   <div class="b_new_article_body">
                     <div class="b_new_body_wrap">
-                      <div class="b_new_article_content">Now I just need to create a pseudo-element for the sidebar background and place it on the grid. In
+                      <div class="b_new_article_content b_article_jump">Now I just need to create a pseudo-element for the sidebar background and place it on the grid. In
                         order to act as a grid child item it needs to be a pseudo-element of the grid container, not of a
                         grid child:</div>
                     </div>
                   </div>
-                </div>                
+                </div>
               </div>
               <div class="b_new_underline none">end</div>
             </div>
@@ -248,9 +308,9 @@
               <div class="follow_page_wide double_page_wide none">
                 <div class="b_follows b_doubles none">
                   <div class="profileCard">
-                    <a href="" class="profileCard_waller"></a>
+                    <a class="profileCard_waller"></a>
                     <div class="profileCard-content">
-                      <a href="" class="profileCard-header">
+                      <a class="profileCard-header">
                         <img src="" alt="" class="profileCard-avatar">
                       </a>
                       <div class="profileCard-action">
@@ -258,7 +318,7 @@
                       </div>
                       <div class="profileCard-info">
                         <div class="profileCard-name">
-                          <a href="">123</a>
+                          <a>123</a>
                         </div>
                         <p class="profileCard-signature">...</p>
                       </div>
@@ -267,12 +327,12 @@
                 </div>
               </div>
               <!-- 粉丝 -->
-              <div class="fans_page_wide double_page none">
+              <div class="fans_page_wide double_page_wide none">
                 <div class="b_fanss b_doubles none">
                   <div class="profileCard">
-                    <a href="" class="profileCard_waller"></a>
+                    <a class="profileCard_waller"></a>
                     <div class="profileCard-content">
-                      <a href="" class="profileCard-header">
+                      <a class="profileCard-header">
                         <img src="" alt="" class="profileCard-avatar">
                       </a>
                       <div class="profileCard-action">
@@ -280,7 +340,7 @@
                       </div>
                       <div class="profileCard-info">
                         <div class="profileCard-name">
-                          <a href="">123</a>
+                          <a>123</a>
                         </div>
                         <p class="profileCard-signature">...</p>
                       </div>
@@ -407,8 +467,7 @@
   <script type="text/javascript" src="../js/changalert.js"></script>
   <script type="text/javascript" src="../js/personalEdit.js"></script>
   <script type="text/javascript" src="../js/b_mypage.js"></script>
-
-
+  <script type="text/javascript" src="../js/redirect.js"></script>
 </body>
 
 </html>
