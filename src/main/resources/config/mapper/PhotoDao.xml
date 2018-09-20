@@ -56,7 +56,7 @@
     </select>
 
     <select id="getPhotoComments" parameterType="map" resultMap="photoComment">
-      SELECT user.id, user.username, user.face_img, photo_comments.comments, photo_comments.id as p_id, photo_comments.time FROM photo_comments LEFT JOIN USER ON user.id = photo_comments.from_user_id WHERE photo_id = #{photoId} ORDER BY photo_comments.`time` DESC LIMIT #{pageId}, 10;
+      SELECT user.id, user.username, user.face_img, photo_comments.comments, photo_comments.id as p_id, photo_comments.time FROM photo_comments LEFT JOIN user ON user.id = photo_comments.from_user_id WHERE photo_id = #{photoId} ORDER BY photo_comments.`time` DESC LIMIT #{pageId}, 10;
     </select>
 
     <select id="getHotPhoto" resultMap="hotPhoto">
